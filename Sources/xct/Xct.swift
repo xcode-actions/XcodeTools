@@ -78,9 +78,7 @@ struct Xct : ParsableCommand {
 	}
 	
 	private static func toolArgsCompletion(_ args: [String]) -> [String] {
-		/* Let’s “parse” the arguments to see if an exec-path has been given, then
-		 * find all the xct-* tools available in the exec-path + PATH */
-		
+		/* TODO */
 		return ["a", "b"]
 	}
 	

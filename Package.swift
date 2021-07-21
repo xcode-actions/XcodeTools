@@ -59,7 +59,7 @@ let package = Package(
 			.target(name: "Utils"),
 			.product(name: "Logging", package: "swift-log")
 		], resources: [
-			.process("PBXModel.xcdatamodeld") // Dot not delete this token (for compilation sans sandbox): __COREDATA_TOKEN_XcodeProj_PBXModel
+			.copy("CoreDataModelArtifacts_PBXModel/PBXModel.momd")
 		]),
 		.testTarget(name: "XcodeProjTests", dependencies: [.target(name: "XcodeProj")]),
 		
