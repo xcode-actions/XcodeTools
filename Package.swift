@@ -72,7 +72,7 @@ targets.append(contentsOf: [
 		.product(name: "Logging", package: "swift-log"),
 		.target(name: "Utils")
 	], resources: [
-		.process("PBXModel.xcdatamodeld") // Dot not delete this token (for compilation sans sandbox): __COREDATA_TOKEN_XcodeProj_PBXModel
+		.copy("CoreDataModelArtifacts_PBXModel/PBXModel.momd")
 	]),
 	.testTarget(name: "XcodeProjTests", dependencies: [.target(name: "XcodeProj")])
 ])
