@@ -13,6 +13,7 @@ struct XctPbxproj : ParsableCommand {
 		abstract: "Interact with pbxproj files",
 		discussion: "This tool contains a few utilities to interact with pbxproj files.",
 		subcommands: [
+			ListTargets.self,
 			Sanitize.self
 		]
 	)
