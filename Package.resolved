@@ -42,35 +42,35 @@
         "repositoryURL": "https://github.com/apple/swift-collections.git",
         "state": {
           "branch": null,
-          "revision": "48254824bb4248676bf7ce56014ff57b142b77eb",
-          "version": "1.0.2"
+          "revision": "f504716c27d2e5d4144fa4794b12129301d17729",
+          "version": "1.0.3"
         }
       },
       {
         "package": "swift-crypto",
-        "repositoryURL": "https://github.com/apple/swift-crypto.git",
+        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "ddb07e896a2a8af79512543b1c7eb9797f8898a5",
-          "version": "1.1.7"
+          "revision": "477051bcb0f29f01b7f22ef3dab5ebbe6962246d",
+          "version": "0.10107.0"
         }
       },
       {
         "package": "swift-driver",
-        "repositoryURL": "https://github.com/apple/swift-driver.git",
+        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-driver",
         "state": {
-          "branch": "main",
-          "revision": "30ade40aca629ce40714aebd97966763f783aeb7",
-          "version": null
+          "branch": null,
+          "revision": "9f6b0c73f8733ac2bffb3b307fc41bb597fb82ff",
+          "version": "0.50700.2"
         }
       },
       {
         "package": "llbuild",
         "repositoryURL": "https://github.com/apple/swift-llbuild.git",
         "state": {
-          "branch": "main",
-          "revision": "5d1b2863d18a8a2ef19363fc9bd803fc94bfd8cd",
-          "version": null
+          "branch": null,
+          "revision": "5cd4df550b31301508a77064e3dfaa5c5628780e",
+          "version": "0.5.0"
         }
       },
       {
@@ -78,17 +78,17 @@
         "repositoryURL": "https://github.com/apple/swift-log.git",
         "state": {
           "branch": null,
-          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
-          "version": "1.4.2"
+          "revision": "6fe203dc33195667ce1759bf0182975e4653ba1c",
+          "version": "1.4.4"
         }
       },
       {
         "package": "SwiftPM",
-        "repositoryURL": "https://github.com/apple/swift-package-manager.git",
+        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-package-manager.git",
         "state": {
-          "branch": "swift-DEVELOPMENT-SNAPSHOT-2022-02-25-a",
-          "revision": "16e0e9c88a230ba8d97e836d9fee0320386524e2",
-          "version": null
+          "branch": null,
+          "revision": "51a818398567b6c3000bc09c44e2e31d98d6c09f",
+          "version": "0.50700.2"
         }
       },
       {
@@ -111,11 +111,11 @@
       },
       {
         "package": "swift-tools-support-core",
-        "repositoryURL": "https://github.com/apple/swift-tools-support-core.git",
+        "repositoryURL": "https://github.com/apple/swift-tools-support-core",
         "state": {
-          "branch": "main",
-          "revision": "9a23d5caf7164f2bb2cc2d9c0a3d1bb9b4c6ffae",
-          "version": null
+          "branch": null,
+          "revision": "4f07be3dc201f6e2ee85b6942d0c220a16926811",
+          "version": "0.2.7"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/happn-app/XibLoc.git",
         "state": {
           "branch": null,
-          "revision": "e3fc0c240c87e9c3549420f16f6e8ee39809cf19",
-          "version": "1.1.1"
+          "revision": "dfde5bb8cc25e9d1f76acc53c71829c945fa2f06",
+          "version": "1.2.2"
         }
       },
       {
