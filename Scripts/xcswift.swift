@@ -142,7 +142,7 @@ func processModel(xcdatamodeldURL: URL, moduleName: String, tokenInPackageFile: 
 	}
 	let modifiedPackage = try String(contentsOf: packageURL).split(separator: "\n", omittingEmptySubsequences: false).map{ line in
 		if !line.contains(tokenInPackageFile) {return String(line)}
-		else                                  {return #"\#t\#t\#t.copy("\#(generatedArtifactsFolder.lastPathComponent)/\#(compiledModelDestination.lastPathComponent)")"#}
+		else                                  {return #"\#t\#t.copy("\#(generatedArtifactsFolder.lastPathComponent)/\#(compiledModelDestination.lastPathComponent)")"#}
 	}.joined(separator: "\n")
 	try Data(modifiedPackage.utf8).write(to: packageURL)
 	
