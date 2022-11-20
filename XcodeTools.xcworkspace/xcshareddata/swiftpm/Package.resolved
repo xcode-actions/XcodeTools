@@ -48,29 +48,29 @@
       },
       {
         "package": "swift-crypto",
-        "repositoryURL": "https://github.com/apple/swift-crypto.git",
+        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "ddb07e896a2a8af79512543b1c7eb9797f8898a5",
-          "version": "1.1.7"
+          "revision": "477051bcb0f29f01b7f22ef3dab5ebbe6962246d",
+          "version": "0.10107.0"
         }
       },
       {
         "package": "swift-driver",
-        "repositoryURL": "https://github.com/apple/swift-driver.git",
+        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-driver",
         "state": {
-          "branch": "main",
-          "revision": "215ddd69eae50eb00f8b06947269d9e5f58d2d94",
-          "version": null
+          "branch": null,
+          "revision": "9f6b0c73f8733ac2bffb3b307fc41bb597fb82ff",
+          "version": "0.50700.2"
         }
       },
       {
         "package": "llbuild",
         "repositoryURL": "https://github.com/apple/swift-llbuild.git",
         "state": {
-          "branch": "main",
-          "revision": "72b5a0bb8e5221287b449aec837f02c71d4a2155",
-          "version": null
+          "branch": null,
+          "revision": "5cd4df550b31301508a77064e3dfaa5c5628780e",
+          "version": "0.5.0"
         }
       },
       {
@@ -84,11 +84,11 @@
       },
       {
         "package": "SwiftPM",
-        "repositoryURL": "https://github.com/apple/swift-package-manager.git",
+        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-package-manager.git",
         "state": {
-          "branch": "swift-DEVELOPMENT-SNAPSHOT-2022-02-25-a",
-          "revision": "16e0e9c88a230ba8d97e836d9fee0320386524e2",
-          "version": null
+          "branch": null,
+          "revision": "51a818398567b6c3000bc09c44e2e31d98d6c09f",
+          "version": "0.50700.2"
         }
       },
       {
@@ -111,11 +111,11 @@
       },
       {
         "package": "swift-tools-support-core",
-        "repositoryURL": "https://github.com/apple/swift-tools-support-core.git",
+        "repositoryURL": "https://github.com/apple/swift-tools-support-core",
         "state": {
-          "branch": "main",
-          "revision": "0220fc394f2ae820eeacd754fb2c7ce211e9979e",
-          "version": null
+          "branch": null,
+          "revision": "4f07be3dc201f6e2ee85b6942d0c220a16926811",
+          "version": "0.2.7"
         }
       },
       {
@@ -132,8 +132,8 @@
         "repositoryURL": "https://github.com/jpsim/Yams.git",
         "state": {
           "branch": null,
-          "revision": "01835dc202670b5bb90d07f3eae41867e9ed29f6",
-          "version": "5.0.1"
+          "revision": "9ff1cc9327586db4e0c8f46f064b6a82ec1566fa",
+          "version": "4.0.6"
         }
       }
     ]

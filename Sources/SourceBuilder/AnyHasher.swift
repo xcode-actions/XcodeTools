@@ -2,11 +2,11 @@ import Foundation
 
 import Crypto
 import StreamReader
-import SystemPackage
+@preconcurrency import SystemPackage
 
 
 
-public struct AnyHasher {
+public struct AnyHasher : Sendable {
 	
 	public init<H : HashFunction>(t: H.Type) {
 		self.hInit = { t.init() }
@@ -27,8 +27,8 @@ public struct AnyHasher {
 		}.result.get()
 	}
 	
-	private let hInit: () -> Any
-	private let update: (_ hasher: inout Any, _ bufferPointer: UnsafeRawBufferPointer) -> Void
-	private let finalize: (_ hasher: Any) -> String
+	private let hInit: @Sendable () -> Any
+	private let update: @Sendable (_ hasher: inout Any, _ bufferPointer: UnsafeRawBufferPointer) -> Void
+	private let finalize: @Sendable (_ hasher: Any) -> String
 	
 }
