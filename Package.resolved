@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/xcode-actions/clt-logger.git",
         "state": {
           "branch": null,
-          "revision": "5d3db055e9db2827136c1acf335e136fe759917e",
-          "version": "0.3.6"
+          "revision": "d1835906c7d88c25abe30e11b82bf4d305e126d5",
+          "version": "0.4.0"
         }
       },
       {
@@ -33,8 +33,8 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser.git",
         "state": {
           "branch": null,
-          "revision": "e394bf350e38cb100b6bc4172834770ede1b7232",
-          "version": "1.0.3"
+          "revision": "fddd1c00396eed152c45a46bea9f47b98e59301d",
+          "version": "1.2.0"
         }
       },
       {
@@ -96,8 +96,8 @@
         "repositoryURL": "https://github.com/xcode-actions/swift-signal-handling.git",
         "state": {
           "branch": null,
-          "revision": "6005fac2f6da1c8afa53c2e996e5dff92e334b43",
-          "version": "1.0.0"
+          "revision": "1ab6d3d6f703b5215ac85612401d1d828b5eab24",
+          "version": "1.1.0"
         }
       },
       {
@@ -123,8 +123,8 @@
         "repositoryURL": "https://github.com/happn-app/XibLoc.git",
         "state": {
           "branch": null,
-          "revision": "dfde5bb8cc25e9d1f76acc53c71829c945fa2f06",
-          "version": "1.2.2"
+          "revision": "65dd13d7c7da5e860b2587e9cb4182b8a3e8b01f",
+          "version": "1.2.3"
         }
       },
       {

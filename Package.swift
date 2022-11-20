@@ -7,6 +7,7 @@ import Foundation
 let swiftSettings: [SwiftSetting] = []
 //let swiftSettings: [SwiftSetting] = [.unsafeFlags(["-Xfrontend", "-warn-concurrency", "-Xfrontend", "-enable-actor-data-race-checks"])]
 
+
 /* Detect if we need the eXtenderZ.
  * If we do (on Apple platforms where the non-public Foundation implementation is used), the eXtenderZ should be able to be imported.
  * See Process+Utils for reason why we use the eXtenderZ. */
@@ -64,9 +65,9 @@ let package = Package(
 		res.append(.package(url: "https://github.com/happn-app/XibLoc.git", from: "1.1.1"))
 		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-crypto.git", from: "0.10107.0")) /* Because we’re using SDGGiesbrecht’s fork of swift-package-manager, we also have to use his fork of swift-crypto. */
 		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-package-manager.git", from: "0.50700.2")) /* Apple does not semver SPM for whatever reason. */
-		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git", from: "0.3.6"))
+		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git", from: "0.4.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git", from: "3.4.0"))
-		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git", from: "1.0.0"))
+		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git", from: "1.1.0"))
 #if !canImport(System)
 		res.append(.package(url: "https://github.com/apple/swift-system.git", from: "1.0.0"))
 #endif
