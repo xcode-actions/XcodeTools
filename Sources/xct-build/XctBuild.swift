@@ -1,10 +1,14 @@
 import Foundation
+#if canImport(System)
+import System
+#else
+import SystemPackage
+#endif
 
 import ArgumentParser
 import CLTLogger
 import Logging
 import StreamReader
-import SystemPackage
 
 import XcodeJsonOutput
 import XcodeTools

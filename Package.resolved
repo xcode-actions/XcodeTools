@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/xcode-actions/stream-reader.git",
         "state": {
           "branch": null,
-          "revision": "09104092cb7e87dc6d1086d40c06d7606fc6cb94",
-          "version": "3.2.3"
+          "revision": "a3350dda2a6a4088234418c0342261b53adae920",
+          "version": "3.4.0"
         }
       },
       {

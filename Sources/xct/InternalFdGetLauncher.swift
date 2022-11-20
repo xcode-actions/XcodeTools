@@ -1,10 +1,14 @@
 import Foundation
+#if canImport(System)
+import System
+#else
+import SystemPackage
+#endif
 
 import ArgumentParser
 import CLTLogger
 import CMacroExports
 import Logging
-import SystemPackage
 
 #if os(Linux)
 import CGNUSourceExports
@@ -190,7 +194,7 @@ struct InternalFdGetLauncher : ParsableCommand {
 		let controlBufSize = 256
 		let controlBuf = UnsafeMutablePointer<Int8>.allocate(capacity: controlBufSize)
 		defer {controlBuf.deallocate()}
-		controlBuf.update(repeating: 0, count: controlBufSize)
+		controlBuf.assign(repeating: 0, count: controlBufSize)
 		msg.msg_control = UnsafeMutableRawPointer(controlBuf)
 #if !os(Linux)
 		msg.msg_controllen = socklen_t(controlBufSize)

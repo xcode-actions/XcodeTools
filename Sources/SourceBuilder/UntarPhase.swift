@@ -1,7 +1,11 @@
 import Foundation
+#if canImport(System)
+@preconcurrency import System
+#else
+@preconcurrency import SystemPackage
+#endif
 
 import SignalHandling
-import SystemPackage
 import Utils
 import XcodeTools
 
