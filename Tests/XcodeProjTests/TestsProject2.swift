@@ -58,16 +58,11 @@ final class TestsProject2 : XCTestCase {
 		try xcodeproj.iterateSPMPackagesInReferencedFile{ proj in
 			XCTAssertTrue(res.insert(proj.rootURL.relativePath).inserted)
 		}
-		/* For now SPMProj does not check if package is actually valid, so we put them all. */
 		let ref = Set(
 			arrayLiteral:
 				"Maybe SPM Packages in Group/g-yes-full",
 				"Maybe SPM Packages in Group/g-yes-no-product",
-				"Maybe SPM Packages in Group/GAmazingLib2",
-				"Maybe SPM Packages in Group/g-yes-broken-1",
-				"Maybe SPM Packages in Group/g-yes-broken-2",
-				"Maybe SPM Packages in Group/g-yes-broken-3",
-				"Maybe SPM Packages in Group/g-yes-broken-4"
+				"Maybe SPM Packages in Group/GAmazingLib2"
 		)
 		XCTAssertEqual(res, ref)
 	}
