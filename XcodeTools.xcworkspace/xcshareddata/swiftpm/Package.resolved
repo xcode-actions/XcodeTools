@@ -6,8 +6,17 @@
         "repositoryURL": "https://github.com/xcode-actions/clt-logger.git",
         "state": {
           "branch": null,
-          "revision": "5d3db055e9db2827136c1acf335e136fe759917e",
-          "version": "0.3.6"
+          "revision": "d1835906c7d88c25abe30e11b82bf4d305e126d5",
+          "version": "0.4.0"
+        }
+      },
+      {
+        "package": "eXtenderZ",
+        "repositoryURL": "https://github.com/xcode-actions/eXtenderZ.git",
+        "state": {
+          "branch": null,
+          "revision": "c59e94553295a7e8a0c3ce1465a2bed073cb6ca9",
+          "version": "1.0.7"
         }
       },
       {
@@ -87,8 +96,8 @@
         "repositoryURL": "https://github.com/xcode-actions/swift-signal-handling.git",
         "state": {
           "branch": null,
-          "revision": "6005fac2f6da1c8afa53c2e996e5dff92e334b43",
-          "version": "1.0.0"
+          "revision": "1ab6d3d6f703b5215ac85612401d1d828b5eab24",
+          "version": "1.1.0"
         }
       },
       {
