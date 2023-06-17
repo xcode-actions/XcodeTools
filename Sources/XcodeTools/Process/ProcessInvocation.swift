@@ -464,7 +464,7 @@ public struct ProcessInvocation : AsyncSequence {
 		
 #if os(Linux)
 		/* I did not find any other way than using non-blocking IO on Linux.
-		 * https://stackoverflow.com/questions/39173429/one-shot-level-triggered-epoll-does-epolloneshot-imply-epollet/46142976#comment121697690_46142976 */
+		 * <https://stackoverflow.com/questions/39173429/one-shot-level-triggered-epoll-does-epolloneshot-imply-epollet/46142976#comment121697690_46142976> */
 		for fd in outputFileDescriptors {
 			try cleanupIfThrows{
 				let isFromClient = additionalOutputFileDescriptors.contains(fd)
@@ -538,7 +538,7 @@ public struct ProcessInvocation : AsyncSequence {
 			
 			/* The socket to send the fd.
 			 * The tuple thingy _should_ be _in effect_ equivalent to the C version `int sv[2] = {-1, -1};`.
-			 * https://forums.swift.org/t/guarantee-in-memory-tuple-layout-or-dont/40122
+			 * <https://forums.swift.org/t/guarantee-in-memory-tuple-layout-or-dont/40122>
 			 * Stride and alignment should be the equal for CInt.
 			 * Funnily, it seems to only work in debug compilation, not in release…
 			 * var sv: (CInt, CInt) = (-1, -1) */
@@ -827,7 +827,7 @@ public struct ProcessInvocation : AsyncSequence {
 			XcodeToolsConfig.logger?.trace("In libdispatch callback for \(streamReader.sourceStream)")
 			/* On Linux we have to use non-blocking IO for some reason.
 			 * I’d say it’s a libdispatch bug, but I’m not sure.
-			 * https://stackoverflow.com/questions/39173429#comment121697690_46142976 */
+			 * <https://stackoverflow.com/questions/39173429#comment121697690_46142976> */
 			let read: () throws -> Int = {
 				XcodeToolsConfig.logger?.trace("Reading around \(toRead) bytes from \(streamReader.sourceStream)")
 				return try streamReader.readStreamInBuffer(size: toRead, allowMoreThanOneRead: false, bypassUnderlyingStreamReadSizeLimit: true)
@@ -883,7 +883,7 @@ public struct ProcessInvocation : AsyncSequence {
 		}
 	}
 	
-	/* Based on https://stackoverflow.com/a/28005250 (last variant) */
+	/* Based on <https://stackoverflow.com/a/28005250> (last variant). */
 	private static func send(fd: CInt, destfd: CInt, to socket: CInt) throws {
 		var fd = fd /* A var because we use a pointer to it at some point, but never actually modified */
 		let sizeOfFd = MemoryLayout.size(ofValue: fd) /* We’ll need this later */

@@ -174,7 +174,7 @@ struct InternalFdGetLauncher : ParsableCommand {
 		fatalError("Unreachable code reached")
 	}
 	
-	/* https://stackoverflow.com/a/28005250 (last variant) */
+	/* <https://stackoverflow.com/a/28005250> (last variant). */
 	private func receiveFd(from socket: CInt) throws -> (receivedFd: CInt, expectedDestinationFd: CInt) {
 		var msg = msghdr()
 		
@@ -232,7 +232,7 @@ struct InternalFdGetLauncher : ParsableCommand {
 		return (receivedFd: receivedFd, expectedDestinationFd: expectedDestinationFd)
 	}
 	
-	/* If needed. From https://stackoverflow.com/a/12340767 */
+	/* If needed. From <https://stackoverflow.com/a/12340767>. */
 	private func isValidFileDescriptor(_ fd: FileDescriptor) -> Bool {
 		return fcntl(fd.rawValue, F_GETFL) != -1 || errno != EBADF
 	}

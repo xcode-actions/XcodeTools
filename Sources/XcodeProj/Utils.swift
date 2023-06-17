@@ -134,7 +134,7 @@ extension String {
 		return ret
 	}
 	
-	/* From https://opensource.apple.com/source/CF/CF-1153.18/CFOldStylePList.c
+	/* From <https://opensource.apple.com/source/CF/CF-1153.18/CFOldStylePList.c>:
 	 *    #define isValidUnquotedStringCharacter(x) (((x) >= 'a' && (x) <= 'z') || ((x) >= 'A' && (x) <= 'Z') || ((x) >= '0' && (x) <= '9') || (x) == '_' || (x) == '$' || (x) == '/' || (x) == ':' || (x) == '.' || (x) == '-')
 	 *
 	 * We _infer_ that escaped chars are \n, \t, ", \ and that’s all, but we’re not 100% certain.
@@ -147,7 +147,7 @@ extension String {
 		/* The dash and colon should be there. They aren’t for Xcode apparently. */
 		let validUnquotedStringChars = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_$/.")
 		/* The triple underscore, I only got the prefix rule, the double slash, I didn’t get at all.
-		 * Corrections from https://github.com/tuist/XcodeProj/blob/master/Sources/XcodeProj/Utils/CommentedString.swift */
+		 * Corrections from <https://github.com/tuist/XcodeProj/blob/master/Sources/XcodeProj/Utils/CommentedString.swift>. */
 		if rangeOfCharacter(from: validUnquotedStringChars.inverted) == nil && !contains("___") && !contains("//") {
 			return self
 		}

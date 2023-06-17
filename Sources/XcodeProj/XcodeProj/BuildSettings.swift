@@ -70,7 +70,7 @@ public struct BuildSettings {
 			
 			"DEVELOPER_DIR": try getDeveloperDir(),
 			
-			/* https://stackoverflow.com/a/43751741 */
+			/* <https://stackoverflow.com/a/43751741> */
 			"PROJECT_DIR": projectDirPath,
 			"PROJECT_FILE_PATH": xcodprojURL.path,
 			"PROJECT_NAME": xcodprojURL.deletingPathExtension().lastPathComponent,

@@ -11,7 +11,7 @@ import Logging
 
 
 
-// Might be useful some day: https://stackoverflow.com/a/26973384
+/* Might be useful some day: <https://stackoverflow.com/a/26973384>. */
 @main
 struct Xct : ParsableCommand {
 	

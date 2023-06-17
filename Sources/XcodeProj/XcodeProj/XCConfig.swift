@@ -239,14 +239,14 @@ public struct XCConfig {
 		var path = path
 		
 		/* If path starts with <DEVELOPER_DIR>, the include is relative to the developer dir,
-		 * says https://pewpewthespells.com/blog/xcconfig_guide.html (I have tested, it is true).
+		 *  says <https://pewpewthespells.com/blog/xcconfig_guide.html> (I have tested, it is true).
 		 * From my testing, the replacement is done only if the token is the prefix of the path,
-		 * and I did not find any other variable that can be used (tried SRCROOT).
+		 *  and I did not find any other variable that can be used (tried SRCROOT).
 		 *
 		 * Something that’s hard to test and I didn’t is:
 		 * Is the placeholder replaced if the path starts with “<DEVELOPER_DIR>” or with “<DEVELOPER_DIR>/”?
 		 * We assume the former (I did a test which seems to show the placeholder is replaced when being on its own,
-		 * but I cannot guarantee that’s true though). */
+		 *  but I cannot guarantee that’s true though). */
 		if path.starts(with: "<DEVELOPER_DIR>") {
 			let developerDir = try BuildSettings.getDeveloperDir()
 //			let a = "/<DEVELOPER_DIR>/<DEVELOPER_DIR>"

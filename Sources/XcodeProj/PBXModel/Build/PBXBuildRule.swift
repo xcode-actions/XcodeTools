@@ -43,7 +43,7 @@ public class PBXBuildRule : PBXObject {
 	 *    get throws {try PBXObject.getNonOptionalValue(compilerSpec_o, "compilerSpec", xcID)}
 	 *    set        {compilerSpec_o = newValue}
 	 * }
-	 * https://forums.swift.org/t/proposal-allow-getters-and-setters-to-throw/191 */
+	 * <https://forums.swift.org/t/proposal-allow-getters-and-setters-to-throw/191> */
 	
 	public func getCompilerSpec() throws -> String   {try PBXObject.getNonOptionalValue(compilerSpec, "compilerSpec", xcID)}
 	public func getFilePatterns() throws -> String   {try PBXObject.getNonOptionalValue(filePatterns, "filePatterns", xcID)}

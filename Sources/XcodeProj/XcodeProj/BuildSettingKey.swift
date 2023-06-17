@@ -165,7 +165,7 @@ public struct BuildSettingKey : Hashable {
 	 
 	 - parameter scanner: A scanner whose location is at the beginning of the parameters.
 	 - parameter allowCommaSeparator:
-	 https://pewpewthespells.com/blog/xcconfig_guide.html says the settings parameters can be separated by a comma, like so: `PARAMETER[sdk=*,arch=*]`.
+	 <https://pewpewthespells.com/blog/xcconfig_guide.html> says the settings parameters can be separated by a comma, like so: `PARAMETER[sdk=*,arch=*]`.
 	 My tests told me it does not work! (12.0 (12A7209))
 	 You can reactivate parsing w/ the comma for tests if needed w/ this param. */
 	static func parseSettingParams(scanner: Scanner, allowCommaSeparator: Bool) -> [BuildSettingKeyParam] {

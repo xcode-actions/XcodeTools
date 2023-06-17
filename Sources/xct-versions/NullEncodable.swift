@@ -2,7 +2,7 @@ import Foundation
 
 
 
-/* From https://stackoverflow.com/a/62312021 */
+/* From <https://stackoverflow.com/a/62312021>. */
 @propertyWrapper
 struct NullEncodable<T>: Encodable where T: Encodable {
 	

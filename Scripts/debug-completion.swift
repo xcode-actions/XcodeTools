@@ -13,7 +13,7 @@ print("""
 \(redBold)All shells\(reset):
 \(gray)# Not mandatory, but you’ll probably want that,\(reset)
 \(gray)# especially in bash while there is the bash completion script bug\(reset)
-\(gray)# See https://github.com/apple/swift-argument-parser/pull/323\(reset)
+\(gray)# See <https://github.com/apple/swift-argument-parser/pull/323>\(reset)
 XCT_DIR=`\\ls -d "$HOME/Library/Developer/Xcode/DerivedData/$(basename "$(realpath "$(pwd)")")"-*/"Build/Products/Debug"` \(gray)# We might be able to find better than this…\(reset)
 test -d "$XCT_DIR" || { echo Invalid XCT_DIR; false; } \(gray)# Verify XCT_DIR is valid (detection above is not foolproof)\(reset)
 export DYLD_FRAMEWORK_PATH="$XCT_DIR:$XCT_DIR/PackageFrameworks"
@@ -47,7 +47,7 @@ print("""
 \(redBold)All shells\(reset):
 \(gray)# Not mandatory, but you’ll probably want that,\(reset)
 \(gray)# especially in bash while there is the bash completion script bug\(reset)
-\(gray)# See https://github.com/apple/swift-argument-parser/pull/323\(reset)
+\(gray)# See <https://github.com/apple/swift-argument-parser/pull/323>\(reset)
 export PATH="$(pwd)/.build/debug:$PATH"
 
 \(redBold)zsh\(reset):

@@ -15,7 +15,7 @@ import XcodeTools
 
 
 
-/* Big up to https://github.com/jjrscott/XcodeBuildResultStream */
+/* Big up to <https://github.com/jjrscott/XcodeBuildResultStream>. */
 @main
 struct XctBuild : ParsableCommand {
 	

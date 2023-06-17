@@ -3,7 +3,7 @@ import Foundation
 
 
 
-/* From http://www.monobjc.net/xcode-project-file-format.html */
+/* From <http://www.monobjc.net/xcode-project-file-format.html>. */
 @objc(PBXFileElement)
 public class PBXFileElement : PBXObject {
 	

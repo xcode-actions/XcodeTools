@@ -30,12 +30,12 @@ struct GenerateMetaCompletionScript : ParsableCommand {
 	}
 	
 	/* Resources:
-	 * - Introduction to zsh completion script: https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org
-	 *     Permalink: https://github.com/zsh-users/zsh-completions/blob/6fbf5fc9a7033bc47d4c61b2d6b97fe0c74d9c45/zsh-completions-howto.org
-	 * - Details about _arguments: https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Utility-Functions-1
-	 * - zsh-users completion style guide: https://github.com/zsh-users/zsh/blob/master/Etc/completion-style-guide
-	 *     Permalink: https://github.com/zsh-users/zsh/blob/ef60187efce77c0572daf419ca5ba57a28df3cad/Etc/completion-style-guide
-	 * - git’s completion: file:///usr/share/zsh/5.8/functions/_git */
+	 * - Introduction to zsh completion script: <https://github.com/zsh-users/zsh-completions/blob/master/zsh-completions-howto.org>
+	 *     Permalink: <https://github.com/zsh-users/zsh-completions/blob/6fbf5fc9a7033bc47d4c61b2d6b97fe0c74d9c45/zsh-completions-howto.org>
+	 * - Details about _arguments: <https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Utility-Functions-1>
+	 * - zsh-users completion style guide: <https://github.com/zsh-users/zsh/blob/master/Etc/completion-style-guide>
+	 *     Permalink: <https://github.com/zsh-users/zsh/blob/ef60187efce77c0572daf419ca5ba57a28df3cad/Etc/completion-style-guide>
+	 * - git’s completion: <file:///usr/share/zsh/5.8/functions/_git> */
 	private static let zshCompletion = ##"""
 		#compdef xct
 		local context state state_descr line
@@ -187,9 +187,9 @@ struct GenerateMetaCompletionScript : ParsableCommand {
 		"""##
 	
 	/* Resources:
-	 * - Introduction to bash completion: https://www.linuxjournal.com/content/more-using-bash-complete-command
-	 * - git’s completion: https://github.com/git/git/blob/master/contrib/completion/git-completion.bash
-	 *     Permalink: https://github.com/git/git/blob/715d08a9e51251ad8290b181b6ac3b9e1f9719d7/contrib/completion/git-completion.bash */
+	 * - Introduction to bash completion: <https://www.linuxjournal.com/content/more-using-bash-complete-command>
+	 * - git’s completion: <https://github.com/git/git/blob/master/contrib/completion/git-completion.bash>
+	 *     Permalink: <https://github.com/git/git/blob/715d08a9e51251ad8290b181b6ac3b9e1f9719d7/contrib/completion/git-completion.bash> */
 	private static let bashCompletion = """
 		#!/bin/bash
 		

@@ -182,7 +182,7 @@ public struct CombinedBuildSettings {
 	public func resolvedValue(for key: BuildSettingKey) -> ResolvedValue? {
 		/* We want to retrieve an array of (Int, BuildSetting), where the Int represents the level from which the build setting is from.
 		 * I did this because I though I’d need this, but I actually won’t.
-		 * Note that the pre-Xcode-10 way of resolving variables needed this I think! https://stackoverflow.com/a/50731052
+		 * Note that the pre-Xcode-10 way of resolving variables needed this I think! <https://stackoverflow.com/a/50731052>
 		 * Basically before Xcode 10 I think the equivalent BuildSettings internal structure in Xcode held its settings as a dictionary
 		 * instead of an array of BuildSetting, which prevented it from doing the smarter resolution it now has. */
 		let searchedSettings = buildSettingsLevels.enumerated().flatMap{ elementAndOffset in elementAndOffset.element.value.settings.map{ (level: elementAndOffset.offset, setting: $0) } }
