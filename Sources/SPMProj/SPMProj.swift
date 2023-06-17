@@ -8,7 +8,13 @@ import Workspace
 
 
 /* Some libSPM help:
- * https://github.com/apple/swift-package-manager/blob/swift-5.8-RELEASE/Examples/package-info/Sources/package-info/example.swift */
+ *  <https://github.com/apple/swift-package-manager/blob/swift-5.8-RELEASE/Examples/package-info/Sources/package-info/example.swift>.
+ *
+ * **IMPORTANT**:
+ * The `swift-package-manager` dependency might not succeed in loading the packages if the Swift’s compiler version on the system is not the same as the dependency’s version.
+ * The reason for this is `swift-package-manager` has to call the compiler to “parse” the `Package.swift` file which describe the package.
+ * If the output of the compiler changed between versions, the parsing output won’t be recognized.
+ * E.g. when building XcodeTools w/ `swift-package-manager` version `0.50800.0` on macOS 14.0 Beta with Xcode 15.0 beta, the packages fail to load. */
 public struct SPMProj {
 	
 	public let rootURL: URL
