@@ -9,13 +9,13 @@ extension XcodeProj {
 	
 	@discardableResult
 	public func iterateCombinedBuildSettingsOfProject<T>(_ handler: (_ configuration: XCBuildConfiguration, _ configurationName: String, _ combinedBuildSettings: CombinedBuildSettings) throws -> T) throws -> [T] {
-		let defaultBuildSettings = try BuildSettings.standardDefaultSettings(xcodprojURL: xcodeprojURL)
+		let defaultBuildSettings = try BuildSettings.standardDefaultSettings(xcodeprojURL: xcodeprojURL)
 		return try iterateCombinedBuildSettingsOfProject(defaultBuildSettings: BuildSettingsRef(defaultBuildSettings), handler)
 	}
 	
 	@discardableResult
 	public func iterateCombinedBuildSettingsOfTargets<T>(_ handler: (_ target: PBXTarget, _ targetName: String, _ configuration: XCBuildConfiguration, _ configurationName: String, _ combinedBuildSettings: CombinedBuildSettings) throws -> T) throws -> [T] {
-		let defaultBuildSettings = try BuildSettings.standardDefaultSettings(xcodprojURL: xcodeprojURL)
+		let defaultBuildSettings = try BuildSettings.standardDefaultSettings(xcodeprojURL: xcodeprojURL)
 		return try iterateCombinedBuildSettingsOfTargets(defaultBuildSettings: BuildSettingsRef(defaultBuildSettings), handler)
 	}
 	

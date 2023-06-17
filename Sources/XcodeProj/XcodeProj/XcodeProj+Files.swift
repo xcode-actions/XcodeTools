@@ -42,14 +42,14 @@ extension XcodeProj {
 		for fileElement in fileElements {
 			switch fileElement {
 				case let fileRef as PBXFileReference:
-					let url = try fileRef.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodeprojURL))
+					let url = try fileRef.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: xcodeprojURL))
 					try handler(url, fileRef.lastKnownFileType)
 					
 				case let group as PBXGroup:
 					try unsafeIterateFileElementsForFiles(fileElements: group.getChildren(), handler)
 					
 				case let refProxy as PBXReferenceProxy:
-					let url = try refProxy.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodeprojURL))
+					let url = try refProxy.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: xcodeprojURL))
 					try handler(url, refProxy.getFileType())
 					
 				case let variantGroup as PBXVariantGroup:

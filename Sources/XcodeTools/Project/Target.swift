@@ -50,7 +50,7 @@ public enum Target {
 								/* A build file has either a file ref or a product ref. */
 								return try file.fileRef?.resolvedPathAsURL(
 									xcodeprojURL: xcodeprojURL,
-									variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodeprojURL)
+									variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: xcodeprojURL)
 								)
 							}
 						}
@@ -74,7 +74,7 @@ public enum Target {
 								/* A build file has either a file ref or a product ref. */
 								return try file.fileRef?.resolvedPathAsURL(
 									xcodeprojURL: xcodeprojURL,
-									variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodeprojURL)
+									variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: xcodeprojURL)
 								)
 							}
 						}

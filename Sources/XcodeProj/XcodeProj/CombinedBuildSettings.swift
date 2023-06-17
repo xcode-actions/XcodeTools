@@ -133,7 +133,7 @@ public struct CombinedBuildSettings {
 			guard baseConfigurationReference.xcLanguageSpecificationIdentifier == "text.xcconfig" || baseConfigurationReference.lastKnownFileType == "text.xcconfig" else {
 				throw Err.invalidPBXProjObjectGraph(.baseConfigurationReferenceIsNotTextXCConfig(configurationID: configuration.xcID), objectID: baseConfigurationReference.xcID)
 			}
-			let url = try baseConfigurationReference.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodeprojURL))
+			let url = try baseConfigurationReference.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: xcodeprojURL))
 			let config = try BuildSettingsRef(BuildSettings(xcconfigURL: url, sourceConfig: config))
 			buildSettingsLevelsBuilding.append(config)
 		}

@@ -54,8 +54,8 @@ public struct BuildSettings {
 		return outputString
 	}
 	
-	public static func standardDefaultSettings(xcodprojURL: URL) throws -> BuildSettings {
-		return try BuildSettings(rawBuildSettings: standardDefaultSettingsAsDictionary(xcodprojURL: xcodprojURL))
+	public static func standardDefaultSettings(xcodeprojURL: URL) throws -> BuildSettings {
+		return try BuildSettings(rawBuildSettings: standardDefaultSettingsAsDictionary(xcodeprojURL: xcodeprojURL))
 	}
 	
 	/**
@@ -63,8 +63,8 @@ public struct BuildSettings {
 	 
 	 For the time being only a very limited set of variables are returned.
 	 We might return more later. */
-	public static func standardDefaultSettingsAsDictionary(xcodprojURL: URL) throws -> [String: String] {
-		let projectDirPath = xcodprojURL.deletingLastPathComponent().path
+	public static func standardDefaultSettingsAsDictionary(xcodeprojURL: URL) throws -> [String: String] {
+		let projectDirPath = xcodeprojURL.deletingLastPathComponent().path
 		return [
 			"HOME": FileManager.default.homeDirectoryForCurrentUser.path,
 			
@@ -72,8 +72,8 @@ public struct BuildSettings {
 			
 			/* <https://stackoverflow.com/a/43751741> */
 			"PROJECT_DIR": projectDirPath,
-			"PROJECT_FILE_PATH": xcodprojURL.path,
-			"PROJECT_NAME": xcodprojURL.deletingPathExtension().lastPathComponent,
+			"PROJECT_FILE_PATH": xcodeprojURL.path,
+			"PROJECT_NAME": xcodeprojURL.deletingPathExtension().lastPathComponent,
 			"SRCROOT": projectDirPath,
 			"SOURCE_ROOT": projectDirPath /* Unofficial alias of SRCROOT */
 		]
@@ -92,12 +92,12 @@ public struct BuildSettings {
 	 - SDKROOT            -> /tmp/__DUMMY_SDK__;
 	 - BUILT_PRODUCTS_DIR -> /tmp/__DUMMY_BUILT_PRODUCT_DIR__.
 	 ``` */
-	public static func standardDefaultSettingsForResolvingPaths(xcodprojURL: URL) throws -> BuildSettings {
-		return try BuildSettings(rawBuildSettings: standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodprojURL))
+	public static func standardDefaultSettingsForResolvingPaths(xcodeprojURL: URL) throws -> BuildSettings {
+		return try BuildSettings(rawBuildSettings: standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: xcodeprojURL))
 	}
 	
-	public static func standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: URL) throws -> [String: String] {
-		var ret = try standardDefaultSettingsAsDictionary(xcodprojURL: xcodprojURL)
+	public static func standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: URL) throws -> [String: String] {
+		var ret = try standardDefaultSettingsAsDictionary(xcodeprojURL: xcodeprojURL)
 		ret["SDKROOT"]            = "/tmp/__DUMMY_SDK__"
 		ret["BUILT_PRODUCTS_DIR"] = "/tmp/__DUMMY_BUILT_PRODUCT_DIR__"
 		return ret
