@@ -10,7 +10,6 @@ import XCTest
 
 import CLTLogger
 import Logging
-import StreamReader
 
 import Utils
 

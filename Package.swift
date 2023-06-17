@@ -32,19 +32,23 @@ let package = Package(
 		
 		/* A launcher for xcode tools binaries (xct-*). */
 		res.append(.executable(name: "xct", targets: ["xct"]))
+#if canImport(CoreData)
 		res.append(.executable(name: "xct-build", targets: ["xct-build"]))
 		res.append(.executable(name: "xct-gen", targets: ["xct-gen"]))
 		res.append(.executable(name: "xct-pbxproj", targets: ["xct-pbxproj"]))
 		res.append(.executable(name: "xct-versions", targets: ["xct-versions"]))
 		/* Obsolete; kept for backwards-compatibility. Will be removed. */
 		res.append(.executable(name: "hagvtool", targets: ["hagvtool"]))
+#endif
 		
 		/* ****************** */
 		/* *** Frameworks *** */
 		/* ****************** */
 		
+#if canImport(CoreData)
 		res.append(.library(name: "XcodeTools", targets: ["XcodeTools"]))
 		res.append(.library(name: "SourceBuilder", targets: ["SourceBuilder"]))
+#endif
 		/* A lib one can use to manipulate SPM Projects.
 		 * Basically a wrapper around swift-package-manager. */
 		res.append(.library(name: "SPMProj", targets: ["SPMProj"]))
@@ -92,7 +96,9 @@ let package = Package(
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
 #endif
 			res.append(.target(name: "CMacroExports"))
-			res.append(.target(name: "XcodeTools"))
+			if needsGNUSourceExports {
+				res.append(.target(name: "CGNUSourceExports"))
+			}
 			
 			/* Not _actual_ dependencies, but it is easier to have these recompiled when modified and current scheme is xct.
 			 * This is the theory, but it does not work (Xcode 12.5).
@@ -102,6 +108,7 @@ let package = Package(
 //			res.append(.target(name: "xct-versions"))
 			return res
 		}(), swiftSettings: swiftSettings))
+#if canImport(CoreData)
 		res.append(.executableTarget(name: "xct-build", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
@@ -115,7 +122,6 @@ let package = Package(
 			res.append(.target(name: "XcodeTools"))
 			return res
 		}(), swiftSettings: swiftSettings))
-#if canImport(CoreData)
 		res.append(.executableTarget(name: "xct-gen", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
@@ -142,6 +148,7 @@ let package = Package(
 			return res
 		}(), swiftSettings: swiftSettings))
 #endif
+#if canImport(CoreData)
 		res.append(.executableTarget(name: "hagvtool", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
@@ -153,7 +160,9 @@ let package = Package(
 			res.append(.target(name: "XcodeTools"))
 			return res
 		}(), swiftSettings: swiftSettings))
+#endif
 		
+#if canImport(CoreData)
 		/* ****************** */
 		/* *** XcodeTools *** */
 		/* ****************** */
@@ -195,10 +204,12 @@ let package = Package(
 //			res.append(.target(name: "xct")) /* Because we use the xct binary in some tests. */
 			return res
 		}(), swiftSettings: swiftSettings))
+#endif
 		
 		/* ********************* */
 		/* *** SourceBuilder *** */
 		/* ********************* */
+#if canImport(CoreData)
 		res.append(.target(name: "SourceBuilder", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.product(name: "Crypto",         package: "swift-crypto"))
@@ -226,6 +237,7 @@ let package = Package(
 			res.append(.target(name: "Utils"))
 			return res
 		}(), swiftSettings: swiftSettings))
+#endif
 		
 		/* *************** */
 		/* *** SPMProj *** */
