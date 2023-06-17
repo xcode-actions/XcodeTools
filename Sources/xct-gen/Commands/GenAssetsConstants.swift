@@ -32,7 +32,7 @@ struct GenAssetsConstants : ParsableCommand {
 	var targets = [String]()
 	
 	func run() throws {
-		LoggingSystem.bootstrap{ _ in var ret = CLTLogger(); ret.logLevel = .debug; return ret }
+		LoggingSystem.bootstrap{ _ in var ret = CLTLogger(); ret.logLevel = .info; return ret }
 		
 		let project = try Project(xcodeprojPath: xctGenOptions.pathToXcodeproj)
 		for target in try project.getTargets() {
