@@ -9,6 +9,9 @@ import ArgumentParser
 import XcodeTools
 import XibLoc
 
+import Logging
+import CLTLogger
+
 
 
 struct GenAssetsConstants : ParsableCommand {
@@ -29,6 +32,8 @@ struct GenAssetsConstants : ParsableCommand {
 	var targets = [String]()
 	
 	func run() throws {
+		LoggingSystem.bootstrap{ _ in var ret = CLTLogger(); return ret }
+		
 		let project = try Project(xcodeprojPath: xctGenOptions.pathToXcodeproj)
 		for target in try project.getTargets() {
 			let targetName = try target.getName()

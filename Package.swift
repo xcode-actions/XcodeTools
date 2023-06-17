@@ -59,20 +59,20 @@ let package = Package(
 	}(),
 	dependencies: {
 		var res = [Package.Dependency]()
-		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.2.2"))
-//		res.append(.package(url: "https://github.com/apple/swift-crypto.git", from: "2.4.0"))
-		res.append(.package(url: "https://github.com/apple/swift-log.git", from: "1.5.2"))
-		res.append(.package(url: "https://github.com/happn-app/XibLoc.git", from: "1.2.5"))
-		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-crypto.git", from: "0.20400.0")) /* Because we’re using SDGGiesbrecht’s fork of swift-package-manager, we also have to use his fork of swift-crypto. */
+		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",         from: "1.2.2"))
+//		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                  from: "2.4.0"))
+		res.append(.package(url: "https://github.com/apple/swift-log.git",                     from: "1.5.2"))
+		res.append(.package(url: "https://github.com/happn-app/XibLoc.git",                    from: "1.2.5"))
+		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-crypto.git",          from: "0.20400.0")) /* Because we’re using SDGGiesbrecht’s fork of swift-package-manager, we also have to use his fork of swift-crypto. */
 		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-package-manager.git", from: "0.50800.0")) /* Apple does not semver SPM for whatever reason. */
-		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git", from: "0.5.1"))
-		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git", from: "3.5.0"))
+		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",            from: "0.5.1"))
+		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",         from: "3.5.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git", from: "1.1.0"))
 #if !canImport(System)
-		res.append(.package(url: "https://github.com/apple/swift-system.git", from: "1.0.0"))
+		res.append(.package(url: "https://github.com/apple/swift-system.git",                  from: "1.0.0"))
 #endif
 		if needseXtenderZ {
-			res.append(.package(url: "https://github.com/xcode-actions/eXtenderZ.git", from: "1.0.7"))
+			res.append(.package(url: "https://github.com/xcode-actions/eXtenderZ.git",          from: "1.0.7"))
 		}
 		return res
 	}(),
@@ -119,6 +119,8 @@ let package = Package(
 		res.append(.executableTarget(name: "xct-gen", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
+			res.append(.product(name: "CLTLogger",      package: "clt-logger"))
+			res.append(.product(name: "Logging",        package: "swift-log"))
 			res.append(.product(name: "XibLoc",         package: "XibLoc"))
 			res.append(.target(name: "XcodeProj"))
 			res.append(.target(name: "XcodeTools"))
