@@ -1,11 +1,18 @@
 import Foundation
 import XCTest
 
+import CommonForTests
+
 @testable import XcodeProj
 
 
 
 final class XCConfigTests : XCTestCase {
+	
+	override class func setUp() {
+		super.setUp()
+		bootstrapIfNeeded()
+	}
 	
 	func testIncludeStuff() throws {
 		XCTAssertThrowsError(try XCConfig.Line(lineString: #"#include ? "hello""#))

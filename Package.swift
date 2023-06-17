@@ -190,6 +190,7 @@ let package = Package(
 #if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
 #endif
+			res.append(.target(name: "CommonForTests"))
 			res.append(.target(name: "Utils"))
 //			res.append(.target(name: "xct")) /* Because we use the xct binary in some tests. */
 			return res
@@ -221,6 +222,7 @@ let package = Package(
 #if !canImport(System)
 			res.append(.product(name: "SystemPackage", package: "swift-system"))
 #endif
+			res.append(.target(name: "CommonForTests"))
 			res.append(.target(name: "Utils"))
 			return res
 		}(), swiftSettings: swiftSettings))
@@ -236,7 +238,7 @@ let package = Package(
 			return res
 		}(), swiftSettings: swiftSettings))
 		/* *** */
-		res.append(.testTarget(name: "SPMProjTests", dependencies: [.target(name: "SPMProj")], swiftSettings: swiftSettings))
+		res.append(.testTarget(name: "SPMProjTests", dependencies: [.target(name: "SPMProj"), .target(name: "CommonForTests")], swiftSettings: swiftSettings))
 		
 #if canImport(CoreData)
 		/* ***************** */
@@ -252,7 +254,7 @@ let package = Package(
 			.process("PBXModel.xcdatamodeld") // Dot not delete this token (for compilation sans sandbox): __COREDATA_TOKEN_XcodeProj_PBXModel
 		], swiftSettings: swiftSettings))
 		/* *** */
-		res.append(.testTarget(name: "XcodeProjTests", dependencies: [.target(name: "XcodeProj")], swiftSettings: swiftSettings))
+		res.append(.testTarget(name: "XcodeProjTests", dependencies: [.target(name: "XcodeProj"), .target(name: "CommonForTests")], swiftSettings: swiftSettings))
 #endif
 		
 		/* *********************** */
@@ -269,8 +271,6 @@ let package = Package(
 		/* ********************* */
 		/* *** Other Helpers *** */
 		/* ********************* */
-		/* Some complex macros exported as functions to be used in Swift. */
-		res.append(.target(name: "CMacroExports", swiftSettings: swiftSettings))
 		res.append(.target(name: "Utils", dependencies: {
 			var res = [Target.Dependency]()
 #if !canImport(System)
@@ -278,12 +278,25 @@ let package = Package(
 #endif
 			return res
 		}(), swiftSettings: swiftSettings))
+		/* Some complex macros exported as functions to be used in Swift. */
+		res.append(.target(name: "CMacroExports", swiftSettings: swiftSettings))
 		if needseXtenderZ {
 			res.append(.target(name: "CNSTaskHelptender", dependencies: [.product(name: "eXtenderZ-static", package: "eXtenderZ")], swiftSettings: swiftSettings))
 		}
 		if needsGNUSourceExports {
 			res.append(.target(name: "CGNUSourceExports", swiftSettings: swiftSettings))
 		}
+		/* A common init system for all tests. */
+		res.append(.target(name: "CommonForTests", dependencies: {
+			var res = [Target.Dependency]()
+			res.append(.product(name: "Logging",   package: "swift-log"))
+			res.append(.product(name: "CLTLogger", package: "clt-logger"))
+#if !canImport(System)
+			res.append(.product(name: "SystemPackage",  package: "swift-system"))
+#endif
+			res.append(.target(name: "Utils"))
+			return res
+		}(), path: "Tests/ Common", swiftSettings: swiftSettings))
 		
 		return res
 	}()

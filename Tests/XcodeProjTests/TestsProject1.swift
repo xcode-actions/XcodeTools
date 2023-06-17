@@ -1,16 +1,23 @@
 import Foundation
 import XCTest
 
+import CommonForTests
+
 @testable import XcodeProj
 
 
 
 final class TestsProject1 : XCTestCase {
 	
-	let xcodeprojURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("TestsData").appendingPathComponent("project1").appendingPathComponent("Project 1.xcodeproj")
+	override class func setUp() {
+		super.setUp()
+		bootstrapIfNeeded()
+	}
+	
+	static let xcodeprojURL = testsDataURL.appendingPathComponent("project1").appendingPathComponent("Project 1.xcodeproj")
 	
 	func testReserialization() throws {
-		let xcodeproj = try XcodeProj(xcodeprojURL: xcodeprojURL)
+		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
 		let originalContents = try Data(contentsOf: xcodeproj.pbxprojURL)
 		try XCTAssertEqual(originalContents, Data(xcodeproj.pbxproj.stringSerialization(projectName: xcodeproj.projectName).utf8))
 		
@@ -19,19 +26,19 @@ final class TestsProject1 : XCTestCase {
 	}
 	
 	func testFileElementPaths() throws {
-		let xcodeproj = try XcodeProj(xcodeprojURL: xcodeprojURL)
+		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
 		
-		let standardSettings = try BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodprojURL: xcodeprojURL)
+		let standardSettings = try BuildSettings.standardDefaultSettingsForResolvingPathsAsDictionary(xcodeprojURL: Self.xcodeprojURL)
 		try xcodeproj.managedObjectContext.performAndWait{
 			let fetchRequest: NSFetchRequest<PBXFileElement> = NSFetchRequest(entityName: "PBXFileElement")
 			try xcodeproj.managedObjectContext.fetch(fetchRequest).forEach{
-				XCTAssertNoThrow(try $0.resolvedPathAsURL(xcodeprojURL: xcodeprojURL, variables: standardSettings))
+				XCTAssertNoThrow(try $0.resolvedPathAsURL(xcodeprojURL: Self.xcodeprojURL, variables: standardSettings))
 			}
 		}
 	}
 	
 	func testXcodeprojAndPlist() throws {
-		let xcodeproj = try XcodeProj(xcodeprojURL: xcodeprojURL)
+		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
 		try xcodeproj.iterateCombinedBuildSettingsOfTargets{ target, targetName, configuration, configurationName, combinedBuildSettings in
 			guard targetName == "Target 1" && configurationName == "Debug" else {
 				return
@@ -71,7 +78,7 @@ final class TestsProject1 : XCTestCase {
 //			XCTAssertEqual(combinedBuildSettings["TEST_VARIANT_2"], #"hello2"#)
 //			XCTAssertEqual(combinedBuildSettings["TEST_VARIANT_3"], #""#)
 			
-			guard let resolvedPlist = try combinedBuildSettings.infoPlistResolved(xcodeprojURL: xcodeprojURL) else {
+			guard let resolvedPlist = try combinedBuildSettings.infoPlistResolved(xcodeprojURL: Self.xcodeprojURL) else {
 				XCTFail("Cannot get plist")
 				return
 			}

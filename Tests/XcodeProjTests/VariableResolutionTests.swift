@@ -1,11 +1,18 @@
 import Foundation
 import XCTest
 
+import CommonForTests
+
 @testable import XcodeProj
 
 
 
 final class VariableResolutionTests : XCTestCase {
+	
+	override class func setUp() {
+		super.setUp()
+		bootstrapIfNeeded()
+	}
 	
 	let refSettings = CombinedBuildSettings(targetName: nil, configuration: XCBuildConfiguration() /* Hacky! But don’t know better… */, configurationName: "Test", buildSettingsLevels: [
 		BuildSettingsRef(BuildSettings(rawBuildSettings: ["VALUE_1": "Value 1"])),

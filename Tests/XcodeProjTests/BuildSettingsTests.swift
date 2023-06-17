@@ -1,11 +1,18 @@
 import Foundation
 import XCTest
 
+import CommonForTests
+
 @testable import XcodeProj
 
 
 
 final class BuildSettingsTests : XCTestCase {
+	
+	override class func setUp() {
+		super.setUp()
+		bootstrapIfNeeded()
+	}
 	
 	func testNoParameters() throws {
 		XCTAssertEqual(try BuildSettingKey(serializedKey: "SETTING = VALUE").serialized, "SETTING = VALUE")

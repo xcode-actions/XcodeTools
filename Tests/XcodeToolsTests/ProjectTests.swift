@@ -4,6 +4,8 @@ import XCTest
 import CLTLogger
 import Logging
 
+import CommonForTests
+
 @testable import XcodeTools
 
 
@@ -12,18 +14,14 @@ final class ProjectTests : XCTestCase {
 	
 	override class func setUp() {
 		super.setUp()
-		
-		/* Setup the logger */
-		LoggingSystem.bootstrap{ _ in CLTLogger() }
-		var logger = Logger(label: "main")
-		logger.logLevel = .trace
+		bootstrapIfNeeded()
 		XcodeToolsConfig.logger = logger
 	}
 	
-	let project2URL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("TestsData").appendingPathComponent("project2").appendingPathComponent("project2.xcodeproj")
+	static let project2URL = testsDataURL.appendingPathComponent("project2").appendingPathComponent("project2.xcodeproj")
 	
 	func testProject2() throws {
-		let project = try Project(xcodeprojURL: project2URL)
+		let project = try Project(xcodeprojURL: Self.project2URL)
 		try XCTAssertEqual(project.getTargets().count, 4)
 	}
 	

@@ -12,6 +12,8 @@ import StreamReader
 
 import Utils
 
+import CommonForTests
+
 @testable import XcodeTools
 
 
@@ -20,11 +22,7 @@ final class ProcessTests : XCTestCase {
 	
 	override class func setUp() {
 		super.setUp()
-		
-		/* Setup the logger */
-		LoggingSystem.bootstrap{ _ in CLTLogger() }
-		var logger = Logger(label: "main")
-		logger.logLevel = .trace
+		bootstrapIfNeeded()
 		XcodeToolsConfig.logger = logger
 		
 		/* Let’s set the xct exec path env var (some methods need it) */
@@ -382,20 +380,6 @@ final class ProcessTests : XCTestCase {
 			res[line.fd, default: ""] += line.line + line.eol
 		}
 		return res
-	}
-	
-	private static var testsDataPath: FilePath {
-		return FilePath(#filePath)
-			.removingLastComponent().removingLastComponent().removingLastComponent()
-			.appending("TestsData")
-	}
-	
-	private static var scriptsPath: FilePath {
-		return testsDataPath.appending("scripts")
-	}
-	
-	private static var filesPath: FilePath {
-		return testsDataPath.appending("files")
 	}
 	
 	/** Returns the path to the built products directory. */

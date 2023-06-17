@@ -12,20 +12,18 @@ import Logging
 
 import Utils
 
+import CommonForTests
+
 @testable import SourceBuilder
 
 
 
 final class SourceBuilderTests : XCTestCase {
 	
+	/* Why, oh why this is not throwing? idk. */
 	override class func setUp() {
 		super.setUp()
-		
-		LoggingSystem.bootstrap{ _ in
-			var l = CLTLogger()
-			l.logLevel = .trace
-			return l
-		}
+		bootstrapIfNeeded()
 	}
 	
 	func testDownloadFile() throws {
@@ -109,20 +107,6 @@ final class SourceBuilderTests : XCTestCase {
 		} catch {XCTFail("Error thrown during async test: \(error)"); group.leave()}}
 		group.wait()
 		/* LINUXASYNC STOP --------- */
-	}
-	
-	private static var testsDataPath: FilePath {
-		return FilePath(#filePath)
-			.removingLastComponent().removingLastComponent().removingLastComponent()
-			.appending("TestsData")
-	}
-	
-	private static var scriptsPath: FilePath {
-		return testsDataPath.appending("scripts")
-	}
-	
-	private static var filesPath: FilePath {
-		return testsDataPath.appending("files")
 	}
 	
 }

@@ -1,13 +1,20 @@
 import Foundation
 import XCTest
 
+import CommonForTests
+
 @testable import XcodeProj
 
 
 
 final class TestsProject2 : XCTestCase {
 	
-	let xcodeprojURL = URL(fileURLWithPath: #file, isDirectory: false).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("TestsData").appendingPathComponent("project2").appendingPathComponent("project2.xcodeproj")
+	override class func setUp() {
+		super.setUp()
+		bootstrapIfNeeded()
+	}
+	
+	static let xcodeprojURL = testsDataURL.appendingPathComponent("project2").appendingPathComponent("project2.xcodeproj")
 	
 	func testIterateFiles() throws {
 		struct File : Hashable {
@@ -23,7 +30,7 @@ final class TestsProject2 : XCTestCase {
 			}
 		}
 		var res = Set<File>()
-		let xcodeproj = try XcodeProj(xcodeprojURL: xcodeprojURL)
+		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
 		try xcodeproj.iterateReferencedFiles{ url, fileType in
 			XCTAssertTrue(res.insert(File(url: url, type: fileType)).inserted)
 		}
@@ -54,7 +61,7 @@ final class TestsProject2 : XCTestCase {
 	
 	func testIteratePackages() throws {
 		var res = Set<String>()
-		let xcodeproj = try XcodeProj(xcodeprojURL: xcodeprojURL)
+		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
 		try xcodeproj.iterateSPMPackagesInReferencedFile{ proj in
 			XCTAssertTrue(res.insert(proj.rootURL.relativePath).inserted)
 		}
