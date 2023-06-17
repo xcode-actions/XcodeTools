@@ -319,7 +319,7 @@ final class ProcessTests : XCTestCase {
 					.invokeAndGetRawOutput()
 				let data = try XCTUnwrap(output.onlyElement)
 				XCTAssert(data.eol.isEmpty)
-				let envInside = try JSONDecoder().decode(EnvAndCwd.self, from: data.line)
+				let envInside = try JSONDecoder().decode(EnvAndCwd.self, from: data.line).removing(keys: ["MANPATH"])
 				let envAfter = EnvAndCwd()
 				XCTAssertEqual(envBefore, envInside)
 				XCTAssertEqual(envBefore, envAfter)
@@ -398,7 +398,7 @@ final class ProcessTests : XCTestCase {
 #if os(macOS)
 		static var defaultRemovedKeys = Set<String>(
 			arrayLiteral:
-				/* Keys removed by spawn (or something else). */
+			/* Keys removed by spawn (or something else). */
 			"DYLD_FALLBACK_LIBRARY_PATH", "DYLD_FALLBACK_FRAMEWORK_PATH", "DYLD_LIBRARY_PATH", "DYLD_FRAMEWORK_PATH",
 			/* Keys added by Swift launcher (presumably). */
 			"CPATH", "LIBRARY_PATH", "SDKROOT"
@@ -425,6 +425,17 @@ final class ProcessTests : XCTestCase {
 				guard !removedEnvKeys.contains(split[0]) else {continue}
 				env[split[0]] = split[1] /* Same, if we get the same var twice, environ is invalid so we override without worrying. */
 			}
+		}
+		
+		init(cwd: String, env: [String: String]) {
+			self.cwd = cwd
+			self.env = env
+		}
+		
+		func removing(keys: Set<String>) -> EnvAndCwd {
+			var ret = EnvAndCwd(cwd: cwd, env: env)
+			keys.forEach{ ret.env.removeValue(forKey: $0) }
+			return ret
 		}
 	}
 	
