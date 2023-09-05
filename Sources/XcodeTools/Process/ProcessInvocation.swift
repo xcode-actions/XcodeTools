@@ -307,7 +307,7 @@ public struct ProcessInvocation : AsyncSequence {
 	/**
 	 Launch the invocation and streams the output in the given handler.
 	 If there is at least one error reading from _any_ of the input stream at any given time,
-	  the whole function will throw an ``XcodeToolsError`` `outputReadError` error,
+	  the whole function will throw an ``XcodeToolsError/outputReadError(_:)`` error,
 	  and any new lines that might be received on other streams are not sent to the handler anymore.
 	 The process is not stopped though, and it is waited on normally.
 	 
