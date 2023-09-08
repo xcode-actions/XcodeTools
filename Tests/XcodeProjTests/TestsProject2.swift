@@ -45,6 +45,7 @@ final class TestsProject2 : XCTestCase {
 				File(relativePath: "Maybe SPM Packages in Group/g-yes-full",                            type: "wrapper"),
 				File(relativePath: "Maybe SPM Packages in Group/g-yes-no-product",                      type: "wrapper"),
 				File(relativePath: "Maybe SPM Packages in Group/GAmazingLib2",                          type: "wrapper"),
+				File(relativePath: "Maybe SPM Packages in Group/DifferentName",                         type: "wrapper"),
 				File(relativePath: "Maybe SPM Packages in Group/g-yes-broken-1",                        type: "wrapper"),
 				File(relativePath: "Maybe SPM Packages in Group/g-yes-broken-2",                        type: "wrapper"),
 				File(relativePath: "Maybe SPM Packages in Group/g-yes-broken-3",                        type: "wrapper"),
@@ -69,7 +70,8 @@ final class TestsProject2 : XCTestCase {
 			arrayLiteral:
 				"Maybe SPM Packages in Group/g-yes-full",
 				"Maybe SPM Packages in Group/g-yes-no-product",
-				"Maybe SPM Packages in Group/GAmazingLib2"
+				"Maybe SPM Packages in Group/GAmazingLib2",
+				"Maybe SPM Packages in Group/DifferentName"
 		)
 		XCTAssertEqual(res, ref)
 	}

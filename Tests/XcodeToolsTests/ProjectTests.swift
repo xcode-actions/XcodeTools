@@ -22,7 +22,7 @@ final class ProjectTests : XCTestCase {
 	
 	func testProject2() throws {
 		let project = try Project(xcodeprojURL: Self.project2URL)
-		try XCTAssertEqual(project.getTargets().count, 4)
+		try XCTAssertEqual(project.getTargets().count, 5)
 	}
 	
 }

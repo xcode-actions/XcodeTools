@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B0DC0A22AABCBA200252D37 /* GAmazingLib3 in Frameworks */ = {isa = PBXBuildFile; productRef = 7B0DC0A12AABCBA200252D37 /* GAmazingLib3 */; };
 		7B4F64502790E83F003483DE /* GAmazingLib.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4F644E2790E83F003483DE /* GAmazingLib.swift */; };
 		7B4F64512790E83F003483DE /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4F644F2790E83F003483DE /* Package.swift */; };
 		7B5768BA2790E55D008C2BEE /* GAmazingLib2 in Frameworks */ = {isa = PBXBuildFile; productRef = 7B5768B92790E55D008C2BEE /* GAmazingLib2 */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B0DC0A02AABCB7000252D37 /* DifferentName */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DifferentName; sourceTree = "<group>"; };
 		7B4F644E2790E83F003483DE /* GAmazingLib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GAmazingLib.swift; sourceTree = "<group>"; };
 		7B4F644F2790E83F003483DE /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		7B5037F82790E1D100FD0F23 /* g-yes-full */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = "g-yes-full"; sourceTree = "<group>"; };
@@ -44,6 +46,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B5768BA2790E55D008C2BEE /* GAmazingLib2 in Frameworks */,
+				7B0DC0A22AABCBA200252D37 /* GAmazingLib3 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +84,7 @@
 				7B5037F82790E1D100FD0F23 /* g-yes-full */,
 				7B5037FC2790E36E00FD0F23 /* g-yes-no-product */,
 				7B5037F92790E1D100FD0F23 /* GAmazingLib2 */,
+				7B0DC0A02AABCB7000252D37 /* DifferentName */,
 				7B5768C02790E736008C2BEE /* g-yes-broken-1 */,
 				7B5768BE2790E736008C2BEE /* g-yes-broken-2 */,
 				7B5768BD2790E736008C2BEE /* g-yes-broken-3 */,
@@ -158,6 +162,7 @@
 			name = project2;
 			packageProductDependencies = (
 				7B5768B92790E55D008C2BEE /* GAmazingLib2 */,
+				7B0DC0A12AABCBA200252D37 /* GAmazingLib3 */,
 			);
 			productName = project2;
 			productReference = 7B8016732790DFFD00099E08 /* project2.app */;
@@ -213,10 +218,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B4F64512790E83F003483DE /* Package.swift in Sources */,
-				7B4F64502790E83F003483DE /* GAmazingLib.swift in Sources */,
-				7B8016792790DFFD00099E08 /* ViewController.swift in Sources */,
 				7B8016772790DFFD00099E08 /* AppDelegate.swift in Sources */,
+				7B4F64502790E83F003483DE /* GAmazingLib.swift in Sources */,
+				7B4F64512790E83F003483DE /* Package.swift in Sources */,
+				7B8016792790DFFD00099E08 /* ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +435,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7B0DC0A12AABCBA200252D37 /* GAmazingLib3 */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GAmazingLib3;
+		};
 		7B5768B62790E551008C2BEE /* GAmazingLib */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GAmazingLib;
