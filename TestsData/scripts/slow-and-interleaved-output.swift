@@ -16,8 +16,8 @@ func printStars(count: Int, to fh: FileHandle) throws {
 
 
 /* ************
-   MARK: - Main
-   ************ */
+   MARK: - Main
+   ************ */
 
 guard CommandLine.argc == 3, let n = Int(CommandLine.arguments[1]), let t = TimeInterval(CommandLine.arguments[2]) else {
 	try! stderr.write(contentsOf: Data("Usage: \(CommandLine.arguments[0])  max_number_of_stars  time_interval_between_lines\n".utf8))

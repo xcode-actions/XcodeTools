@@ -1,9 +1,9 @@
 /*
- * AppDelegate.swift
- * Target 1
- *
- * Created by François Lamboley on 11/09/2020.
- */
+ * AppDelegate.swift
+ * Target 1
+ *
+ * Created by François Lamboley on 11/09/2020.
+ */
 
 import Cocoa
 

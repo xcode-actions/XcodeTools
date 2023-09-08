@@ -1,6 +1,7 @@
 #!/usr/bin/swift
 import Foundation
 
+
 let envName = (CommandLine.argc == 2 ? CommandLine.arguments[1] : nil)
 
 if let envName = envName {
