@@ -3,7 +3,11 @@ import Foundation
 
 
 
-/** Represents a parsed `xcodeproj` bundle. */
+/** 
+ Represents a parsed `xcodeproj` bundle.
+ 
+ This struct is Hashable. 
+ Two XcodeProj are considered equal if their pbxproj URLs are equal. */
 public struct XcodeProj {
 	
 	public let xcodeprojURL: URL
@@ -63,6 +67,19 @@ public struct XcodeProj {
 	
 	public var projectName: String {
 		return xcodeprojURL.deletingPathExtension().lastPathComponent
+	}
+	
+}
+
+
+extension XcodeProj : Hashable {
+	
+	public static func ==(_ lhs: XcodeProj, _ rhs: XcodeProj) -> Bool {
+		return lhs.pbxprojURL == rhs.pbxprojURL
+	}
+	
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(pbxprojURL)
 	}
 	
 }
