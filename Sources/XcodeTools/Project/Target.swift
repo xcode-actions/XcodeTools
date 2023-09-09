@@ -178,10 +178,6 @@ public enum Target : Hashable {
 		return try deps.union(deps.flatMap{ try $0.getRecursiveDependencies(treated.union([self])) })
 	}
 	
-	public func getDependants() throws -> [Target] {
-		throw Err.internalError("Not implemented")
-	}
-	
 	private func unsafeXcodeTargetFromID(_ targetID: NSManagedObjectID, context: NSManagedObjectContext) throws -> PBXTarget {
 		guard let target = try context.existingObject(with: targetID) as? PBXTarget else {
 			throw Err.internalError("Invalid target ID whose linked object is not kind of PBXTarget.")

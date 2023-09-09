@@ -42,4 +42,11 @@ public enum Project {
 		}
 	}
 	
+	public func getDependents(of target: Target) throws -> Set<Target> {
+		let allTargets = try Array(Set(getTargets()).subtracting([target]))
+		let targetDeps = try allTargets.map{ try $0.getRecursiveDependencies() }
+		let allTargetsWithDeps = zip(allTargets, targetDeps)
+		return Set(allTargetsWithDeps.filter{ $0.1.contains(target) }.map{ $0.0 })
+	}
+	
 }

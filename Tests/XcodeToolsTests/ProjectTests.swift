@@ -42,6 +42,7 @@ final class ProjectTests : XCTestCase {
 		try XCTAssertEqual(xcodeTarget.getExplicitDirectDependencies(), [amazingLibTarget])
 		try XCTAssertEqual(xcodeTarget.getImplicitDirectDependencies(), [amazingLib2Target, amazingLib3Target])
 		try XCTAssertEqual(xcodeTarget.getRecursiveDependencies(), [amazingLibTarget, amazingLib2Target, amazingLib3Target])
+		try XCTAssertEqual(project.getDependents(of: amazingLibTarget), [xcodeTarget])
 	}
 	
 }
