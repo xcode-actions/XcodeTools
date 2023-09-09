@@ -55,6 +55,7 @@ public class PBXTarget : PBXObject {
 	}
 	
 	public func getName()                   throws -> String                {try PBXObject.getNonOptionalValue(name,                   "name",                   xcID)}
+	public func getProject()                throws -> PBXProject            {try PBXObject.getNonOptionalValue(i_project,              "i_project",              xcID)}
 	public func getProductName()            throws -> String                {try PBXObject.getNonOptionalValue(productName,            "productName",            xcID)}
 	public func getBuildPhases()            throws -> [PBXBuildPhase]       {try PBXObject.getNonOptionalValue(buildPhases,            "buildPhases",            xcID)}
 	public func getDependencies()           throws -> [PBXTargetDependency] {try PBXObject.getNonOptionalValue(dependencies,           "dependencies",           xcID)}
