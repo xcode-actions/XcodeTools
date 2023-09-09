@@ -27,7 +27,7 @@ public enum Project {
 					res.append(contentsOf: try proj.pbxproj.rootObject.getTargets().map{ target in
 						.xcodeTarget(targetID: target.objectID, project: proj)
 					})
-					try proj.pbxproj.rootObject.unsafeIterateReferencedSPMProjects(xcodeprojURL: proj.xcodeprojURL){ spm in
+					try proj.pbxproj.rootObject.unsafeIterateReferencedSPMProjects(xcodeprojURL: proj.xcodeprojURL, spmCache: proj.spmCache){ spm in
 						res.append(contentsOf: spm.targets.map{ .spmTarget($0, project: spm) })
 					}
 					if !(proj.pbxproj.rootObject.packageReferences?.isEmpty ?? true) {

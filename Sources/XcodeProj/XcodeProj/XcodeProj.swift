@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import SPMProj
+
 
 
 /** 
@@ -19,6 +21,9 @@ public struct XcodeProj {
 	
 	public let managedObjectModel: NSManagedObjectModel
 	public let managedObjectContext: NSManagedObjectContext
+	
+	/* This should always be used on the managed object context only. */
+	public let spmCache = SPMProjCache()
 	
 	public init(path: String? = nil, autodetectInFolderAtPath: String = ".") throws {
 		let xcodeprojPath: String

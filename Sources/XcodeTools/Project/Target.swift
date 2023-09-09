@@ -119,7 +119,7 @@ public enum Target : Hashable {
 									return nil
 								} else {
 									let productName = try productRef.getProductName()
-									guard let (spmProj, spmTarget) = try pbxProject.getReferencedSPMTarget(named: productName, xcodeprojURL: project.xcodeprojURL) else {
+									guard let (spmProj, spmTarget) = try pbxProject.getReferencedSPMTarget(named: productName, xcodeprojURL: project.xcodeprojURL, spmCache: project.spmCache) else {
 										throw Err.internalError("SPM target \(productName) not found in referenced files.")
 									}
 									return .spmTarget(spmTarget, project: spmProj)
@@ -152,7 +152,7 @@ public enum Target : Hashable {
 								return nil
 							} else {
 								let productName = try packageProductDep.getProductName()
-								guard let (spmProj, spmTarget) = try pbxProject.getReferencedSPMTarget(named: productName, xcodeprojURL: project.xcodeprojURL) else {
+								guard let (spmProj, spmTarget) = try pbxProject.getReferencedSPMTarget(named: productName, xcodeprojURL: project.xcodeprojURL, spmCache: project.spmCache) else {
 									throw Err.internalError("SPM target \(productName) not found in referenced files.")
 								}
 								return .spmTarget(spmTarget, project: spmProj)
