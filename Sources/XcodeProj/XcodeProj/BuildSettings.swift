@@ -10,13 +10,22 @@ import Utils
  This can either be an xcconfig file, or the project settings, or the settings of a target.*/
 public struct BuildSettings {
 	
+	private static var cachedDeveloperDir: String?
+	
 	/* Let’s get the developer dir!
 	 * Our algo will be:
+	 *    - If we have a cached version, use it;
 	 *    - If DEVELOPER_DIR env var is defined, use that;
 	 *    - Otherwise try and get the path w/ xcode-select. */
 	public static func getDeveloperDir() throws -> String {
+		if let cachedDeveloperDir {
+			return cachedDeveloperDir
+		}
+		
 		if let p = getenv("DEVELOPER_DIR") {
-			return String(cString: p)
+			let ret = String(cString: p)
+			cachedDeveloperDir = ret
+			return ret
 		}
 		
 		let p = Process()
@@ -51,6 +60,7 @@ public struct BuildSettings {
 		guard !outputString.isEmpty else {
 			throw Err.internalError(.cannotGetDeveloperDir)
 		}
+		cachedDeveloperDir = outputString
 		return outputString
 	}
 	
