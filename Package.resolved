@@ -119,6 +119,15 @@
         }
       },
       {
+        "package": "UnwrapOrThrow",
+        "repositoryURL": "https://github.com/Frizlab/UnwrapOrThrow.git",
+        "state": {
+          "branch": null,
+          "revision": "085ea7b599b0db956541b7189a57b0c98f15337f",
+          "version": "1.0.1-rc.1"
+        }
+      },
+      {
         "package": "XibLoc",
         "repositoryURL": "https://github.com/happn-app/XibLoc.git",
         "state": {
