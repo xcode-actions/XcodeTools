@@ -141,6 +141,7 @@ public enum Target : Hashable {
 				return try project.managedObjectContext.performAndWait{
 					let xcodeTarget = try unsafeXcodeTargetFromID(targetID, context: project.managedObjectContext)
 					let pbxProject = try xcodeTarget.getProject()
+					/* Implicit dependencies discovery algo: <https://stackoverflow.com/a/45179347> or <https://stackoverflow.com/a/59218952>. */
 					Conf.logger?.warning("Only package product implicit dependencies retrieval is implemented. Discovery of implicit Xcode target dependencies has not been implemented.")
 					/* We consider the packageProductDependencies to be implicit.
 					 * They are indeed not defined in the “dependencies” of a target (but they are defined directly in packageProductDependencies by Xcode). */
