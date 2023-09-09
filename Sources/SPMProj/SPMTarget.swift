@@ -4,7 +4,7 @@ import PackageGraph
 
 
 
-public struct SPMTarget {
+public struct SPMTarget : Hashable {
 	
 	public var name: String {
 		resolvedTarget.name
