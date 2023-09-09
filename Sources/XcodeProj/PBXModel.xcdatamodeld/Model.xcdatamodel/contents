@@ -144,7 +144,7 @@
         <relationship name="i_target" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PBXTarget" inverseName="dependencies_cd" inverseEntity="PBXTarget"/>
         <relationship name="productRef" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="XCSwiftPackageProductDependency" inverseName="i_targetDependencies" inverseEntity="XCSwiftPackageProductDependency"/>
         <relationship name="target" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PBXTarget" inverseName="i_targetDependencies" inverseEntity="PBXTarget"/>
-        <relationship name="targetProxy" maxCount="1" deletionRule="Nullify" destinationEntity="PBXContainerItemProxy" inverseName="i_targetDependencies" inverseEntity="PBXContainerItemProxy"/>
+        <relationship name="targetProxy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PBXContainerItemProxy" inverseName="i_targetDependencies" inverseEntity="PBXContainerItemProxy"/>
     </entity>
     <entity name="PBXVariantGroup" representedClassName="PBXVariantGroup" parentEntity="PBXFileElement" syncable="YES" codeGenerationType="category">
         <attribute name="children_isSet" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
