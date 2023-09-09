@@ -41,6 +41,7 @@ final class ProjectTests : XCTestCase {
 		let amazingLib3Target = try XCTUnwrap(targets.filter{ try $0.getName() == "GAmazingLib3" }.onlyElement)
 		try XCTAssertEqual(xcodeTarget.getExplicitDirectDependencies(), [amazingLibTarget])
 		try XCTAssertEqual(xcodeTarget.getImplicitDirectDependencies(), [amazingLib2Target, amazingLib3Target])
+		try XCTAssertEqual(xcodeTarget.getRecursiveDependencies(), [amazingLibTarget, amazingLib2Target, amazingLib3Target])
 	}
 	
 }

@@ -167,8 +167,15 @@ public enum Target : Hashable {
 		}
 	}
 	
-	public func getRecursiveDependencies() throws -> [Target] {
-		throw Err.internalError("Not implemented")
+	public func getRecursiveDependencies() throws -> Set<Target> {
+		return try getRecursiveDependencies([])
+	}
+	
+	private func getRecursiveDependencies(_ treated: Set<Target>) throws -> Set<Target> {
+		guard !treated.contains(self) else {return []}
+		
+		let deps = try getDirectDependencies()
+		return try deps.union(deps.flatMap{ try $0.getRecursiveDependencies(treated.union([self])) })
 	}
 	
 	public func getDependants() throws -> [Target] {
