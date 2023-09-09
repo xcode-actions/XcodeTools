@@ -51,7 +51,7 @@ public struct PBXProj {
 		}
 		
 		objectVersion = try rawDecoded.getForParse("objectVersion", nil)
-		if !Set(arrayLiteral: "46", "48", "50", "51", "52", "53", "54").contains(objectVersion) {
+		if !Set(arrayLiteral: "46", "48", "50", "51", "52", "53", "54", "55").contains(objectVersion) {
 			let msg = "Unknown object version \(objectVersion); parsing might fail"
 			Conf.logger?.warning(.init(stringLiteral: msg))
 		}
