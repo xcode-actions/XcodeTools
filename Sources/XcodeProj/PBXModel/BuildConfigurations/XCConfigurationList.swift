@@ -32,10 +32,10 @@ public class XCConfigurationList : PBXObject {
 	open override func stringSerializationName(projectName: String) -> String? {
 		let usedByType: String
 		let usedByName: String
-		if let p = project_ {
+		if let p = i_project {
 			usedByType = p.rawISA ?? "(null)"
 			usedByName = projectName
-		} else if let t = target_ {
+		} else if let t = i_target {
 			usedByType = t.rawISA ?? "(null)"
 			usedByName = t.name ?? "(null)"
 		} else {

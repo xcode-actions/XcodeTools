@@ -36,7 +36,7 @@ public struct BuildSetting {
 					return nil
 					
 				case .xcconfiguration(let config), .xcconfigFile(_, lineID: _, for: let config?):
-					return config.list_?.target_
+					return config.i_list?.i_target
 			}
 		}
 		

@@ -37,12 +37,12 @@ public class PBXFileReference : PBXFileElement {
 	
 	public override var parent: PBXFileElement? {
 		assert(
-			(group_ != nil && variantGroup_ == nil && versionGroup_ == nil) ||
-			(group_ == nil && variantGroup_ != nil && versionGroup_ == nil) ||
-			(group_ == nil && variantGroup_ == nil && versionGroup_ != nil) ||
-			(group_ == nil && variantGroup_ == nil && versionGroup_ == nil)
+			(i_group != nil && i_variantGroup == nil && i_versionGroup == nil) ||
+			(i_group == nil && i_variantGroup != nil && i_versionGroup == nil) ||
+			(i_group == nil && i_variantGroup == nil && i_versionGroup != nil) ||
+			(i_group == nil && i_variantGroup == nil && i_versionGroup == nil)
 		)
-		return group_ ?? variantGroup_ ?? versionGroup_
+		return i_group ?? i_variantGroup ?? i_versionGroup
 	}
 	
 }

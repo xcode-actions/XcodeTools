@@ -140,7 +140,7 @@ public class PBXObject : NSManagedObject {
 		return (NSOrderedSet(array: v), true)
 	}
 	
-	/*protected*/ open func fillValues(rawObject: [String: Any], rawObjects: [String: [String: Any]], context: NSManagedObjectContext, decodedObjects: inout [String: PBXObject]) throws {
+	/*protected */open func fillValues(rawObject: [String: Any], rawObjects: [String: [String: Any]], context: NSManagedObjectContext, decodedObjects: inout [String: PBXObject]) throws {
 		assert(context === managedObjectContext)
 		self.rawObject = rawObject
 		

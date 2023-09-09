@@ -74,7 +74,7 @@ public class PBXFileElement : PBXObject {
 	
 	/** Subclasses can override if needed. */
 	open var parent: PBXFileElement? {
-		return group_
+		return i_group
 	}
 	
 	public var name: String? {
@@ -115,7 +115,7 @@ public class PBXFileElement : PBXObject {
 						else                   {return (rootVar, path ?? "")}
 					}
 				} else {
-					guard let project = (self as? PBXGroup)?.projectForMainGroup_ else {
+					guard let project = (self as? PBXGroup)?.i_projectForMainGroup else {
 						Conf.logger?.warning("Got asked the resolved path of file element \(xcID ?? "<unknown object>") which does not have a parent, whose projectForMainGroup_ property is nil (not the main group), and whose source tree is <group>. This is weird and I don’t know how to handle this; returning nil.")
 						return nil
 					}

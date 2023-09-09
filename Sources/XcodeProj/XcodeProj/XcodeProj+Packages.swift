@@ -20,7 +20,7 @@ extension XcodeProj {
 		try managedObjectContext.performAndWait{
 			let spmDependencies = try pbxproj.rootObject
 				.getTargets()
-				.filter({ try $0.getName() == targetName })
+				.filter{ try $0.getName() == targetName } /* We could’ve made a fetch request to replace this line and the ones above, and potentially the next one too… */
 				.flatMap{ try $0.getBuildPhases().compactMap{ $0 as? PBXFrameworksBuildPhase } }
 				.flatMap{ try $0.getFiles().compactMap{ try $0.productRef?.getProductName() } }
 			
