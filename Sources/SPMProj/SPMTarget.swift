@@ -4,7 +4,12 @@ import PackageGraph
 
 
 
-public struct SPMTarget : Hashable {
+/**
+ Represent an SPM target.
+ 
+ This is Hashable.
+ Two SPMTargets are considered equal iif their names and sources root are equal. */
+public struct SPMTarget {
 	
 	public var name: String {
 		resolvedTarget.name
@@ -30,10 +35,39 @@ public struct SPMTarget : Hashable {
 		resolvedTarget.underlyingTarget.others.map(\.asURL)
 	}
 	
+	public var dependencies: [SPMTarget] {
+		resolvedTarget.dependencies.flatMap{ dep in
+			switch dep {
+				case .target(let target, _):   return [target]
+				case .product(let product, _): return product.targets
+			}
+		}.map(Self.init)
+	}
+	
+	public var recursiveDependencies: [SPMTarget] {
+		get throws {
+			try resolvedTarget.recursiveTargetDependencies().map(Self.init)
+		}
+	}
+	
 	internal init(resolvedTarget: ResolvedTarget) {
 		self.resolvedTarget = resolvedTarget
 	}
 	
 	internal let resolvedTarget: ResolvedTarget
+	
+}
+
+
+extension SPMTarget : Hashable {
+	
+	public static func ==(_ lhs: SPMTarget, _ rhs: SPMTarget) -> Bool {
+		return lhs.name == rhs.name && lhs.sourcesRoot == rhs.sourcesRoot
+	}
+	
+	public func hash(into hasher: inout Hasher) {
+		hasher.combine(name)
+		hasher.combine(sourcesRoot)
+	}
 	
 }

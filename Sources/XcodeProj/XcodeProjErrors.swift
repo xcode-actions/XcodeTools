@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import SPMProj
+
 
 
 /** All of the errors thrown by the module should have this type. */
@@ -21,6 +23,8 @@ public enum XcodeProjError : Error {
 	/** `objectID` is `nil` if unknown or not applicable (root, etc.) */
 	case invalidPBXProjObjectGraph(PBXProjObjectGraphError, objectID: String?)
 	case missingVariable(String)
+	
+	case multipleMatchingSPMTargetsFound([(SPMProj, SPMTarget)])
 	
 	case internalError(InternalError)
 	

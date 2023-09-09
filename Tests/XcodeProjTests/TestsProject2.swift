@@ -63,7 +63,7 @@ final class TestsProject2 : XCTestCase {
 	func testIteratePackages() throws {
 		var res = Set<String>()
 		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
-		try xcodeproj.iterateSPMPackagesInReferencedFile{ proj in
+		try xcodeproj.iterateReferencedSPMProjects{ proj in
 			XCTAssertTrue(res.insert(proj.rootURL.relativePath).inserted)
 		}
 		let ref = Set(

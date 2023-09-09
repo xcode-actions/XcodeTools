@@ -87,11 +87,9 @@ public class PBXProject : PBXObject {
 		var mySerialization = [String: Any]()
 		if let a = attributes        {mySerialization["attributes"]        = a}
 		if let r = projectRoot       {mySerialization["projectRoot"]       = r}
+		if let r = projectReferences {mySerialization["projectReferences"] = r}
 		if let r = packageReferences {mySerialization["packageReferences"] = try r.getIDsAndCommentsForSerialization("packageReferences", xcID, projectName: projectName)}
 		if let r = productRefGroup   {mySerialization["productRefGroup"]   = try r.getIDAndCommentForSerialization("productRefGroup", xcID, projectName: projectName)}
-		if let r = projectReferences {
-			mySerialization["projectReferences"] = r
-		}
 		mySerialization["compatibilityVersion"]   = try getCompatibilityVersion()
 		mySerialization["projectDirPath"]         = try getProjectDirPath()
 		mySerialization["knownRegions"]           = try getKnownRegions()

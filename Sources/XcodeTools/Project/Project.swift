@@ -25,17 +25,20 @@ public enum Project {
 				var res = [Target]()
 				try proj.managedObjectContext.performAndWait{
 					res.append(contentsOf: try proj.pbxproj.rootObject.getTargets().map{ target in
-						.xcodeTarget(targetID: target.objectID, context: proj.managedObjectContext, xcodeprojURL: proj.xcodeprojURL)
+						.xcodeTarget(targetID: target.objectID, project: proj)
 					})
-				}
-				try proj.iterateSPMPackagesInReferencedFile{ spm in
-					res.append(contentsOf: spm.targets.map{ .spmTarget($0) })
+					try proj.pbxproj.rootObject.unsafeIterateReferencedSPMProjects(xcodeprojURL: proj.xcodeprojURL){ spm in
+						res.append(contentsOf: spm.targets.map{ .spmTarget($0, project: spm) })
+					}
+					if !(proj.pbxproj.rootObject.packageReferences?.isEmpty ?? true) {
+						Conf.logger?.warning("Loading external SPM dependencies is not supported.")
+					}
 				}
 #warning("TODO: Embedded xcodeprojs")
 				return res
 				
 			case .spm(let spm):
-				return spm.targets.map{ .spmTarget($0) }
+				return spm.targets.map{ .spmTarget($0, project: spm) }
 		}
 	}
 	
