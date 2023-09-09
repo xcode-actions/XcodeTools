@@ -29,46 +29,83 @@ struct GenAssetsConstants : ParsableCommand {
 	var generatedFilePathTemplate: String
 	
 	@Argument
+	var generatedParentFilePathTemplate: String
+	
+	@Argument
 	var targets = [String]()
 	
 	func run() throws {
 		LoggingSystem.bootstrap{ _ in var ret = CLTLogger(); ret.logLevel = .info; return ret }
 		
 		let project = try Project(xcodeprojPath: xctGenOptions.pathToXcodeproj)
-		for target in try project.getTargets() {
-			let targetName = try target.getName()
-			let isSPMTarget = (target.spmTarget != nil)
-			guard targets.isEmpty || targets.contains(targetName) else {
-				continue
-			}
-			guard !(target.spmTarget?.sourcesContainsObjCFiles ?? false) else {
-//				Conf.logger?.info("Skipped target \(targetName) which contains ObjC.")
-				continue
-			}
-			
-			let resolvingInfo = Str2StrXibLocInfo(replacements: ["|": targetName], orderedReplacements: ["<:>": !isSPMTarget ? 0 : 1])!
-			let relativeDest = generatedFilePathTemplate.applying(xibLocInfo: resolvingInfo)
-			
-			/* Get the color names. */
-			var colorNames = [String: String]()
-			for resourceURL in try target.getResources() {
-				guard let xcassets = XcodeAssets(url: resourceURL) else {
+		let targetToConstants: [Target: Constants] = try {
+			var res = [Target: Constants]()
+			for target in try project.getTargets() {
+				let targetName = try target.getName()
+				let isSPMTarget = (target.spmTarget != nil)
+				guard targets.isEmpty || targets.contains(targetName) else {
 					continue
 				}
-				try xcassets.iterateColorSets{ colorset in
-					guard let swiftColorName = XcodeUtils.stringToSafeSwiftVarName(colorset.colorName) else {
-						throw XctGenError(message: "Cannot convert color name \(colorset.colorName) to Swift-safe var name.")
-					}
-					guard colorNames[swiftColorName] == nil else {
-						throw XctGenError(message: "Got normalized color name \(swiftColorName) twice!")
-					}
-					colorNames[swiftColorName] = colorset.colorName
+				guard !(target.spmTarget?.sourcesContainsObjCFiles ?? false) else {
+//					Conf.logger?.info("Skipped target \(targetName) which contains ObjC.")
+					continue
 				}
+				
+				/* Get the color names. */
+				var colorNames = [String: String]()
+				for resourceURL in try target.getResources() {
+					guard let xcassets = XcodeAssets(url: resourceURL) else {
+						continue
+					}
+					try xcassets.iterateColorSets{ colorset in
+						guard let swiftColorName = XcodeUtils.stringToSafeSwiftVarName(colorset.colorName) else {
+							throw XctGenError(message: "Cannot convert color name \(colorset.colorName) to Swift-safe var name.")
+						}
+						guard colorNames[swiftColorName] == nil else {
+							throw XctGenError(message: "Got normalized color name \(swiftColorName) twice!")
+						}
+						colorNames[swiftColorName] = colorset.colorName
+					}
+				}
+				
+				/* Assign Constants to res. */
+				res[target] = Constants(isSPMTarget: isSPMTarget, colors: colorNames)
 			}
+			return res
+		}()
+		for (target, constants) in targetToConstants {
+			let resolvingInfo = try Str2StrXibLocInfo(replacements: ["|": target.getName()], orderedReplacements: ["<:>": !constants.isSPMTarget ? 0 : 1])!
+			let relativeParentDest = generatedParentFilePathTemplate.applying(xibLocInfo: resolvingInfo)
+			let relativeRootDest = generatedFilePathTemplate.applying(xibLocInfo: resolvingInfo)
 			
-			/* Write or remove assets file. */
-			let dest = URL(fileURLWithPath: relativeDest, relativeTo: target.getSourcesRoot())
-			if colorNames.isEmpty {
+#warning("No filter on Tests…")
+			let parentConstants = try project
+				.getDependents(of: target)
+				.filter{ try !$0.getName().contains("Tests") }
+				.compactMap{ targetToConstants[$0] }
+				.reduce(into: (first: true, constants: Constants(isSPMTarget: constants.isSPMTarget)), { current, new in
+					if current.first {
+						current.first = false
+						current.constants.colors = new.colors
+					} else {
+						current.constants.colors = current.constants.colors.filter{ new.colors.keys.contains($0.key) }
+					}
+				}).constants
+			
+			try       constants.writeColors(to: URL(fileURLWithPath:   relativeRootDest, relativeTo: target.getSourcesRoot()), isParent: false)
+			try parentConstants.writeColors(to: URL(fileURLWithPath: relativeParentDest, relativeTo: target.getSourcesRoot()), isParent: true)
+		}
+	}
+	
+	struct Constants {
+		
+		var isSPMTarget: Bool
+		
+		/* Key is swift color name, value is actual color name. */
+		var colors: [String: String] = [:]
+		
+		func writeColors(to dest: URL, isParent: Bool) throws {
+			if colors.isEmpty {
 				_ = try? FileManager.default.removeItem(at: dest)
 			} else {
 				var generatedFile = """
@@ -77,10 +114,10 @@ struct GenAssetsConstants : ParsableCommand {
 					
 					
 					
-					internal struct XctAssetsConstants {
+					internal struct \(!isParent ? "XctAssetsConstants" : "XctParentAssetsConstants") {
 						
 					"""
-				for (swiftColorName, colorName) in colorNames.sorted(by: { $0.key < $1.key }) {
+				for (swiftColorName, colorName) in colors.sorted(by: { $0.key < $1.key }) {
 					var openQuote = "\""
 					var closeQuote = "\""
 					while colorName.contains(openQuote) || colorName.contains(closeQuote) {
@@ -89,7 +126,7 @@ struct GenAssetsConstants : ParsableCommand {
 					}
 					generatedFile += #"""
 						
-							internal static let \#(swiftColorName) = UIColor(named: \#(openQuote)\#(colorName)\#(closeQuote)\#(!isSPMTarget ? "" : ", in: .module, compatibleWith: nil"))!
+							internal static let \#(swiftColorName) = UIColor(named: \#(openQuote)\#(colorName)\#(closeQuote)\#((!isSPMTarget || isParent) ? "" : ", in: .module, compatibleWith: nil"))!
 						"""#
 				}
 				generatedFile += """
@@ -102,6 +139,7 @@ struct GenAssetsConstants : ParsableCommand {
 				try Data(generatedFile.utf8).write(to: dest)
 			}
 		}
+		
 	}
 	
 }
