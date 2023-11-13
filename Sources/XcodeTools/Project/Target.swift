@@ -114,8 +114,8 @@ public enum Target : Hashable {
 								}
 								return .xcodeTarget(targetID: target.objectID, project: project)
 							} else if let productRef = dependency.productRef {
-								if let _ = productRef.package {
-									Conf.logger?.warning("Skipped unsupported external SPM dependency.")
+								if let package = productRef.package {
+									Conf.logger?.warning("Skipped unsupported external SPM dependency.", metadata: ["dependency-url": (try? package.getRepositoryURL()).flatMap{ "\($0)" } ?? "<unknown>"])
 									return nil
 								} else {
 									let productName = try productRef.getProductName()
@@ -148,8 +148,8 @@ public enum Target : Hashable {
 					let packageProductDeps = try (xcodeTarget as? PBXNativeTarget)?
 						.packageProductDependencies?
 						.compactMap{ packageProductDep -> Target? in
-							if let _ = packageProductDep.package {
-								Conf.logger?.warning("Skipped unsupported external SPM dependency.")
+							if let package = packageProductDep.package {
+								Conf.logger?.warning("Skipped unsupported external SPM dependency.", metadata: ["dependency-url": (try? package.getRepositoryURL()).flatMap{ "\($0)" } ?? "<unknown>"])
 								return nil
 							} else {
 								let productName = try packageProductDep.getProductName()
