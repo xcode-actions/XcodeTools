@@ -42,8 +42,8 @@
         "repositoryURL": "https://github.com/apple/swift-asn1.git",
         "state": {
           "branch": null,
-          "revision": "c7e239b5c1492ffc3ebd7fbcc7a92548ce4e78f0",
-          "version": "1.1.0"
+          "revision": "805deae27a7506dcad043604c00a9dc52d465dcb",
+          "version": "0.7.0"
         }
       },
       {
@@ -51,8 +51,8 @@
         "repositoryURL": "https://github.com/apple/swift-certificates.git",
         "state": {
           "branch": null,
-          "revision": "01d7664523af5c169f26038f1e5d444ce47ae5ff",
-          "version": "1.0.1"
+          "revision": "35a7df2d9d71c401a47de9be2e3de629a01370c2",
+          "version": "0.4.1"
         }
       },
       {
@@ -69,16 +69,16 @@
         "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "629f0b679d0fd0a6ae823d7f750b9ab032c00b80",
-          "version": "3.0.0"
+          "revision": "33a20e650c33f6d72d822d558333f2085effa3dc",
+          "version": "2.5.0"
         }
       },
       {
         "package": "swift-driver",
         "repositoryURL": "https://github.com/apple/swift-driver.git",
         "state": {
-          "branch": "main",
-          "revision": "fdae36ff947e3bdcdc561402a5c6d6a2c3746ac0",
+          "branch": "release/5.9",
+          "revision": "1b2b851ae4718caffa5f18fd1861bc0ddd1791a3",
           "version": null
         }
       },
@@ -86,8 +86,8 @@
         "package": "llbuild",
         "repositoryURL": "https://github.com/apple/swift-llbuild.git",
         "state": {
-          "branch": "main",
-          "revision": "2fcb9be0852bd955832118bcb5e2fb669b5f330b",
+          "branch": "release/5.9",
+          "revision": "d73a305d6e5a82e4bf3bf1727da3d1376e87efab",
           "version": null
         }
       },
@@ -102,10 +102,10 @@
       },
       {
         "package": "SwiftPM",
-        "repositoryURL": "https://github.com/apple/swift-package-manager.git",
+        "repositoryURL": "https://github.com/Frizlab/swift-package-manager.git",
         "state": {
-          "branch": "swift-DEVELOPMENT-SNAPSHOT-2023-10-30-a",
-          "revision": "dafbae563ff2fe827ac5d3285dae718d7c7fc6b4",
+          "branch": "swift-5.9.1-RELEASE+assert_workaround",
+          "revision": "70c2398104c60691f48775db1387c69bd6c14cb6",
           "version": null
         }
       },
@@ -131,8 +131,8 @@
         "package": "swift-tools-support-core",
         "repositoryURL": "https://github.com/apple/swift-tools-support-core.git",
         "state": {
-          "branch": "main",
-          "revision": "4d539ff4c3d75394a78e17f68b675ad82434dd71",
+          "branch": "release/5.9",
+          "revision": "5665fc7641ce1a971ad06faaa476862b222ef44b",
           "version": null
         }
       },
