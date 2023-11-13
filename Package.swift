@@ -64,12 +64,11 @@ let package = Package(
 	dependencies: {
 		var res = [Package.Dependency]()
 		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",         from: "1.2.2"))
-//		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                  from: "2.4.0"))
+		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                  "1.0.0"..<"4.0.0"))
 		res.append(.package(url: "https://github.com/apple/swift-log.git",                     from: "1.5.2"))
+		res.append(.package(url: "https://github.com/apple/swift-package-manager.git",         revision: "swift-DEVELOPMENT-SNAPSHOT-2023-10-30-a")) /* Apple does not semver SPM for whatever reason. We cannot use swift-5.9.1-RELEASE because there’s a bug in it. */
 		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",               from: "1.0.1-rc"))
 		res.append(.package(url: "https://github.com/happn-app/XibLoc.git",                    from: "1.2.5"))
-		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-crypto.git",          from: "0.20400.0")) /* Because we’re using SDGGiesbrecht’s fork of swift-package-manager, we also have to use his fork of swift-crypto. */
-		res.append(.package(url: "https://github.com/SDGGiesbrecht/swift-package-manager.git", from: "0.50800.0")) /* Apple does not semver SPM for whatever reason. */
 		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",            from: "0.5.1"))
 		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",         from: "3.5.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git", from: "1.1.0"))

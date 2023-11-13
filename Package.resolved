@@ -38,39 +38,57 @@
         }
       },
       {
+        "package": "swift-asn1",
+        "repositoryURL": "https://github.com/apple/swift-asn1.git",
+        "state": {
+          "branch": null,
+          "revision": "c7e239b5c1492ffc3ebd7fbcc7a92548ce4e78f0",
+          "version": "1.1.0"
+        }
+      },
+      {
+        "package": "swift-certificates",
+        "repositoryURL": "https://github.com/apple/swift-certificates.git",
+        "state": {
+          "branch": null,
+          "revision": "01d7664523af5c169f26038f1e5d444ce47ae5ff",
+          "version": "1.0.1"
+        }
+      },
+      {
         "package": "swift-collections",
         "repositoryURL": "https://github.com/apple/swift-collections.git",
         "state": {
           "branch": null,
-          "revision": "937e904258d22af6e447a0b72c0bc67583ef64a2",
-          "version": "1.0.4"
+          "revision": "a902f1823a7ff3c9ab2fba0f992396b948eda307",
+          "version": "1.0.5"
         }
       },
       {
         "package": "swift-crypto",
-        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-crypto.git",
+        "repositoryURL": "https://github.com/apple/swift-crypto.git",
         "state": {
           "branch": null,
-          "revision": "0adce56a99ee26faba51407c49e399ba382b943a",
-          "version": "0.20400.0"
+          "revision": "629f0b679d0fd0a6ae823d7f750b9ab032c00b80",
+          "version": "3.0.0"
         }
       },
       {
         "package": "swift-driver",
-        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-driver",
+        "repositoryURL": "https://github.com/apple/swift-driver.git",
         "state": {
-          "branch": null,
-          "revision": "2353b37ce91a0fa587e16fba1ca205353781e0ed",
-          "version": "0.50800.0"
+          "branch": "main",
+          "revision": "fdae36ff947e3bdcdc561402a5c6d6a2c3746ac0",
+          "version": null
         }
       },
       {
         "package": "llbuild",
-        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-llbuild",
+        "repositoryURL": "https://github.com/apple/swift-llbuild.git",
         "state": {
-          "branch": null,
-          "revision": "14d9618f53db8ca57ed46ed7b4587155c2a03390",
-          "version": "0.50800.0"
+          "branch": "main",
+          "revision": "2fcb9be0852bd955832118bcb5e2fb669b5f330b",
+          "version": null
         }
       },
       {
@@ -84,11 +102,11 @@
       },
       {
         "package": "SwiftPM",
-        "repositoryURL": "https://github.com/SDGGiesbrecht/swift-package-manager.git",
+        "repositoryURL": "https://github.com/apple/swift-package-manager.git",
         "state": {
-          "branch": null,
-          "revision": "558eda62ff7d3e12b319cadf9f3b529e2de63c68",
-          "version": "0.50800.0"
+          "branch": "swift-DEVELOPMENT-SNAPSHOT-2023-10-30-a",
+          "revision": "dafbae563ff2fe827ac5d3285dae718d7c7fc6b4",
+          "version": null
         }
       },
       {
@@ -113,9 +131,9 @@
         "package": "swift-tools-support-core",
         "repositoryURL": "https://github.com/apple/swift-tools-support-core.git",
         "state": {
-          "branch": null,
-          "revision": "93784c59434dbca8e8a9e4b700d0d6d94551da6a",
-          "version": "0.5.2"
+          "branch": "main",
+          "revision": "4d539ff4c3d75394a78e17f68b675ad82434dd71",
+          "version": null
         }
       },
       {
