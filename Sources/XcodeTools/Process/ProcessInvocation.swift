@@ -580,11 +580,22 @@ public struct ProcessInvocation : AsyncSequence {
 		}
 		
 		let delayedSigations = try cleanupIfThrows{ try SigactionDelayer_Unsig.registerDelayedSigactions(signalsToForward, handler: { (signal, handler) in
-			XcodeToolsConfig.logger?.debug("Handler action in Process+Utils", metadata: ["signal": "\(signal)"])
-			defer {handler(true)}
+			XcodeToolsConfig.logger?.debug("Handler action in ProcessInvocation", metadata: ["signal": "\(signal)"])
+			guard p.isRunning else {
+				handler(true)
+				return
+			}
 			
-			guard p.isRunning else {return}
-			kill(p.processIdentifier, signal.rawValue)
+			let pgid = getpgid(p.processIdentifier)
+			if (killpg(pgid, signal.rawValue) == 0) {
+				/* If we succeeded in forwarding the signal we wait for the subprocess to quit. */
+				#warning("TODO: Add an option to control this behavior.")
+				p.waitUntilExit()
+				handler(true)
+			} else {
+				XcodeToolsConfig.logger?.notice("Failed forwarding signal to subprocess pgid.", metadata: ["errno": "\(errno)", "errmsg": "\(Errno(rawValue: errno).localizedDescription)"])
+				handler(false)
+			}
 		}) }
 		let signalCleanupHandler = {
 			let errors = SigactionDelayer_Unsig.unregisterDelayedSigactions(Set(delayedSigations.values))
