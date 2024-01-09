@@ -623,9 +623,9 @@ public struct ProcessInvocation : AsyncSequence {
 			if let signalForChild = handling.signalForChild {
 				if handling.sendToProcessGroupOfChild {
 					let pgid = getpgid(p.processIdentifier)
-					signalForChildSucceeded = (killpg(pgid, signal.rawValue) == 0)
+					signalForChildSucceeded = (killpg(pgid, signalForChild.rawValue) == 0)
 				} else {
-					signalForChildSucceeded = (kill(p.processIdentifier, signal.rawValue) == 0)
+					signalForChildSucceeded = (kill(p.processIdentifier, signalForChild.rawValue) == 0)
 				}
 			} else {
 				signalForChildSucceeded = true
