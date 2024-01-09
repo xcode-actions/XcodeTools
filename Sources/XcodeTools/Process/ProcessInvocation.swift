@@ -76,6 +76,31 @@ public struct ProcessInvocation : AsyncSequence {
 	public typealias AsyncIterator = Iterator
 	public typealias Element = RawLineWithSource
 	
+	public struct SignalHandling {
+		
+		public var signalForChild: Signal?
+//		public var signalForParent: Signal? /* Changing the signal is not possible w/ swift-signal-handling, but it’s not a big deal. */
+		public var allowOnParent: Bool
+		public var sendToProcessGroupOfChild: Bool
+		public var waitForChildDeathBeforeSendingToParent: Bool
+		
+		public static func `default`(for signal: Signal) -> Self {
+			return .init(signalForChild: signal)
+		}
+		
+		public static func mapForChild(for signal: Signal, with map: [Signal: Signal]) -> Self {
+			return .init(signalForChild: map[signal] ?? signal)
+		}
+		
+		public init(signalForChild: Signal?, allowOnParent: Bool = true, sendToProcessGroupOfChild: Bool = true, waitForChildDeathBeforeSendingToParent: Bool = true) {
+			self.signalForChild = signalForChild
+			self.allowOnParent = allowOnParent
+			self.sendToProcessGroupOfChild = sendToProcessGroupOfChild
+			self.waitForChildDeathBeforeSendingToParent = waitForChildDeathBeforeSendingToParent
+		}
+		
+	}
+	
 	public var executable: FilePath
 	public var args: [String] = []
 	
@@ -118,7 +143,8 @@ public struct ProcessInvocation : AsyncSequence {
 	public var stdoutRedirect: RedirectMode = .capture
 	public var stderrRedirect: RedirectMode = .capture
 	
-	public var signalsToForward: Set<Signal> = Signal.toForwardToSubprocesses
+	public var signalsToProcess: Set<Signal> = Signal.toForwardToSubprocesses
+	public var signalHandling: (Signal) -> SignalHandling
 	
 	/**
 	 The file descriptors (other than `stdin`, `stdout` and `stderr`, which are handled differently) to clone in the child process.
@@ -188,7 +214,8 @@ public struct ProcessInvocation : AsyncSequence {
 		_ executable: FilePath, _ args: String..., usePATH: Bool = true, customPATH: [FilePath]?? = nil,
 		workingDirectory: URL? = nil, environment: [String: String]? = nil,
 		stdin: FileDescriptor? = nil, stdoutRedirect: RedirectMode = .capture, stderrRedirect: RedirectMode = .capture,
-		signalsToForward: Set<Signal> = Signal.toForwardToSubprocesses,
+		signalsToProcess: Set<Signal> = Signal.toForwardToSubprocesses,
+		signalHandling: @escaping (Signal) -> SignalHandling = { .default(for: $0) },
 		fileDescriptorsToSend: [FileDescriptor /* Value in **child** */: FileDescriptor /* Value in **parent** */] = [:],
 		additionalOutputFileDescriptors: Set<FileDescriptor> = [],
 		lineSeparators: LineSeparators = .default,
@@ -199,7 +226,8 @@ public struct ProcessInvocation : AsyncSequence {
 			executable, args: args, usePATH: usePATH, customPATH: customPATH,
 			workingDirectory: workingDirectory, environment: environment,
 			stdin: stdin, stdoutRedirect: stdoutRedirect, stderrRedirect: stderrRedirect,
-			signalsToForward: signalsToForward,
+			signalsToProcess: signalsToProcess,
+			signalHandling: signalHandling,
 			fileDescriptorsToSend: fileDescriptorsToSend,
 			additionalOutputFileDescriptors: additionalOutputFileDescriptors,
 			lineSeparators: lineSeparators,
@@ -221,7 +249,8 @@ public struct ProcessInvocation : AsyncSequence {
 		_ executable: FilePath, args: [String], usePATH: Bool = true, customPATH: [FilePath]?? = nil,
 		workingDirectory: URL? = nil, environment: [String: String]? = nil,
 		stdin: FileDescriptor? = nil, stdoutRedirect: RedirectMode = .capture, stderrRedirect: RedirectMode = .capture,
-		signalsToForward: Set<Signal> = Signal.toForwardToSubprocesses,
+		signalsToProcess: Set<Signal> = Signal.toForwardToSubprocesses,
+		signalHandling: @escaping (Signal) -> SignalHandling = { .default(for: $0) },
 		fileDescriptorsToSend: [FileDescriptor /* Value in **child** */: FileDescriptor /* Value in **parent** */] = [:],
 		additionalOutputFileDescriptors: Set<FileDescriptor> = [],
 		lineSeparators: LineSeparators = .default,
@@ -240,7 +269,8 @@ public struct ProcessInvocation : AsyncSequence {
 		self.stdoutRedirect = stdoutRedirect
 		self.stderrRedirect = stderrRedirect
 		
-		self.signalsToForward = signalsToForward
+		self.signalsToProcess = signalsToProcess
+		self.signalHandling = signalHandling
 		
 		self.fileDescriptorsToSend = fileDescriptorsToSend
 		self.additionalOutputFileDescriptors = additionalOutputFileDescriptors
@@ -579,23 +609,38 @@ public struct ProcessInvocation : AsyncSequence {
 			}
 		}
 		
-		let delayedSigations = try cleanupIfThrows{ try SigactionDelayer_Unsig.registerDelayedSigactions(signalsToForward, handler: { (signal, handler) in
+		let delayedSigations = try cleanupIfThrows{ try SigactionDelayer_Unsig.registerDelayedSigactions(signalsToProcess, handler: { (signal, handler) in
 			XcodeToolsConfig.logger?.debug("Handler action in ProcessInvocation", metadata: ["signal": "\(signal)"])
 			guard p.isRunning else {
+				XcodeToolsConfig.logger?.trace("Process is not running; forwarding signal directly.", metadata: ["signal": "\(signal)"])
 				handler(true)
 				return
 			}
 			
-			let pgid = getpgid(p.processIdentifier)
-			if (killpg(pgid, signal.rawValue) == 0) {
-				/* If we succeeded in forwarding the signal we wait for the subprocess to quit. */
-				#warning("TODO: Add an option to control this behavior.")
-				p.waitUntilExit()
-				handler(true)
+			let handling = signalHandling(signal)
+			
+			let signalForChildSucceeded: Bool
+			if let signalForChild = handling.signalForChild {
+				if handling.sendToProcessGroupOfChild {
+					let pgid = getpgid(p.processIdentifier)
+					signalForChildSucceeded = (killpg(pgid, signal.rawValue) == 0)
+				} else {
+					signalForChildSucceeded = (kill(p.processIdentifier, signal.rawValue) == 0)
+				}
 			} else {
-				XcodeToolsConfig.logger?.notice("Failed forwarding signal to subprocess pgid.", metadata: ["errno": "\(errno)", "errmsg": "\(Errno(rawValue: errno).localizedDescription)"])
-				handler(false)
+				signalForChildSucceeded = true
 			}
+			
+			guard signalForChildSucceeded else {
+				XcodeToolsConfig.logger?.debug("Failed sending signal to children; ignoring signal.", metadata: ["signal": "\(signal)"])
+				return handler(false)
+			}
+			
+			if handling.waitForChildDeathBeforeSendingToParent {
+				p.waitUntilExit()
+			}
+			
+			handler(handling.allowOnParent)
 		}) }
 		let signalCleanupHandler = {
 			let errors = SigactionDelayer_Unsig.unregisterDelayedSigactions(Set(delayedSigations.values))
