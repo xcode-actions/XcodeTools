@@ -49,7 +49,7 @@ final class ProcessTests : XCTestCase {
 			
 			let expectedEnvValue = UUID().uuidString
 			
-			let (outputs, exitCode, exitReason) = try await ProcessInvocation(checkCwdAndEnvPath, "XCT_PROCESS_TEST_VALUE", workingDirectory: workingDirectory, environment:  ["XCT_PROCESS_TEST_VALUE": expectedEnvValue], signalsToForward: [])
+			let (outputs, exitCode, exitReason) = try await ProcessInvocation(checkCwdAndEnvPath, "XCT_PROCESS_TEST_VALUE", workingDirectory: workingDirectory, environment:  ["XCT_PROCESS_TEST_VALUE": expectedEnvValue], signalsToProcess: [])
 				.invokeAndGetOutput(checkValidTerminations: false)
 			XCTAssertEqual(exitCode, 0)
 			XCTAssertEqual(exitReason, .exit)
@@ -74,7 +74,7 @@ final class ProcessTests : XCTestCase {
 				let fileContents = try String(contentsOf: filePath.url)
 				
 				let fd = try FileDescriptor.open(filePath, .readOnly)
-				let (outputs, exitStatus, exitReason) = try await ProcessInvocation("/bin/cat", stdin: fd, signalsToForward: []).invokeAndGetOutput(checkValidTerminations: false)
+				let (outputs, exitStatus, exitReason) = try await ProcessInvocation("/bin/cat", stdin: fd, signalsToProcess: []).invokeAndGetOutput(checkValidTerminations: false)
 				try fd.close()
 				
 				XCTAssertEqual(exitStatus, 0)
@@ -106,7 +106,7 @@ final class ProcessTests : XCTestCase {
 			var fdSwitchCount = 0
 			var previousFd: FileDescriptor?
 			var linesByFd = [RawLineWithSource]()
-			let (terminationStatus, terminationReason) = try await ProcessInvocation(scriptURL, "\(n)", "\(t)", signalsToForward: [])
+			let (terminationStatus, terminationReason) = try await ProcessInvocation(scriptURL, "\(n)", "\(t)", signalsToProcess: [])
 				.invokeAndStreamOutput(checkValidTerminations: false, outputHandler: { rawLine, _, _ in
 					if previousFd != rawLine.fd {
 						fdSwitchCount += 1
@@ -137,7 +137,7 @@ final class ProcessTests : XCTestCase {
 	
 	func testProcessTerminationHandler() throws {
 		var wentIn = false
-		let (_, g) = try ProcessInvocation("/bin/cat", signalsToForward: []).invoke(outputHandler: { _,_,_ in }, terminationHandler: { p in
+		let (_, g) = try ProcessInvocation("/bin/cat", signalsToProcess: []).invoke(outputHandler: { _,_,_ in }, terminationHandler: { p in
 			wentIn = true
 		})
 		
@@ -162,7 +162,7 @@ final class ProcessTests : XCTestCase {
 			let pi = ProcessInvocation(
 				scriptURL, "\(n)", "\(fdWrite.rawValue)",
 				stdoutRedirect: .toNull, stderrRedirect: .toNull,
-				signalsToForward: [],
+				signalsToProcess: [],
 				fileDescriptorsToSend: [fdWrite: fdWrite], additionalOutputFileDescriptors: [fdRead]
 			)
 			let (p, g) = try pi.invoke{ lineResult, _, _ in
@@ -220,7 +220,7 @@ final class ProcessTests : XCTestCase {
 			}
 			for i in 0..<5000 {
 				NSLog("%@", "***** NEW RUN: \(i+1) *****")
-				let outputs = try await ProcessInvocation("/bin/sh", "-c", "echo hello", signalsToForward: [])
+				let outputs = try await ProcessInvocation("/bin/sh", "-c", "echo hello", signalsToProcess: [])
 					.invokeAndGetOutput(encoding: .utf8)
 				XCTAssertFalse(outputs.contains(where: { $0.fd != .standardOutput }))
 				XCTAssertEqual(outputs.reduce("", { $0 + $1.line + $1.eol }), "hello\n")
@@ -248,7 +248,7 @@ final class ProcessTests : XCTestCase {
 			fds.remove(randomFd)
 		}
 		
-		let pi = ProcessInvocation("/bin/sh", "-c", "echo hello", signalsToForward: [])
+		let pi = ProcessInvocation("/bin/sh", "-c", "echo hello", signalsToProcess: [])
 		
 		/* Now we try and use Process */
 		await tempAsyncAssertThrowsError(try await pi.invokeAndGetOutput(encoding: .utf8))
@@ -290,23 +290,23 @@ final class ProcessTests : XCTestCase {
 			let currentWD = FileManager.default.currentDirectoryPath
 			defer {FileManager.default.changeCurrentDirectoryPath(currentWD)}
 			
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(nonexistentScriptPath, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: nil, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: .some(nil), signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [""], signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: true, customPATH: [Self.scriptsPath], signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [Self.scriptsPath], signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(nonexistentScriptPath, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: nil, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: .some(nil), signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [""], signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: true, customPATH: [Self.scriptsPath], signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [Self.scriptsPath], signalsToProcess: []).invokeAndGetRawOutput())
 			
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(spyScriptPath, usePATH: false,                                                 signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(spyScriptPath, usePATH: true,  customPATH: [Self.filesPath],                   signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(spyScriptPath,     usePATH: true,  customPATH: [Self.scriptsPath],                 signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(spyScriptPath,     usePATH: true,  customPATH: [Self.scriptsPath, Self.filesPath], signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(spyScriptPath, usePATH: false,                                                 signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(spyScriptPath, usePATH: true,  customPATH: [Self.filesPath],                   signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(spyScriptPath,     usePATH: true,  customPATH: [Self.scriptsPath],                 signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(spyScriptPath,     usePATH: true,  customPATH: [Self.scriptsPath, Self.filesPath], signalsToProcess: []).invokeAndGetRawOutput())
 #if os(Linux)
 			/* On Linux, the error when trying to execute a non-executable file is correct (no permission), and so we don’t try next path available. */
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(spyScriptPath, usePATH: true,  customPATH: [Self.filesPath, Self.scriptsPath], signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(spyScriptPath, usePATH: true,  customPATH: [Self.filesPath, Self.scriptsPath], signalsToProcess: []).invokeAndGetRawOutput())
 #else
 			/* On macOS the error is file not found, even if the actual problem is a permission thing. */
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(spyScriptPath,     usePATH: true,  customPATH: [Self.filesPath, Self.scriptsPath], signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(spyScriptPath,     usePATH: true,  customPATH: [Self.filesPath, Self.scriptsPath], signalsToProcess: []).invokeAndGetRawOutput())
 #endif
 			
 			
@@ -315,7 +315,7 @@ final class ProcessTests : XCTestCase {
 			do {
 				let envBefore = EnvAndCwd()
 				let fd = try FileDescriptor.open("/dev/null", .readOnly)
-				let output = try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [Self.scriptsPath], stdoutRedirect: .capture, stderrRedirect: .toNull, signalsToForward: [], fileDescriptorsToSend: [fd: fd], lineSeparators: .none)
+				let output = try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [Self.scriptsPath], stdoutRedirect: .capture, stderrRedirect: .toNull, signalsToProcess: [], fileDescriptorsToSend: [fd: fd], lineSeparators: .none)
 					.invokeAndGetRawOutput()
 				let data = try XCTUnwrap(output.onlyElement)
 				XCTAssert(data.eol.isEmpty)
@@ -337,22 +337,22 @@ final class ProcessTests : XCTestCase {
 			let newPath = path + (path.isEmpty ? "" : ":") + Self.scriptsPath.string
 			setenv("PATH", newPath, 1)
 			
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(nonexistentScriptPath, usePATH: true, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: .some(nil), signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [""], signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: true, customPATH: nil, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: false, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: nil, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(nonexistentScriptPath, usePATH: true, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: .some(nil), signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [""], signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: true, customPATH: nil, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: false, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: nil, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, signalsToProcess: []).invokeAndGetRawOutput())
 			
 			FileManager.default.changeCurrentDirectoryPath(Self.scriptsPath.string)
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [""], signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: true, customPATH: nil, signalsToForward: []).invokeAndGetRawOutput())
-			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: false, signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPath, usePATH: true, customPATH: [""], signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: true, customPATH: nil, signalsToProcess: []).invokeAndGetRawOutput())
+			await tempAsyncAssertNoThrow(try await ProcessInvocation(checkCwdAndEnvPathInCwd, usePATH: false, signalsToProcess: []).invokeAndGetRawOutput())
 			/* Sadly the error we get is a file not found on macOS.
 			 * On Linux, the error makes sense. */
 			FileManager.default.changeCurrentDirectoryPath(Self.filesPath.string)
-			await tempAsyncAssertThrowsError(try await ProcessInvocation(notExecutablePathInCwd, usePATH: false, signalsToForward: []).invokeAndGetRawOutput())
+			await tempAsyncAssertThrowsError(try await ProcessInvocation(notExecutablePathInCwd, usePATH: false, signalsToProcess: []).invokeAndGetRawOutput())
 			
 			/* LINUXASYNC START --------- */
 			group.leave()
