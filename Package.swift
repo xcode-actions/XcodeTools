@@ -8,18 +8,6 @@ let swiftSettings: [SwiftSetting] = []
 //let swiftSettings: [SwiftSetting] = [.unsafeFlags(["-Xfrontend", "-warn-concurrency", "-Xfrontend", "-enable-actor-data-race-checks"])]
 
 
-/* Detect if we need the eXtenderZ.
- * If we do (on Apple platforms where the non-public Foundation implementation is used), the eXtenderZ should be able to be imported.
- * See Process+Utils for reason why we use the eXtenderZ. */
-let needseXtenderZ = (NSStringFromClass(Process().classForCoder) != "NSTask")
-/* Do we need the _GNU_SOURCE exports? This allows using execvpe on Linux. */
-#if !os(Linux)
-let needsGNUSourceExports = false
-#else
-let needsGNUSourceExports = true
-#endif
-
-
 let package = Package(
 	name: "XcodeTools",
 	platforms: [.macOS(.v12)],
@@ -63,21 +51,19 @@ let package = Package(
 	}(),
 	dependencies: {
 		var res = [Package.Dependency]()
-		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",         from: "1.2.2"))
-		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                  "1.0.0"..<"4.0.0"))
-		res.append(.package(url: "https://github.com/apple/swift-log.git",                     from: "1.5.2"))
-		res.append(.package(url: "https://github.com/Frizlab/swift-package-manager.git",       revision: "swift-5.9.1-RELEASE+assert_workaround")) /* Apple does not semver SPM for whatever reason. We cannot use official swift-5.9.1-RELEASE because there’s a bug in it. */
-		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",               from: "1.0.1-rc"))
-		res.append(.package(url: "https://github.com/happn-app/XibLoc.git",                    from: "1.2.5"))
-		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",            from: "0.5.1"))
-		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",         from: "3.5.0"))
-		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git", from: "1.1.0"))
+		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",            from: "1.2.2"))
+		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                     "1.0.0"..<"4.0.0"))
+		res.append(.package(url: "https://github.com/apple/swift-log.git",                        from: "1.5.2"))
+		res.append(.package(url: "https://github.com/Frizlab/swift-package-manager.git",          revision: "swift-5.9.1-RELEASE+assert_workaround")) /* Apple does not semver SPM for whatever reason. We cannot use official swift-5.9.1-RELEASE because there’s a bug in it. */
+		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",                  from: "1.0.1-rc"))
+		res.append(.package(url: "https://github.com/Frizlab/XibLoc.git",                         from: "1.3.0"))
+		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",               from: "0.5.1"))
+		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",            from: "3.5.0"))
+		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.0.0-beta"))
+		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git",    from: "1.1.0"))
 #if !canImport(System)
-		res.append(.package(url: "https://github.com/apple/swift-system.git",                  from: "1.0.0"))
+		res.append(.package(url: "https://github.com/apple/swift-system.git",                     from: "1.0.0"))
 #endif
-		if needseXtenderZ {
-			res.append(.package(url: "https://github.com/xcode-actions/eXtenderZ.git",          from: "1.0.7"))
-		}
 		return res
 	}(),
 	targets: {
@@ -95,10 +81,6 @@ let package = Package(
 #if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
 #endif
-			res.append(.target(name: "CMacroExports"))
-			if needsGNUSourceExports {
-				res.append(.target(name: "CGNUSourceExports"))
-			}
 			
 			/* Not _actual_ dependencies, but it is easier to have these recompiled when modified and current scheme is xct.
 			 * This is the theory, but it does not work (Xcode 12.5).
@@ -111,12 +93,13 @@ let package = Package(
 #if canImport(CoreData)
 		res.append(.executableTarget(name: "xct-build", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
-			res.append(.product(name: "CLTLogger",      package: "clt-logger"))
-			res.append(.product(name: "Logging",        package: "swift-log"))
-			res.append(.product(name: "StreamReader",   package: "stream-reader"))
+			res.append(.product(name: "ArgumentParser",    package: "swift-argument-parser"))
+			res.append(.product(name: "CLTLogger",         package: "clt-logger"))
+			res.append(.product(name: "Logging",           package: "swift-log"))
+			res.append(.product(name: "ProcessInvocation", package: "swift-process-invocation"))
+			res.append(.product(name: "StreamReader",      package: "stream-reader"))
 #if !canImport(System)
-			res.append(.product(name: "SystemPackage",  package: "swift-system"))
+			res.append(.product(name: "SystemPackage",     xpackage: "swift-system"))
 #endif
 			res.append(.target(name: "XcodeJsonOutput"))
 			res.append(.target(name: "XcodeTools"))
@@ -174,20 +157,9 @@ let package = Package(
 #if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
 #endif
-			res.append(.target(name: "CMacroExports"))
 			res.append(.target(name: "SPMProj"))
 			res.append(.target(name: "Utils"))
 			res.append(.target(name: "XcodeProj"))
-			if needseXtenderZ {
-				res.append(.product(name: "eXtenderZ-static", package: "eXtenderZ"))
-				res.append(.target(name: "CNSTaskHelptender"))
-			}
-			if needsGNUSourceExports {
-				res.append(.target(name: "CGNUSourceExports"))
-			}
-			/* XcodeTools depends (indirectly) on xct to launch processes with additional file descriptors.
-			 * To avoid a cyclic dependency, we do not add it in the deps. */
-//			res.append(.target(name: "xct"))
 			return res
 		}(), swiftSettings: swiftSettings))
 		res.append(.testTarget(name: "XcodeToolsTests", dependencies: {
@@ -212,15 +184,16 @@ let package = Package(
 #if canImport(CoreData)
 		res.append(.target(name: "SourceBuilder", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "Crypto",         package: "swift-crypto"))
-			res.append(.product(name: "Logging",        package: "swift-log"))
-			res.append(.product(name: "SignalHandling", package: "swift-signal-handling"))
-			res.append(.product(name: "StreamReader",   package: "stream-reader"))
-			res.append(.product(name: "XibLoc",         package: "XibLoc"))
+			res.append(.product(name: "Crypto",            package: "swift-crypto"))
+			res.append(.product(name: "Logging",           package: "swift-log"))
+			res.append(.product(name: "ProcessInvocation", package: "swift-process-invocation"))
+			res.append(.product(name: "SignalHandling",    package: "swift-signal-handling"))
+			res.append(.product(name: "StreamReader",      package: "stream-reader"))
+			res.append(.product(name: "XibLoc",            package: "XibLoc"))
 			res.append(.target(name: "Utils"))
 			res.append(.target(name: "XcodeTools"))
 #if !canImport(System)
-			res.append(.product(name: "SystemPackage",  package: "swift-system"))
+			res.append(.product(name: "SystemPackage",     package: "swift-system"))
 #endif
 			return res
 		}(), swiftSettings: swiftSettings))
@@ -291,14 +264,6 @@ let package = Package(
 #endif
 			return res
 		}(), swiftSettings: swiftSettings))
-		/* Some complex macros exported as functions to be used in Swift. */
-		res.append(.target(name: "CMacroExports", swiftSettings: swiftSettings))
-		if needseXtenderZ {
-			res.append(.target(name: "CNSTaskHelptender", dependencies: [.product(name: "eXtenderZ-static", package: "eXtenderZ")], swiftSettings: swiftSettings))
-		}
-		if needsGNUSourceExports {
-			res.append(.target(name: "CGNUSourceExports", swiftSettings: swiftSettings))
-		}
 		/* A common init system for all tests. */
 		res.append(.target(name: "CommonForTests", dependencies: {
 			var res = [Target.Dependency]()

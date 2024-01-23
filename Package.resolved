@@ -110,6 +110,15 @@
         }
       },
       {
+        "package": "swift-process-invocation",
+        "repositoryURL": "https://github.com/xcode-actions/swift-process-invocation.git",
+        "state": {
+          "branch": null,
+          "revision": "a5ade8f68f57883e2cff9eeb34ebfccb73092037",
+          "version": "1.0.0-beta.1"
+        }
+      },
+      {
         "package": "swift-signal-handling",
         "repositoryURL": "https://github.com/xcode-actions/swift-signal-handling.git",
         "state": {
@@ -147,7 +156,7 @@
       },
       {
         "package": "XibLoc",
-        "repositoryURL": "https://github.com/happn-app/XibLoc.git",
+        "repositoryURL": "https://github.com/Frizlab/XibLoc.git",
         "state": {
           "branch": null,
           "revision": "575dfaef781b378e84be0144bae4a4ccb9f45a5e",

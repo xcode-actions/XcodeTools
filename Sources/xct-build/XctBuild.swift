@@ -10,6 +10,7 @@ import CLTLogger
 import Logging
 import StreamReader
 
+import ProcessInvocation
 import XcodeJsonOutput
 import XcodeTools
 

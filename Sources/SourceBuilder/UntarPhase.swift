@@ -5,6 +5,7 @@ import System
 import SystemPackage
 #endif
 
+import ProcessInvocation
 import SignalHandling
 import Utils
 import XcodeTools
