@@ -109,12 +109,69 @@ struct GenAssetsConstants : ParsableCommand {
 				_ = try? FileManager.default.removeItem(at: dest)
 			} else {
 				var generatedFile = """
+					/* ********************************************************
+					   ***** AUTO-GENERATED FILE; DO NOT MODIFY MANUALLY! *****
+					   ******************************************************** */
+					
 					import Foundation
+					
+					
+					#if canImport(SwiftUI)
+					import SwiftUI
+					
+					internal enum \(!isParent ? "Colors" : "ParentColors") {
+						
+					"""
+				for (swiftColorName, colorName) in colors.sorted(by: { $0.key < $1.key }) {
+					var openQuote = "\""
+					var closeQuote = "\""
+					while colorName.contains(openQuote) || colorName.contains(closeQuote) {
+						openQuote = "#" + openQuote
+						closeQuote = closeQuote + "#"
+					}
+					generatedFile += #"""
+						
+							@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *) internal static let \#(swiftColorName) = Color(\#(openQuote)\#(colorName)\#(closeQuote)\#((!isSPMTarget || isParent) ? "" : ", bundle: .module"))
+						"""#
+				}
+				generatedFile += """
+					
+						
+					}
+					
+					#endif
+					
+					
+					#if canImport(AppKit)
+					import AppKit
+					
+					internal enum \(!isParent ? "NSColors" : "ParentNSColors") {
+						
+					"""
+				for (swiftColorName, colorName) in colors.sorted(by: { $0.key < $1.key }) {
+					var openQuote = "\""
+					var closeQuote = "\""
+					while colorName.contains(openQuote) || colorName.contains(closeQuote) {
+						openQuote = "#" + openQuote
+						closeQuote = closeQuote + "#"
+					}
+					generatedFile += #"""
+						
+							internal static let \#(swiftColorName) = NSColor(named: \#(openQuote)\#(colorName)\#(closeQuote)\#((!isSPMTarget || isParent) ? "" : ", bundle: .module"))!
+						"""#
+				}
+				generatedFile += """
+					
+						
+					}
+					
+					#endif
+					
+					
+					#if canImport(UIKit)
 					import UIKit
 					
-					
-					
-					internal struct \(!isParent ? "XctAssetsConstants" : "XctParentAssetsConstants") {
+					internal enum \(!isParent ? "UIColors" : "ParentUIColors") {
 						
 					"""
 				for (swiftColorName, colorName) in colors.sorted(by: { $0.key < $1.key }) {
@@ -133,6 +190,8 @@ struct GenAssetsConstants : ParsableCommand {
 					
 						
 					}
+					
+					#endif
 					
 					"""
 				try FileManager.default.createDirectory(at: dest.deletingLastPathComponent(), withIntermediateDirectories: true, attributes: nil)
