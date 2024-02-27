@@ -240,7 +240,7 @@ let package = Package(
 			.process("PBXModel.xcdatamodeld") // Dot not delete this token (for compilation sans sandbox): __COREDATA_TOKEN_XcodeProj_PBXModel
 		], swiftSettings: swiftSettings))
 		/* *** */
-		res.append(.testTarget(name: "XcodeProjTests", dependencies: [.target(name: "XcodeProj"), .target(name: "CommonForTests")], swiftSettings: swiftSettings))
+		res.append(.testTarget(name: "XcodeProjTests", dependencies: [.target(name: "XcodeProj"), .product(name: "ProcessInvocation", package: "swift-process-invocation"), .target(name: "CommonForTests")], swiftSettings: swiftSettings))
 #endif
 		
 		/* *********************** */
