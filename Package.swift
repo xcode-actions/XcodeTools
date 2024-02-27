@@ -55,11 +55,11 @@ let package = Package(
 		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                     "1.0.0"..<"4.0.0"))
 		res.append(.package(url: "https://github.com/apple/swift-log.git",                        from: "1.5.2"))
 		res.append(.package(url: "https://github.com/Frizlab/swift-package-manager.git",          revision: "swift-5.9.1-RELEASE+assert_workaround")) /* Apple does not semver SPM for whatever reason. We cannot use official swift-5.9.1-RELEASE because there’s a bug in it. */
-		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",                  from: "1.0.1-rc"))
+		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",                  from: "1.0.1"))
 		res.append(.package(url: "https://github.com/Frizlab/XibLoc.git",                         from: "1.3.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",               from: "0.5.1"))
 		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",            from: "3.5.0"))
-		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.0.0-beta"))
+		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.0.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git",    from: "1.1.0"))
 #if !canImport(System)
 		res.append(.package(url: "https://github.com/apple/swift-system.git",                     from: "1.0.0"))

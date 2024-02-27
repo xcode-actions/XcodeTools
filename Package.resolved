@@ -114,8 +114,8 @@
         "repositoryURL": "https://github.com/xcode-actions/swift-process-invocation.git",
         "state": {
           "branch": null,
-          "revision": "a5ade8f68f57883e2cff9eeb34ebfccb73092037",
-          "version": "1.0.0-beta.1"
+          "revision": "5b74d422f99ad2bc6a16e075d1653712a59dfd6e",
+          "version": "1.0.0"
         }
       },
       {
@@ -151,7 +151,7 @@
         "state": {
           "branch": null,
           "revision": "085ea7b599b0db956541b7189a57b0c98f15337f",
-          "version": "1.0.1-rc.1"
+          "version": "1.0.1"
         }
       },
       {
