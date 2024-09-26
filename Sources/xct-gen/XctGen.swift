@@ -1,13 +1,14 @@
 import Foundation
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 
 
 
 @main
 struct XctGen : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Generate files for Xcode projects",
 		discussion: "This tool can generate useful code for your Xcode projects (e.g. autogenerate constants for your assets).",
 		subcommands: [

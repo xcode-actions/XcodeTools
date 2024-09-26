@@ -4,7 +4,7 @@ import Foundation
 
 struct LogMessageEmittedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "LogMessageEmittedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "LogMessageEmittedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var message: ActivityLogMessage
 	var resultInfo: StreamedActionResultInfo

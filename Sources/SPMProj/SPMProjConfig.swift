@@ -1,14 +1,26 @@
 import Foundation
 
+import GlobalConfModule
 import Logging
 
 
 
-/** A container to hold the properties that can modify the behaviour of the module. */
-public enum SPMProjConfig {
+public extension ConfKeys {
+	/* URLRequestOperation conf namespace declaration. */
+	struct SPMProj {}
+	var spmProj: SPMProj {SPMProj()}
+}
+
+
+extension ConfKeys.SPMProj {
 	
-	public static var logger: Logger? = .init(label: "com.xcode-actions.XcodeProj")
+	#declareConfKey("logger", Logging.Logger?.self, defaultValue: .init(label: "com.xcode-actions.SPMProj"))
 	
 }
 
-typealias Conf = SPMProjConfig
+
+extension Conf {
+	
+	#declareConfAccessor(\.spmProj.logger, Logging.Logger?.self)
+	
+}

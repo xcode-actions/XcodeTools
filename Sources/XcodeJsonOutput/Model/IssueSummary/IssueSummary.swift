@@ -4,7 +4,7 @@ import Foundation
 
 struct IssueSummary : _AnyIssueSummary {
 	
-	static var type: ObjectType = .init(name: "IssueSummary")
+	static let type: ObjectType = .init(name: "IssueSummary")
 	
 	var issueType: String
 	var message: String

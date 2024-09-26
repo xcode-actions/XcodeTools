@@ -1,6 +1,7 @@
 import Foundation
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import CLTLogger
 import Logging
 
@@ -9,7 +10,7 @@ import Logging
 @main
 struct XctPbxproj : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Interact with pbxproj files",
 		discussion: "This tool contains a few utilities to interact with pbxproj files.",
 		subcommands: [
@@ -22,7 +23,7 @@ struct XctPbxproj : ParsableCommand {
 		LoggingSystem.bootstrap{ _ in CLTLogger() }
 	}
 	
-	static var logger: Logger = {
+	static let logger: Logger = {
 		var ret = Logger(label: "main")
 		ret.logLevel = .debug
 		return ret

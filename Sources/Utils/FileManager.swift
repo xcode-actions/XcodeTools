@@ -62,8 +62,8 @@ public extension FileManager {
 		
 		for nextObject in enumerator {
 			guard let url = nextObject as? URL, let path = FilePath(url) else {
-				struct EnumeratorReturnedInvalidObject : Error {var enumeratedPath: FilePath; var returnedObject: Any}
-				throw EnumeratorReturnedInvalidObject(enumeratedPath: folder, returnedObject: nextObject)
+				struct EnumeratorReturnedInvalidObject : Error {var enumeratedPath: FilePath}
+				throw EnumeratorReturnedInvalidObject(enumeratedPath: folder)
 			}
 			let fullPath = folder.pushing(path).lexicallyNormalized()
 			var relativePath = fullPath

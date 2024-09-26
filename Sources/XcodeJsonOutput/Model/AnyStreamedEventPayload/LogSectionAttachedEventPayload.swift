@@ -4,7 +4,7 @@ import Foundation
 
 struct LogSectionAttachedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "LogSectionAttachedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "LogSectionAttachedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var childSectionIndex: Int
 	var parentSectionIndex: Int?

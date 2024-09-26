@@ -12,9 +12,9 @@ extension Date : _Object {
 		
 		guard
 			let valueStr = dictionary.removeValue(forKey: "_value") as? String,
-			let value = Self.parser.date(from: valueStr)
+			let value = try? Date(valueStr, strategy: Self.dateStyle)
 		else {
-			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "Date", value: originalDictionary["_value"] as Any?)
+			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "Date"/*, value: originalDictionary["_value"] as Any?*/)
 		}
 		
 		self = value
@@ -22,12 +22,6 @@ extension Date : _Object {
 		Self.logUnknownKeys(from: dictionary)
 	}
 	
-	private static var parser: ISO8601DateFormatter = {
-		let ret = ISO8601DateFormatter()
-		ret.formatOptions = .withInternetDateTime
-		ret.formatOptions.formUnion(.withFractionalSeconds)
-		ret.formatOptions.subtract(.withColonSeparatorInTimeZone)
-		return ret
-	}()
+	private static let dateStyle = Date.ISO8601FormatStyle.iso8601
 	
 }

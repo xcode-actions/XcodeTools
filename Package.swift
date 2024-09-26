@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:6.0
 import PackageDescription
 
 import Foundation
@@ -10,7 +10,7 @@ let swiftSettings: [SwiftSetting] = []
 
 let package = Package(
 	name: "XcodeTools",
-	platforms: [.macOS(.v12)],
+	platforms: [.macOS(.v13)],
 	products: {
 		var res = [Product]()
 		
@@ -19,14 +19,14 @@ let package = Package(
 		/* ******************* */
 		
 		/* A launcher for xcode tools binaries (xct-*). */
-		res.append(.executable(name: "xct", targets: ["xct"]))
+		res.append(.executable(name: "xct",          targets: ["xct"]))
 #if canImport(CoreData)
-		res.append(.executable(name: "xct-build", targets: ["xct-build"]))
-		res.append(.executable(name: "xct-gen", targets: ["xct-gen"]))
-		res.append(.executable(name: "xct-pbxproj", targets: ["xct-pbxproj"]))
+		res.append(.executable(name: "xct-build",    targets: ["xct-build"]))
+		res.append(.executable(name: "xct-gen",      targets: ["xct-gen"]))
+		res.append(.executable(name: "xct-pbxproj",  targets: ["xct-pbxproj"]))
 		res.append(.executable(name: "xct-versions", targets: ["xct-versions"]))
 		/* Obsolete; kept for backwards-compatibility. Will be removed. */
-		res.append(.executable(name: "hagvtool", targets: ["hagvtool"]))
+		res.append(.executable(name: "hagvtool",     targets: ["hagvtool"]))
 #endif
 		
 		/* ****************** */
@@ -51,15 +51,17 @@ let package = Package(
 	}(),
 	dependencies: {
 		var res = [Package.Dependency]()
-		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",            from: "1.2.2"))
+		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",            from: "1.2.3"))
 		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                     "1.0.0"..<"4.0.0"))
 		res.append(.package(url: "https://github.com/apple/swift-log.git",                        from: "1.5.2"))
-		res.append(.package(url: "https://github.com/Frizlab/swift-package-manager.git",          revision: "swift-5.9.1-RELEASE+assert_workaround")) /* Apple does not semver SPM for whatever reason. We cannot use official swift-5.9.1-RELEASE because there’s a bug in it. */
+		res.append(.package(url: "https://github.com/apple/swift-package-manager.git",            revision: "swift-6.0.1-RELEASE")) /* Apple does not semver SPM for some reason. */
+		res.append(.package(url: "https://github.com/Frizlab/GlobalConfModule.git",               from: "0.4.0"))
+		res.append(.package(url: "https://github.com/Frizlab/SafeGlobal.git",                     from: "0.3.0"))
 		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",                  from: "1.0.1"))
 		res.append(.package(url: "https://github.com/Frizlab/XibLoc.git",                         from: "1.3.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",               from: "0.5.1"))
 		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",            from: "3.5.0"))
-		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.0.0"))
+		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.2.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git",    from: "1.1.0"))
 #if !canImport(System)
 		res.append(.package(url: "https://github.com/apple/swift-system.git",                     from: "1.0.0"))
@@ -97,6 +99,7 @@ let package = Package(
 			res.append(.product(name: "CLTLogger",         package: "clt-logger"))
 			res.append(.product(name: "Logging",           package: "swift-log"))
 			res.append(.product(name: "ProcessInvocation", package: "swift-process-invocation"))
+			res.append(.product(name: "SafeGlobal",        package: "SafeGlobal"))
 			res.append(.product(name: "StreamReader",      package: "stream-reader"))
 #if !canImport(System)
 			res.append(.product(name: "SystemPackage",     xpackage: "swift-system"))
@@ -165,11 +168,12 @@ let package = Package(
 		res.append(.testTarget(name: "XcodeToolsTests", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.target(name: "XcodeTools")) /* <- Tested package */
-			res.append(.product(name: "CLTLogger",     package: "clt-logger"))
-			res.append(.product(name: "Logging",       package: "swift-log"))
-			res.append(.product(name: "StreamReader",  package: "stream-reader"))
+			res.append(.product(name: "CLTLogger",        package: "clt-logger"))
+			res.append(.product(name: "GlobalConfModule", package: "GlobalConfModule"))
+			res.append(.product(name: "Logging",          package: "swift-log"))
+			res.append(.product(name: "StreamReader",     package: "stream-reader"))
 #if !canImport(System)
-			res.append(.product(name: "SystemPackage",  package: "swift-system"))
+			res.append(.product(name: "SystemPackage",    package: "swift-system"))
 #endif
 			res.append(.target(name: "CommonForTests"))
 			res.append(.target(name: "Utils"))
@@ -185,6 +189,7 @@ let package = Package(
 		res.append(.target(name: "SourceBuilder", dependencies: {
 			var res = [Target.Dependency]()
 			res.append(.product(name: "Crypto",            package: "swift-crypto"))
+			res.append(.product(name: "GlobalConfModule",  package: "GlobalConfModule"))
 			res.append(.product(name: "Logging",           package: "swift-log"))
 			res.append(.product(name: "ProcessInvocation", package: "swift-process-invocation"))
 			res.append(.product(name: "SignalHandling",    package: "swift-signal-handling"))
@@ -217,7 +222,8 @@ let package = Package(
 		/* *************** */
 		res.append(.target(name: "SPMProj", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "Logging", package: "swift-log"))
+			res.append(.product(name: "Logging",          package: "swift-log"))
+			res.append(.product(name: "GlobalConfModule", package: "GlobalConfModule"))
 			res.append(.product(name: "SwiftPMDataModel", package: "swift-package-manager"))
 			res.append(.target(name: "Utils"))
 			return res
@@ -231,8 +237,10 @@ let package = Package(
 		/* ***************** */
 		res.append(.target(name: "XcodeProj", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "Logging",       package: "swift-log"))
-			res.append(.product(name: "UnwrapOrThrow", package: "UnwrapOrThrow"))
+			res.append(.product(name: "GlobalConfModule", package: "GlobalConfModule"))
+			res.append(.product(name: "Logging",          package: "swift-log"))
+			res.append(.product(name: "SafeGlobal",       package: "SafeGlobal"))
+			res.append(.product(name: "UnwrapOrThrow",    package: "UnwrapOrThrow"))
 			res.append(.target(name: "SPMProj"))
 			res.append(.target(name: "Utils"))
 			return res
@@ -248,8 +256,9 @@ let package = Package(
 		/* *********************** */
 		res.append(.target(name: "XcodeJsonOutput", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "CLTLogger", package: "clt-logger")) /* For the SGRs */
-			res.append(.product(name: "Logging",   package: "swift-log"))
+			res.append(.product(name: "CLTLogger",        package: "clt-logger")) /* For the SGRs */
+			res.append(.product(name: "GlobalConfModule", package: "GlobalConfModule"))
+			res.append(.product(name: "Logging",          package: "swift-log"))
 			res.append(.target(name: "Utils"))
 			return res
 		}(), swiftSettings: swiftSettings))

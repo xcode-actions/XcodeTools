@@ -4,7 +4,7 @@ import Foundation
 
 struct DocumentLocation : _Object {
 	
-	static var type: ObjectType = .init(name: "DocumentLocation")
+	static let type: ObjectType = .init(name: "DocumentLocation")
 	
 	var concreteTypeName: String
 	var url: URL
@@ -17,7 +17,7 @@ struct DocumentLocation : _Object {
 		let urlString: String = try dictionary.getParsedAndRemove("url", originalDictionary)
 		
 		guard let url = URL(string: urlString) else {
-			throw Err.invalidObjectType(parentPropertyName: "url", expectedType: "URL", givenObjectDictionary: ["_value": urlString])
+			throw Err.invalidObjectType(parentPropertyName: "url", expectedType: "URL"/*, givenObjectDictionary: ["_value": urlString]*/)
 		}
 		self.url = url
 		

@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import GlobalConfModule
+
 
 
 /** Represents a parsed `pbxproj` file, which is the main file of an xcodeproj bundle. */
@@ -58,7 +60,7 @@ public struct PBXProj {
 		
 		let classes: [String: Any]? = try rawDecoded.getIfExistsForParse("classes", nil)
 		guard classes?.isEmpty ?? true else {
-			throw Err.unsupportedPBXProj(.classesPropertyIsNotEmpty(classes!))
+			throw Err.unsupportedPBXProj(.classesPropertyIsNotEmpty/*(classes!)*/)
 		}
 		hasClassesProperty = (classes != nil)
 		

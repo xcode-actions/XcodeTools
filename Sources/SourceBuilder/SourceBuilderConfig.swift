@@ -3,37 +3,54 @@ import Foundation
 import FoundationNetworking
 #endif
 
+import GlobalConfModule
 import Logging
 
 
 
-/** A container to hold the properties that can modify the behaviour of the module. */
-public enum SourceBuilderConfig {
+public extension ConfKeys {
+	/* URLRequestOperation conf namespace declaration. */
+	struct SourceBuilder {}
+	var sourceBuilder: SourceBuilder {SourceBuilder()}
+}
+
+
+extension ConfKeys.SourceBuilder {
 	
-	public static func registerBuildPhase(name: String, type: BuildPhase.Type) -> Bool {
+	#declareConfKey("logger",      Logging.Logger?.self, defaultValue: .init(label: "com.xcode-actions.SourceBuilder"))
+	
+	#declareConfKey("fileManager", FileManager    .self, unsafeNonIsolated: true, defaultValue: .default)
+	#declareConfKey("urlSession",  URLSession     .self,                          defaultValue: .shared)
+	
+	#declareConfKey("buildPhases", BuildPhases    .self,                          defaultValue: .init())
+	
+}
+
+
+extension Conf {
+	
+	#declareConfAccessor(\.sourceBuilder.logger, Logging.Logger?.self)
+	
+	/* We cannot use the declareConfAccessor macro for the fileManager as the value is not Sendable. */
+	internal static var fileManager: FileManager {Conf[\.sourceBuilder.fileManager].value}
+	#declareConfAccessor(\.sourceBuilder.urlSession,  URLSession .self)
+	
+	#declareConfAccessor(\.sourceBuilder.buildPhases, BuildPhases.self)
+	
+}
+
+
+public struct BuildPhases : Sendable {
+	
+	public mutating func registerPhase(name: String, type: BuildPhase.Type) -> Bool {
 		guard registeredBuildPhases[name] == nil else {
-			logger?.error("Build phase “\(name)” is already registered. Ignoring new registration.")
+			Conf.logger?.error("Build phase “\(name)” is already registered. Ignoring new registration.")
 			return false
 		}
 		registeredBuildPhases[name] = type
 		return true
 	}
-	private static var registeredBuildPhases: [String: BuildPhase.Type] = [
-		"download-file": DownloadFilePhase.self,
-		"untar": UntarPhase.self
-	]
 	
-	/**
-	 The `FileManager` that will be used in ``SourceBuilder``.
-	 
-	 - Important: This property is not thread-safe. */
-	public static var fm: FileManager = .default
-	
-	@TaskLocal
-	public static var urlSession: URLSession = .shared
-	
-	public static var logger: Logger? = .init(label: "com.xcode-actions.SourceBuilder")
+	private var registeredBuildPhases: [String: BuildPhase.Type] = [:]
 	
 }
-
-typealias Conf = SourceBuilderConfig

@@ -4,7 +4,7 @@ import Foundation
 
 struct CodeCoverageInfo : _Object {
 	
-	static var type: ObjectType = .init(name: "CodeCoverageInfo")
+	static let type: ObjectType = .init(name: "CodeCoverageInfo")
 	
 	init(dictionary: [String : Any?], parentPropertyName: String?) throws {
 		var dictionary = dictionary

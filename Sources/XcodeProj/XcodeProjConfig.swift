@@ -1,20 +1,28 @@
 import Foundation
 
+import GlobalConfModule
 import Logging
 
 
 
-/** A container to hold the properties that can modify the behaviour of the module. */
-public enum XcodeProjConfig {
+public extension ConfKeys {
+	/* URLRequestOperation conf namespace declaration. */
+	struct XcodeProj {}
+	var xcodeProj: XcodeProj {XcodeProj()}
+}
+
+
+extension ConfKeys.XcodeProj {
 	
-	/**
-	 Set to true to allow allocate unknown objects as `PBXObjects`.
-	 
-	 If set to `false`, trying to allocate unknown objects will throw an error. */
-	public static var allowPBXObjectAllocation = false
-	
-	public static var logger: Logger? = .init(label: "com.xcode-actions.XcodeProj")
+	#declareConfKey("logger",                   Logging.Logger?.self, defaultValue: .init(label: "com.xcode-actions.XcodeProj"))
+	#declareConfKey("allowPBXObjectAllocation", Bool          .self, defaultValue: false)
 	
 }
 
-typealias Conf = XcodeProjConfig
+
+extension Conf {
+	
+	#declareConfAccessor(\.xcodeProj.logger,                   Logging.Logger?.self)
+	#declareConfAccessor(\.xcodeProj.allowPBXObjectAllocation, Bool           .self)
+	
+}

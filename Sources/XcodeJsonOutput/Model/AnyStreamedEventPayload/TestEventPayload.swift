@@ -4,7 +4,7 @@ import Foundation
 
 struct TestEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "TestEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "TestEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var identifier: String?
 	var name: String?
@@ -25,8 +25,8 @@ struct TestEventPayload : _AnyStreamedEventPayload {
 		self.testIdentifier = try Parser.parseActionTestSummaryIdentifiableObject(
 			dictionary: dictionary.getAndRemove(
 				"testIdentifier",
-				notFoundError: Err.missingProperty("testIdentifier", objectDictionary: originalDictionary),
-				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "testIdentifier", objectDictionary: originalDictionary)
+				notFoundError: Err.missingProperty("testIdentifier"/*, objectDictionary: originalDictionary*/),
+				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "testIdentifier"/*, objectDictionary: originalDictionary*/)
 			),
 			parentPropertyName: "testIdentifier"
 		)

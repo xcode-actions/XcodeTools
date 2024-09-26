@@ -1,5 +1,7 @@
 import Foundation
 
+import GlobalConfModule
+
 
 
 /**
@@ -13,9 +15,9 @@ import Foundation
  
  - Important:
  No validation is done on the parameters, nor the key, but you can validate whether the resulting object is valid later. */
-public struct BuildSettingKey : Hashable {
+public struct BuildSettingKey : Hashable, Sendable {
 	
-	public struct BuildSettingKeyParam : Hashable {
+	public struct BuildSettingKeyParam : Hashable, Sendable {
 		
 		public var key: String
 		public var value: String

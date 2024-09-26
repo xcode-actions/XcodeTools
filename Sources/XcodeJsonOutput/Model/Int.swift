@@ -14,7 +14,7 @@ extension Int : _Object {
 			let valueStr = dictionary.removeValue(forKey: "_value") as? String,
 			let value = Int(valueStr)
 		else {
-			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "Int", value: originalDictionary["_value"] as Any?)
+			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "Int"/*, value: originalDictionary["_value"] as Any?*/)
 		}
 		
 		self = value

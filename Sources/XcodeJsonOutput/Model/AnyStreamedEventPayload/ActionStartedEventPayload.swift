@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionStartedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "ActionStartedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "ActionStartedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var actionInfo: StreamedActionInfo
 	var head: ActionRecordHead

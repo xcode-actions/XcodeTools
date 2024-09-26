@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import GlobalConfModule
+
 
 
 /* Sadly we cannot implement fillValues in an extension because overriding method in extensions is not supported. */
@@ -219,7 +221,7 @@ public class PBXObject : NSManagedObject {
 				ret += "}"
 				
 			default:
-				throw Err.internalError(.unknownObjectTypeDuringSerialization(object: v))
+				throw Err.internalError(.unknownObjectTypeDuringSerialization/*(object: v)*/)
 		}
 		return ret
 	}

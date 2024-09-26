@@ -8,8 +8,10 @@ import System
 import SystemPackage
 #endif
 
-import Utils
+import GlobalConfModule
 import XibLoc
+
+import Utils
 
 
 
@@ -73,7 +75,7 @@ public struct DownloadFilePhase : BuildPhase {
 	
 	public var canBeSkipped: Bool {
 		get async throws {
-			guard Conf.fm.fileExists(atPath: downloadDestination.string) else {
+			guard Conf.fileManager.fileExists(atPath: downloadDestination.string) else {
 				return false
 			}
 			let hash = try await expectedHash?.hasher.hash(of: downloadDestination)
@@ -101,8 +103,8 @@ public struct DownloadFilePhase : BuildPhase {
 				throw Err.invalidChecksumForDownloadedFile(downloadedURL, expectedHash.value)
 			}
 		}
-		try Conf.fm.ensureFileDeleted(path: downloadDestination)
-		try Conf.fm.moveItem(at: tmpFileURL, to: downloadDestination.url)
+		try Conf.fileManager.ensureFileDeleted(path: downloadDestination)
+		try Conf.fileManager.moveItem(at: tmpFileURL, to: downloadDestination.url)
 		Conf.logger?.info("File downloaded")
 		return [downloadDestination]
 	}

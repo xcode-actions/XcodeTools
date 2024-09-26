@@ -1,5 +1,7 @@
 import Foundation
 
+import GlobalConfModule
+
 import Utils
 
 
@@ -7,7 +9,7 @@ import Utils
 /** Represents a parsed `xcconfig` file. */
 public struct XCConfig {
 	
-	public enum Line {
+	public enum Line : Sendable {
 		
 		case void(String)
 		case include(path: String, isOptional: Bool, prefix: String, postSharp: String, postDirective: String, suffix: String)

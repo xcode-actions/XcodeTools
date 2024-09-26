@@ -16,7 +16,7 @@ public struct TypeDefinition : _Object {
 		self.name      = try dictionary.getParsedAndRemove("name", originalDictionary)
 		self.supertype = try dictionary.getIfExistsAndRemove(
 			"supertype",
-			wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "supertype", objectDictionary: originalDictionary)
+			wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "supertype"/*, objectDictionary: originalDictionary*/)
 		)
 		.flatMap{ try Parser.parse(dictionary: $0, parentPropertyName: "supertype") }
 		

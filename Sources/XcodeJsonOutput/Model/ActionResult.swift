@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionResult : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionResult")
+	static let type: ObjectType = .init(name: "ActionResult")
 	
 	var coverage: CodeCoverageInfo
 	var issues: ResultIssueSummaries

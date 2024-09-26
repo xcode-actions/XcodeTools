@@ -5,7 +5,8 @@ import System
 import SystemPackage
 #endif
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import XcodeTools
 import XibLoc
 
@@ -16,7 +17,7 @@ import CLTLogger
 
 struct GenAssetsConstants : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		commandName: "assets-constants",
 		abstract: "Generates the constants from the xcasset.",
 		discussion: "Generate a Swift file containing constants derived from the xcassets in your project."

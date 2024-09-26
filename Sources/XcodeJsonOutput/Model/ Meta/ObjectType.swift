@@ -2,9 +2,10 @@ import Foundation
 
 
 
-class ObjectType : Equatable, CustomStringConvertible {
+struct ObjectType : Equatable, CustomStringConvertible, Sendable {
 	
 	var name: String
+	@Indirect
 	var supertype: ObjectType?
 	
 	init(name: String, supertype: ObjectType? = nil) {
@@ -12,27 +13,27 @@ class ObjectType : Equatable, CustomStringConvertible {
 		self.supertype = supertype
 	}
 	
-	convenience init(dictionary: [String: Any?]) throws {
+	init(dictionary: [String: Any?]) throws {
 		let typeDic: [String: Any?] = try dictionary.get(
 			"_type",
-			notFoundError: Err.noObjectType(objectDictionary: dictionary),
-			wrongTypeError: Err.malformedObjectType(typeObject: dictionary["_type"]!)
+			notFoundError: Err.noObjectType/*(objectDictionary: dictionary)*/,
+			wrongTypeError: Err.malformedObjectType//(typeObject: dictionary["_type"]!)
 		)
 		try self.init(typeDictionary: typeDic)
 	}
 	
-	convenience init(typeDictionary: [String: Any?]) throws {
-		let name: String = try typeDictionary.get("_name", notFoundError: Err.malformedObjectType(typeObject: typeDictionary), wrongTypeError: Err.malformedObjectType(typeObject: typeDictionary))
+	init(typeDictionary: [String: Any?]) throws {
+		let name: String = try typeDictionary.get("_name", notFoundError: Err.malformedObjectType/*(typeObject: typeDictionary)*/, wrongTypeError: Err.malformedObjectType/*(typeObject: typeDictionary)*/)
 		
 		let supertype: ObjectType?
-		if let supertypeDictionary: [String: Any?] = try typeDictionary.getIfExists("_supertype", wrongTypeError: Err.malformedObjectType(typeObject: typeDictionary)) {
+		if let supertypeDictionary: [String: Any?] = try typeDictionary.getIfExists("_supertype", wrongTypeError: Err.malformedObjectType/*(typeObject: typeDictionary)*/) {
 			guard typeDictionary.count == 2 else {
-				throw Err.malformedObjectType(typeObject: typeDictionary)
+				throw Err.malformedObjectType/*(typeObject: typeDictionary)*/
 			}
 			supertype = try ObjectType(typeDictionary: supertypeDictionary)
 		} else {
 			guard typeDictionary.count == 1 else {
-				throw Err.malformedObjectType(typeObject: typeDictionary)
+				throw Err.malformedObjectType/*(typeObject: typeDictionary)*/
 			}
 			supertype = nil
 		}

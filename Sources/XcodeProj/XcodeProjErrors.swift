@@ -1,4 +1,4 @@
-import CoreData
+@preconcurrency import CoreData
 import Foundation
 
 import SPMProj
@@ -34,7 +34,7 @@ public enum XcodeProjError : Error {
 		case deserializedPlistHasInvalidType
 		
 		case missingProperty(propertyName: String)
-		case unexpectedPropertyValueType(propertyName: String, value: Any)
+		case unexpectedPropertyValueType(propertyName: String/*, value: Any*/)
 		
 		case unknownOrInvalidProjectReference([String: String])
 		
@@ -102,7 +102,7 @@ public enum XcodeProjError : Error {
 		case unknownArchiveVersion(String)
 		case unknownObjectVersion(String)
 		/** Not sure what a non emtpy “classes” property means in a pbxproj, so we throw an error if we get that. */
-		case classesPropertyIsNotEmpty([String: Any])
+		case classesPropertyIsNotEmpty//([String: Any])
 		
 		case unknownRootProperties(Set<String>)
 		
@@ -120,7 +120,7 @@ public enum XcodeProjError : Error {
 		
 		case managedContextHasNoModel
 		case gotMoreThanOneObjectForID(String)
-		case unknownObjectTypeDuringSerialization(object: Any)
+		case unknownObjectTypeDuringSerialization//(object: Any)
 		case tryingToInstantiateNonPBXObjectEntity(isa: String, entity: NSEntityDescription)
 		
 		case unknownFileElementClass(rawISA: String?)

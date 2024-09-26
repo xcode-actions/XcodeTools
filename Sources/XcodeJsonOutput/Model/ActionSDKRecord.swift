@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionSDKRecord : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionSDKRecord")
+	static let type: ObjectType = .init(name: "ActionSDKRecord")
 	
 	var identifier: String
 	var name: String

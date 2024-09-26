@@ -5,9 +5,11 @@ import System
 import SystemPackage
 #endif
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import CLTLogger
 import Logging
+import SafeGlobal
 import StreamReader
 
 import ProcessInvocation
@@ -18,15 +20,16 @@ import XcodeTools
 
 /* Big up to <https://github.com/jjrscott/XcodeBuildResultStream>. */
 @main
-struct XctBuild : ParsableCommand {
+struct XctBuild : AsyncParsableCommand {
 	
 	static let execPathEnvVarName = "XCT_EXEC_PATH"
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Build an Xcode project",
 		discussion: "Hopefully, the options supported by this tool are easier to understand than xcodebuild’s."
 	)
 	
+	@SafeGlobal
 	static var logger: Logger = {
 		var ret = Logger(label: "main")
 		ret.logLevel = .debug
@@ -41,16 +44,8 @@ struct XctBuild : ParsableCommand {
 	@Option
 	var scheme: String
 	
-	func run() throws {
+	func run() async throws {
 		/* While swift-argument-parser does not compile w/ Xcode on async branch. */
-		/* NOASYNCINARGPARSER START --------- */
-		class ErrWrapper {var err: Error?}
-		let errw = ErrWrapper()
-		let group = DispatchGroup()
-		group.enter()
-		Task{do{
-			/* NOASYNCINARGPARSER END --------- */
-			
 		LoggingSystem.bootstrap{ _ in CLTLogger() }
 //		XcodeToolsConfig.logger?.logLevel = .trace
 		XctBuild.logger.logLevel = .trace
@@ -101,13 +96,6 @@ struct XctBuild : ParsableCommand {
 					XctBuild.logger.log(level: level, "xcodebuild output on fd \(lfd.fd.rawValue): \(lineStr)")
 			}
 		}
-			
-			/* NOASYNCINARGPARSER START --------- */
-			group.leave()
-		} catch {errw.err = error; group.leave()}}
-		group.wait()
-		try errw.err?.throw()
-		/* NOASYNCINARGPARSER STOP --------- */
 	}
 	
 }

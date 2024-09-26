@@ -4,7 +4,7 @@ import Foundation
 
 struct ResultMetrics : _Object {
 	
-	static var type: ObjectType = .init(name: "ResultMetrics")
+	static let type: ObjectType = .init(name: "ResultMetrics")
 	
 	var warningCount: Int
 	var errorCount: Int

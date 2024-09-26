@@ -17,8 +17,8 @@ public struct StreamedEvent : _Object {
 		self.structuredPayload = try Parser.parsePayload(
 			dictionary: dictionary.getAndRemove(
 				"structuredPayload",
-				notFoundError: Err.missingProperty("structuredPayload", objectDictionary: originalDictionary),
-				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "structuredPayload", objectDictionary: originalDictionary)
+				notFoundError: Err.missingProperty("structuredPayload"/*, objectDictionary: originalDictionary*/),
+				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "structuredPayload"/*, objectDictionary: originalDictionary*/)
 			),
 			parentPropertyName: "structuredPayload"
 		)

@@ -64,49 +64,34 @@ final class SourceBuilderTests : XCTestCase {
 		/* LINUXASYNC STOP --------- */
 	}
 	
-	func testUntar() throws {
-		/* While swift on Linux does not have proper async support in XCTest, we
-		 * have to put the LINUXASYNC blocks. When Linux is ok, we’ll simply
-		 * remove these blocks and make the test async. */
-		/* LINUXASYNC START --------- */
-		let group = DispatchGroup()
-		group.enter()
-		Task{do{
-			/* LINUXASYNC STOP --------- */
+	func testUntar() async throws {
+		XCTAssertThrowsError(try UntarPhase(unarchivedFile: "/a/b/c"))
+		XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tgz").destinationFolder,     FilePath("/a/b/c"))
+		XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tar.gz").destinationFolder,  FilePath("/a/b/c"))
+		XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tar.bz2").destinationFolder, FilePath("/a/b/c"))
+		XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tar.bob").destinationFolder, FilePath("/a/b/c"))
+		XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.1.bob").destinationFolder,   FilePath("/a/b/c.1"))
+		
+		do {
+			let archiveName = "test-0.1.tar.bz2"
+			let tmpFolder = FilePath(FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString))!
+			let tmpArchivePath = tmpFolder.appending(archiveName)
+			defer {_ = try? FileManager.default.ensureDirectoryDeleted(path: tmpFolder)}
+			try FileManager.default.ensureDirectory(path: tmpFolder)
+			try FileManager.default.copyItem(at: Self.filesPath.appending(archiveName).url, to: tmpArchivePath.url)
 			
-			XCTAssertThrowsError(try UntarPhase(unarchivedFile: "/a/b/c"))
-			XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tgz").destinationFolder,     FilePath("/a/b/c"))
-			XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tar.gz").destinationFolder,  FilePath("/a/b/c"))
-			XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tar.bz2").destinationFolder, FilePath("/a/b/c"))
-			XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.tar.bob").destinationFolder, FilePath("/a/b/c"))
-			XCTAssertEqual(try UntarPhase(unarchivedFile: "/a/b/c.1.bob").destinationFolder,   FilePath("/a/b/c.1"))
-			
-			do {
-				let archiveName = "test-0.1.tar.bz2"
-				let tmpFolder = FilePath(FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString))!
-				let tmpArchivePath = tmpFolder.appending(archiveName)
-				defer {_ = try? FileManager.default.ensureDirectoryDeleted(path: tmpFolder)}
-				try FileManager.default.ensureDirectory(path: tmpFolder)
-				try FileManager.default.copyItem(at: Self.filesPath.appending(archiveName).url, to: tmpArchivePath.url)
-				
-				let tarPhase = try UntarPhase(unarchivedFile: tmpArchivePath, stripComponents: 1, verifyNoLostFilesFromStrip: true)
-				let r1 = try await tarPhase.execute()
-				XCTAssertFalse(r1.isEmpty)
-				for f in r1 {
-					var isDir = ObjCBool(false)
-					let path = try XCTUnwrap(tarPhase.destinationFolder.lexicallyResolving(f))
-					XCTAssert(FileManager.default.fileExists(atPath: path.string, isDirectory: &isDir))
-					XCTAssertFalse(isDir.boolValue)
-				}
-				let r2 = try await tarPhase.execute()
-				XCTAssertEqual(r1, r2)
+			let tarPhase = try UntarPhase(unarchivedFile: tmpArchivePath, stripComponents: 1, verifyNoLostFilesFromStrip: true)
+			let r1 = try await tarPhase.execute()
+			XCTAssertFalse(r1.isEmpty)
+			for f in r1 {
+				var isDir = ObjCBool(false)
+				let path = try XCTUnwrap(tarPhase.destinationFolder.lexicallyResolving(f))
+				XCTAssert(FileManager.default.fileExists(atPath: path.string, isDirectory: &isDir))
+				XCTAssertFalse(isDir.boolValue)
 			}
-			
-			/* LINUXASYNC START --------- */
-			group.leave()
-		} catch {XCTFail("Error thrown during async test: \(error)"); group.leave()}}
-		group.wait()
-		/* LINUXASYNC STOP --------- */
+			let r2 = try await tarPhase.execute()
+			XCTAssertEqual(r1, r2)
+		}
 	}
 	
 }

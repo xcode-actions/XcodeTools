@@ -4,7 +4,7 @@ import Foundation
 
 struct TestFinishedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "TestFinishedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "TestFinishedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var resultInfo: StreamedActionResultInfo
 	var test: ActionTestMetadata

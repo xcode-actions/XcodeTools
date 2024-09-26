@@ -2,10 +2,8 @@ import Foundation
 
 
 
-public struct XcodeToolsConstants {
+public enum XcodeToolsConstants {
 	
-	public static var envVarNameExecPath: String = "XCT_EXEC_PATH"
-	
-	private init() {}
+	public static let envVarNameExecPath: String = "XCT_EXEC_PATH"
 	
 }

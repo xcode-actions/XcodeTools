@@ -3,6 +3,7 @@ import XCTest
 
 import CLTLogger
 import Logging
+import GlobalConfModule
 
 import CommonForTests
 
@@ -15,7 +16,7 @@ final class ProjectTests : XCTestCase {
 	override class func setUp() {
 		super.setUp()
 		bootstrapIfNeeded()
-		XcodeToolsConfig.logger = logger
+		Conf.setRootValue(logger, for: \.xcodeTools.logger)
 	}
 	
 	static let project1URL = testsDataURL.appendingPathComponent("project1").appendingPathComponent("Project 1.xcodeproj")

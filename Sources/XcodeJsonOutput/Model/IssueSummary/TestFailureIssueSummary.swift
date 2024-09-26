@@ -4,7 +4,7 @@ import Foundation
 
 struct TestFailureIssueSummary : _AnyIssueSummary {
 	
-	static var type: ObjectType = .init(name: "TestFailureIssueSummary", supertype: .init(name: "IssueSummary"))
+	static let type: ObjectType = .init(name: "TestFailureIssueSummary", supertype: .init(name: "IssueSummary"))
 	
 	var issueType: String
 	var message: String

@@ -4,7 +4,7 @@ import Foundation
 
 struct LogSectionCreatedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "LogSectionCreatedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "LogSectionCreatedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var head: AnyActivityLogSectionHead
 	var resultInfo: StreamedActionResultInfo
@@ -17,8 +17,8 @@ struct LogSectionCreatedEventPayload : _AnyStreamedEventPayload {
 		self.head         = try Parser.parseActivityLogSectionHead(
 			dictionary: dictionary.getAndRemove(
 				"head",
-				notFoundError: Err.missingProperty("head", objectDictionary: originalDictionary),
-				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "head", objectDictionary: originalDictionary)
+				notFoundError: Err.missingProperty("head"/*, objectDictionary: originalDictionary*/),
+				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "head"/*, objectDictionary: originalDictionary*/)
 			),
 			parentPropertyName: parentPropertyName
 		)

@@ -4,7 +4,7 @@ import Foundation
 
 struct InvocationStartedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "InvocationStartedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "InvocationStartedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var metadata: ActionsInvocationMetadata
 	

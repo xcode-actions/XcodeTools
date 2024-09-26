@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionsInvocationMetadata : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionsInvocationMetadata")
+	static let type: ObjectType = .init(name: "ActionsInvocationMetadata")
 	
 	var creatingWorkspaceFilePath: String
 	var schemeIdentifier: EntityIdentifier

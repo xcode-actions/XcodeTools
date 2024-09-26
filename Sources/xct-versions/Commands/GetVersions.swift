@@ -1,6 +1,7 @@
 import Foundation
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import XcodeProj
 
 

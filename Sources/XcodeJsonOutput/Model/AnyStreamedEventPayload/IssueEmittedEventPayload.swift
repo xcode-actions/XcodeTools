@@ -6,7 +6,7 @@ import CLTLogger
 
 struct IssueEmittedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "IssueEmittedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "IssueEmittedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var issue: AnyIssueSummary
 	var resultInfo: StreamedActionResultInfo
@@ -22,8 +22,8 @@ struct IssueEmittedEventPayload : _AnyStreamedEventPayload {
 		self.issue = try Parser.parseIssueSummary(
 			dictionary: dictionary.getAndRemove(
 				"issue",
-				notFoundError: Err.missingProperty("issue", objectDictionary: originalDictionary),
-				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "issue", objectDictionary: originalDictionary)
+				notFoundError: Err.missingProperty("issue"/*, objectDictionary: originalDictionary*/),
+				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "issue"/*, objectDictionary: originalDictionary*/)
 			),
 			parentPropertyName: "issue"
 		)

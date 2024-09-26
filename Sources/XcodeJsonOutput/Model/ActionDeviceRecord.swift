@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionDeviceRecord : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionDeviceRecord")
+	static let type: ObjectType = .init(name: "ActionDeviceRecord")
 	
 	var busSpeedInMHz: Int?
 	var cpuCount: Int?

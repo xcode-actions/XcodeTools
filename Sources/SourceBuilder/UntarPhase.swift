@@ -5,8 +5,10 @@ import System
 import SystemPackage
 #endif
 
+import GlobalConfModule
 import ProcessInvocation
 import SignalHandling
+
 import Utils
 import XcodeTools
 
@@ -143,7 +145,7 @@ public struct UntarPhase : BuildPhase {
 		let tarVersion = try await TarVersion.detectTarVersion()
 		
 		var ret = [FilePath]()
-		try Conf.fm.ensureDirectory(path: destinationFolder)
+		try Conf.fileManager.ensureDirectory(path: destinationFolder)
 		
 		let args = [
 			"--verbose",

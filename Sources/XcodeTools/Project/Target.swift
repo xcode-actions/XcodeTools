@@ -1,6 +1,7 @@
 import CoreData
 import Foundation
 
+import GlobalConfModule
 import UnwrapOrThrow
 
 import SPMProj

@@ -1,5 +1,7 @@
 import Foundation
 
+import GlobalConfModule
+
 import Utils
 
 

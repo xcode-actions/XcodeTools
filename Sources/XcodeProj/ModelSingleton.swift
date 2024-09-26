@@ -1,4 +1,4 @@
-import CoreData
+@preconcurrency import CoreData
 import Foundation
 
 

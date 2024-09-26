@@ -14,7 +14,7 @@ extension Double : _Object {
 			let valueStr = dictionary.removeValue(forKey: "_value") as? String,
 			let value = Double(valueStr)
 		else {
-			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "Double", value: originalDictionary["_value"] as Any?)
+			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "Double"/*, value: originalDictionary["_value"] as Any?*/)
 		}
 		
 		self = value

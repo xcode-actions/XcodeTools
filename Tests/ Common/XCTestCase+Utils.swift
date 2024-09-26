@@ -17,7 +17,7 @@ import Utils
 
 public extension XCTestCase {
 	
-	static var hasBootstrapped = false
+	static nonisolated(unsafe) var hasBootstrapped = false
 	static func bootstrapIfNeeded() {
 		guard !hasBootstrapped else {return}
 		defer {hasBootstrapped = true}

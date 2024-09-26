@@ -4,7 +4,7 @@ import Foundation
 
 struct LogTextAppendedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "LogTextAppendedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "LogTextAppendedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var resultInfo: StreamedActionResultInfo
 	var sectionIndex: Int

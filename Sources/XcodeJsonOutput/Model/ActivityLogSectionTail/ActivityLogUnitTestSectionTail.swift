@@ -4,7 +4,7 @@ import Foundation
 
 struct ActivityLogUnitTestSectionTail : _AnyActivityLogSectionTail {
 	
-	static var type: ObjectType = .init(name: "ActivityLogUnitTestSectionTail", supertype: .init(name: "ActivityLogSectionTail"))
+	static let type: ObjectType = .init(name: "ActivityLogUnitTestSectionTail", supertype: .init(name: "ActivityLogSectionTail"))
 	
 	var duration: Double
 	var summary: String?

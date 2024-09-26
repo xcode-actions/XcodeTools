@@ -5,7 +5,8 @@ import System
 import SystemPackage
 #endif
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import CLTLogger
 import Logging
 
@@ -17,12 +18,12 @@ struct Xct : ParsableCommand {
 	
 	static let execPathEnvVarName = "XCT_EXEC_PATH"
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Xcode Tools – Manage, build, sign and deploy your Xcode projects.",
 		discussion: "xct is a simple launcher for other XcodeTools binaries (xct-*). For instance, instead of calling “xct-versions”, you can call “xct versions”."
 	)
 	
-	static var logger: Logger = {
+	static let logger: Logger = {
 		var ret = Logger(label: "main")
 		ret.logLevel = .debug
 		return ret
@@ -37,7 +38,7 @@ struct Xct : ParsableCommand {
 	@Argument(completion: .custom(toolNameCompletion))
 	var toolName: String
 	
-	@Argument(parsing: .unconditionalRemaining)
+	@Argument(parsing: .captureForPassthrough)
 	var toolArguments: [String] = []
 	
 	func run() throws {

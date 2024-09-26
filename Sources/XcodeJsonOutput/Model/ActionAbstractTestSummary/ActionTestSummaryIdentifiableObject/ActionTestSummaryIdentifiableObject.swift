@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionTestSummaryIdentifiableObject : _AnyActionTestSummaryIdentifiableObject {
 	
-	static var type: ObjectType = .init(name: "ActionTestSummaryIdentifiableObject", supertype: .init(name: "ActionAbstractTestSummary"))
+	static let type: ObjectType = .init(name: "ActionTestSummaryIdentifiableObject", supertype: .init(name: "ActionAbstractTestSummary"))
 	
 	var identifier: String
 	var name: String

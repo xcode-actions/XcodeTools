@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import GlobalConfModule
+
 
 
 /* From <http://www.monobjc.net/xcode-project-file-format.html>. */

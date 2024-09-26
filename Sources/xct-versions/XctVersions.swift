@@ -1,13 +1,14 @@
 import Foundation
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 
 
 
 @main
 struct XctVersions : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Manage versions of Xcode projects",
 		discussion: "This tool expects a specific setup of the Xcode projects in regard to the versioning (pretty much the only sane choice nowadays) and has a sub-command to validate said setup is correctly done.",
 		subcommands: [

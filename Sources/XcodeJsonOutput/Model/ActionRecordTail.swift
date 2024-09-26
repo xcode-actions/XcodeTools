@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionRecordTail : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionRecordTail")
+	static let type: ObjectType = .init(name: "ActionRecordTail")
 	
 	var actionResult: ActionResult
 	var buildResult: ActionResult

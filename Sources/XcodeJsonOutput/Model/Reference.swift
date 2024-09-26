@@ -4,7 +4,7 @@ import Foundation
 
 struct Reference : _Object {
 	
-	static var type: ObjectType = .init(name: "Reference")
+	static let type: ObjectType = .init(name: "Reference")
 	
 	var id: String
 	var targetType: TypeDefinition

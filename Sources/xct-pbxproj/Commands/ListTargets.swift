@@ -1,13 +1,14 @@
 import Foundation
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import XcodeProj
 
 
 
 struct ListTargets : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "List the targets of a pbxproj file."
 	)
 	

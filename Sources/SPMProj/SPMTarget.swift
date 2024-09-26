@@ -1,6 +1,6 @@
 import Foundation
 
-import PackageGraph
+@preconcurrency import PackageGraph
 
 
 
@@ -9,52 +9,52 @@ import PackageGraph
  
  This is Hashable.
  Two SPMTargets are considered equal iif their names and sources root are equal. */
-public struct SPMTarget {
+public struct SPMTarget : Sendable {
 	
 	public var name: String {
-		resolvedTarget.name
+		resolvedModules.name
 	}
 	
 	public var sourcesRoot: URL {
-		resolvedTarget.sources.root.asURL
+		resolvedModules.sources.root.asURL
 	}
 	
 	public var sourcesContainsObjCFiles: Bool {
-		resolvedTarget.sources.containsObjcFiles
+		resolvedModules.sources.containsObjcFiles
 	}
 	
 	public var sources: [URL] {
-		resolvedTarget.sources.paths.map(\.asURL)
+		resolvedModules.sources.paths.map(\.asURL)
 	}
 	
 	public var resources: [URL] {
-		resolvedTarget.underlyingTarget.resources.map(\.path.asURL)
+		resolvedModules.underlying.resources.map(\.path.asURL)
 	}
 	
 	public var others: [URL] {
-		resolvedTarget.underlyingTarget.others.map(\.asURL)
+		resolvedModules.underlying.others.map(\.asURL)
 	}
 	
 	public var dependencies: [SPMTarget] {
-		resolvedTarget.dependencies.flatMap{ dep in
+		resolvedModules.dependencies.flatMap{ dep in
 			switch dep {
-				case .target(let target, _):   return [target]
-				case .product(let product, _): return product.targets
+				case .module(let module, _):   return [module]
+				case .product(let product, _): return Array(product.modules)
 			}
 		}.map(Self.init)
 	}
 	
 	public var recursiveDependencies: [SPMTarget] {
 		get throws {
-			try resolvedTarget.recursiveTargetDependencies().map(Self.init)
+			try resolvedModules.recursiveModuleDependencies().map(Self.init)
 		}
 	}
 	
-	internal init(resolvedTarget: ResolvedTarget) {
-		self.resolvedTarget = resolvedTarget
+	internal init(resolvedTarget: ResolvedModule) {
+		self.resolvedModules = resolvedTarget
 	}
 	
-	internal let resolvedTarget: ResolvedTarget
+	internal let resolvedModules: ResolvedModule
 	
 }
 

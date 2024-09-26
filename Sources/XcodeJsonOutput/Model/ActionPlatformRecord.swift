@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionPlatformRecord : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionPlatformRecord")
+	static let type: ObjectType = .init(name: "ActionPlatformRecord")
 	
 	var identifier: String
 	var userDescription: String

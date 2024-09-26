@@ -1,13 +1,14 @@
 import Foundation
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import XcodeProj
 
 
 
 struct Sanitize : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Sanitize a pbxproj.",
 		discussion: """
 			Actions for the whole project:

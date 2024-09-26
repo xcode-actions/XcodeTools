@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import GlobalConfModule
+
 import SPMProj
 
 

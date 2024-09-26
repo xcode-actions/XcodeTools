@@ -4,7 +4,7 @@ import Foundation
 
 struct StreamedActionResultInfo : _Object {
 	
-	static var type: ObjectType = .init(name: "StreamedActionResultInfo")
+	static let type: ObjectType = .init(name: "StreamedActionResultInfo")
 	
 	var resultIndex: Int?
 	

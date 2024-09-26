@@ -1,5 +1,8 @@
 import Foundation
 
+import GlobalConfModule
+import SafeGlobal
+
 import Utils
 
 
@@ -10,6 +13,7 @@ import Utils
  This can either be an xcconfig file, or the project settings, or the settings of a target.*/
 public struct BuildSettings {
 	
+	@SafeGlobal
 	private static var cachedDeveloperDir: String?
 	
 	/* Let’s get the developer dir!

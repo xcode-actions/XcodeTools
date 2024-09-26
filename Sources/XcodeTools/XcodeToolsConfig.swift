@@ -1,17 +1,26 @@
 import Foundation
 
+import GlobalConfModule
 import Logging
 
 
 
-/** A container to hold the properties that can modify the behaviour of the module. */
-public enum XcodeToolsConfig {
+public extension ConfKeys {
+	/* URLRequestOperation conf namespace declaration. */
+	struct XcodeTools {}
+	var xcodeTools: XcodeTools {XcodeTools()}
+}
+
+
+extension ConfKeys.XcodeTools {
 	
-	/* TODO: Migrate to TaskLocal */
-	public static var logger: Logging.Logger? = {
-		return Logger(label: "com.xcode-actions.XcodeTools")
-	}()
+	#declareConfKey("logger", Logging.Logger?.self, defaultValue: .init(label: "com.xcode-actions.XcodeTools"))
 	
 }
 
-typealias Conf = XcodeToolsConfig
+
+extension Conf {
+	
+	#declareConfAccessor(\.xcodeTools.logger, Logging.Logger?.self)
+	
+}

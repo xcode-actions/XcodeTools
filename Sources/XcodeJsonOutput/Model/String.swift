@@ -13,7 +13,7 @@ extension String : _Object {
 		guard
 			let value = dictionary.removeValue(forKey: "_value") as? String
 		else {
-			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "String", value: originalDictionary["_value"] as Any?)
+			throw Err.invalidValueTypeOrMissingValue(parentPropertyName: parentPropertyName, expectedType: "String"/*, value: originalDictionary["_value"] as Any?*/)
 		}
 		
 		self = value

@@ -1,5 +1,6 @@
 import Foundation
 
+import GlobalConfModule
 import SPMProj
 import XcodeProj
 

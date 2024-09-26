@@ -4,7 +4,7 @@ import Foundation
 
 struct ResultIssueSummaries : _Object {
 	
-	static var type: ObjectType = .init(name: "ResultIssueSummaries")
+	static let type: ObjectType = .init(name: "ResultIssueSummaries")
 	
 	var warningSummaries: [IssueSummary]
 	var errorSummaries: [IssueSummary]

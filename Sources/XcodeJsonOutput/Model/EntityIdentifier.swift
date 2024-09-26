@@ -4,7 +4,7 @@ import Foundation
 
 struct EntityIdentifier : _Object {
 	
-	static var type: ObjectType = .init(name: "EntityIdentifier")
+	static let type: ObjectType = .init(name: "EntityIdentifier")
 	
 	var containerName: String
 	var entityName: String

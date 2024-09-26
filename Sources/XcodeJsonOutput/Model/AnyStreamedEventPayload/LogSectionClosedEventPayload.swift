@@ -4,7 +4,7 @@ import Foundation
 
 struct LogSectionClosedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "LogSectionClosedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "LogSectionClosedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var resultInfo: StreamedActionResultInfo
 	var sectionIndex: Int
@@ -19,8 +19,8 @@ struct LogSectionClosedEventPayload : _AnyStreamedEventPayload {
 		self.tail         = try Parser.parseActivityLogSectionTail(
 			dictionary: dictionary.getAndRemove(
 				"tail",
-				notFoundError: Err.missingProperty("tail", objectDictionary: originalDictionary),
-				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "tail", objectDictionary: originalDictionary)
+				notFoundError: Err.missingProperty("tail"/*, objectDictionary: originalDictionary*/),
+				wrongTypeError: Err.propertyValueIsNotDictionary(propertyName: "tail"/*, objectDictionary: originalDictionary*/)
 			),
 			parentPropertyName: parentPropertyName
 		)

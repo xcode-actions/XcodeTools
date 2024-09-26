@@ -4,7 +4,7 @@ import Foundation
 
 struct InvocationFinishedEventPayload : _AnyStreamedEventPayload {
 	
-	static var type: ObjectType = .init(name: "InvocationFinishedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
+	static let type: ObjectType = .init(name: "InvocationFinishedEventPayload", supertype: .init(name: "AnyStreamedEventPayload"))
 	
 	var recordRef: Reference
 	

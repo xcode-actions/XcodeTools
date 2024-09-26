@@ -1,18 +1,26 @@
 import Foundation
 
+import GlobalConfModule
 import Logging
 
 
 
-public struct XcodeJsonOutputConfig {
+public extension ConfKeys {
+	/* URLRequestOperation conf namespace declaration. */
+	struct XcodeJsonOutput {}
+	var xcodeJsonOutput: XcodeJsonOutput {XcodeJsonOutput()}
+}
+
+
+extension ConfKeys.XcodeJsonOutput {
 	
-	public static var logger: Logging.Logger? = {
-		return Logger(label: "com.xcode-actions.XcodeJsonOutput")
-	}()
-	
-	/** This struct is simply a container for static configuration properties. */
-	private init() {}
+	#declareConfKey("logger", Logging.Logger?.self, defaultValue: .init(label: "com.xcode-actions.XcodeJsonOutput"))
 	
 }
 
-typealias Conf = XcodeJsonOutputConfig
+
+extension Conf {
+	
+	#declareConfAccessor(\.xcodeJsonOutput.logger, Logging.Logger?.self)
+	
+}

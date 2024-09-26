@@ -4,7 +4,7 @@ import Foundation
 
 struct ActionRunDestinationRecord : _Object {
 	
-	static var type: ObjectType = .init(name: "ActionRunDestinationRecord")
+	static let type: ObjectType = .init(name: "ActionRunDestinationRecord")
 	
 	var displayName: String
 	var localComputerRecord: ActionDeviceRecord

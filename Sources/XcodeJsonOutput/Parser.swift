@@ -25,10 +25,10 @@ public enum Parser {
 			guard objectType == type.type else {continue}
 			return try type.init(dictionary: dictionary, parentPropertyName: parentPropertyName)
 		}
-		throw Err.unknownObjectType("\(objectType)", objectDictionary: dictionary)
+		throw Err.unknownObjectType("\(objectType)"/*, objectDictionary: dictionary*/)
 	}
 	
-	static var allObjectTypes: [_Object.Type] = [
+	static let allObjectTypes: [_Object.Type] = [
 		ActionTestMetadata.self,
 		ActionTestSummaryGroup.self,
 		ActionTestSummaryIdentifiableObject.self,
@@ -91,35 +91,35 @@ public enum Parser {
 	
 	static func parsePayload(dictionary: [String: Any?], parentPropertyName: String?) throws -> AnyStreamedEventPayload {
 		guard let object = try parse(dictionary: dictionary, parentPropertyName: parentPropertyName) as? AnyStreamedEventPayload else {
-			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyStreamedEventPayload", givenObjectDictionary: dictionary)
+			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyStreamedEventPayload"/*, givenObjectDictionary: dictionary*/)
 		}
 		return object
 	}
 	
 	static func parseActivityLogSectionHead(dictionary: [String: Any?], parentPropertyName: String?) throws -> AnyActivityLogSectionHead {
 		guard let object = try parse(dictionary: dictionary, parentPropertyName: parentPropertyName) as? AnyActivityLogSectionHead else {
-			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyActivityLogSectionHead", givenObjectDictionary: dictionary)
+			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyActivityLogSectionHead"/*, givenObjectDictionary: dictionary*/)
 		}
 		return object
 	}
 	
 	static func parseActivityLogSectionTail(dictionary: [String: Any?], parentPropertyName: String?) throws -> AnyActivityLogSectionTail {
 		guard let object = try parse(dictionary: dictionary, parentPropertyName: parentPropertyName) as? AnyActivityLogSectionTail else {
-			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyActivityLogSectionTail", givenObjectDictionary: dictionary)
+			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyActivityLogSectionTail"/*, givenObjectDictionary: dictionary*/)
 		}
 		return object
 	}
 	
 	static func parseIssueSummary(dictionary: [String: Any?], parentPropertyName: String?) throws -> AnyIssueSummary {
 		guard let object = try parse(dictionary: dictionary, parentPropertyName: parentPropertyName) as? AnyIssueSummary else {
-			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyIssueSummary", givenObjectDictionary: dictionary)
+			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyIssueSummary"/*, givenObjectDictionary: dictionary*/)
 		}
 		return object
 	}
 	
 	static func parseActionTestSummaryIdentifiableObject(dictionary: [String: Any?], parentPropertyName: String?) throws -> AnyActionTestSummaryIdentifiableObject {
 		guard let object = try parse(dictionary: dictionary, parentPropertyName: parentPropertyName) as? AnyActionTestSummaryIdentifiableObject else {
-			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyActionTestSummaryIdentifiableObject", givenObjectDictionary: dictionary)
+			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "AnyActionTestSummaryIdentifiableObject"/*, givenObjectDictionary: dictionary*/)
 		}
 		return object
 	}
@@ -127,11 +127,11 @@ public enum Parser {
 	static func parseArrayOfActionTestSummaryIdentifiableObject(arrayObject: [String: Any?], parentPropertyName: String?) throws -> [AnyActionTestSummaryIdentifiableObject] {
 		let type = try ObjectType(dictionary: arrayObject)
 		guard type == ObjectType(name: "Array") else {
-			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "Array", givenObjectDictionary: arrayObject)
+			throw Err.invalidObjectType(parentPropertyName: parentPropertyName, expectedType: "Array"/*, givenObjectDictionary: arrayObject*/)
 		}
 		guard let v = arrayObject["_values"] as? [[String: Any?]] else {
 			/* Technically missing or invalid type in this case */
-			throw Err.missingProperty("_values", objectDictionary: arrayObject)
+			throw Err.missingProperty("_values"/*, objectDictionary: arrayObject*/)
 		}
 		return try v.map({ try parseActionTestSummaryIdentifiableObject(dictionary: $0, parentPropertyName: parentPropertyName) })
 	}

@@ -1,7 +1,8 @@
 import Foundation
 
 import Basics
-import PackageGraph
+import GlobalConfModule
+@preconcurrency import PackageGraph
 import TSCBasic
 import Workspace
 
@@ -21,7 +22,7 @@ import Workspace
  
  This struct is Hashable.
  Two SPMProj are considered equal if their root and project manifest URLs are equal. */
-public struct SPMProj {
+public struct SPMProj : Sendable {
 	
 	public let rootURL: URL
 	public let projectManifestURL: URL
@@ -41,20 +42,20 @@ public struct SPMProj {
 			Conf.logger?.debug("Message from SPM: \(diag)")
 		}
 		
-		self.packageGraph = try workspace.loadPackageGraph(rootPath: AbsolutePath(validating: rootURL.path), observabilityScope: observability.topScope)
-		guard packageGraph.rootPackages.count == 1 else {
+		self.modulesGraph = try workspace.loadPackageGraph(rootPath: AbsolutePath(validating: rootURL.path), observabilityScope: observability.topScope)
+		guard modulesGraph.rootPackages.count == 1 else {
 			throw Err.cannotLoadPackage(rootURL)
 		}
 	}
 	
 	public var targets: [SPMTarget] {
 #warning("TODO: platform selection…")
-		return packageGraph.reachableTargets.filter{ packageGraph.isInRootPackages($0, satisfying: .init(platform: .macOS)) }.map(SPMTarget.init)
+		return modulesGraph.reachableModules.filter{ modulesGraph.isInRootPackages($0, satisfying: .init(platform: .macOS)) }.map(SPMTarget.init)
 	}
 	
-	internal var packageGraph: PackageGraph
+	internal var modulesGraph: ModulesGraph
 	internal var resolvedPackage: ResolvedPackage {
-		packageGraph.rootPackages.first!
+		modulesGraph.rootPackages.first!
 	}
 	
 }

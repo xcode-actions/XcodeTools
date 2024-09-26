@@ -1,6 +1,8 @@
 import CoreData
 import Foundation
 
+import GlobalConfModule
+
 import Utils
 
 
@@ -11,14 +13,14 @@ extension Dictionary where Key == String {
 		return try get(
 			key,
 			notFoundError: Err.pbxProjParseError(.missingProperty(propertyName: key), objectID: objectID),
-			wrongTypeError: Err.pbxProjParseError(.unexpectedPropertyValueType(propertyName: key, value: self[key]!), objectID: objectID)
+			wrongTypeError: Err.pbxProjParseError(.unexpectedPropertyValueType(propertyName: key/*, value: self[key]!*/), objectID: objectID)
 		)
 	}
 	
 	func getIfExistsForParse<T>(_ key: Key, _ objectID: String?) throws -> T? {
 		return try getIfExists(
 			key,
-			wrongTypeError: Err.pbxProjParseError(.unexpectedPropertyValueType(propertyName: key, value: self[key]!), objectID: objectID)
+			wrongTypeError: Err.pbxProjParseError(.unexpectedPropertyValueType(propertyName: key/*, value: self[key]!*/), objectID: objectID)
 		)
 	}
 	

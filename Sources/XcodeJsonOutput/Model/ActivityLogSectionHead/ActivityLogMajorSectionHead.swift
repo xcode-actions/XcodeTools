@@ -4,7 +4,7 @@ import Foundation
 
 struct ActivityLogMajorSectionHead : _AnyActivityLogSectionHead {
 	
-	static var type: ObjectType = .init(name: "ActivityLogMajorSectionHead", supertype: .init(name: "ActivityLogSectionHead"))
+	static let type: ObjectType = .init(name: "ActivityLogMajorSectionHead", supertype: .init(name: "ActivityLogSectionHead"))
 	
 	var domainType: String
 	var startTime: Date

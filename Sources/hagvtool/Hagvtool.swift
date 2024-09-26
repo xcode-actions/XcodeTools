@@ -5,7 +5,8 @@ import System
 import SystemPackage
 #endif
 
-import ArgumentParser
+/* I cannot update ArgumentParser because of swift-driver… */
+@preconcurrency import ArgumentParser
 import CLTLogger
 import Logging
 
@@ -14,7 +15,7 @@ import Logging
 @main
 struct Hagvtool : ParsableCommand {
 	
-	static var configuration = CommandConfiguration(
+	static let configuration = CommandConfiguration(
 		abstract: "Deprecated. This tool is now a part of xct. You can use it by running \"xct versions\"."
 	)
 	
