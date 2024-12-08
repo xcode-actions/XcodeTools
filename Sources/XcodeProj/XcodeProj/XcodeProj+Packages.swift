@@ -42,7 +42,7 @@ extension PBXProject {
 			let workspaceRoot = FileManager.default.temporaryDirectory.appendingPathComponent(xcodeprojURL.deletingPathExtension().lastPathComponent).appendingPathComponent(url.lastPathComponent)
 			guard let spmProj = try? spmCache.getProj(for: url, workspaceRoot: workspaceRoot) else {
 				if type == "wrapper" {
-					/* We only log for the wrapper type; it is normal for folders not to be SPM projects, but some are anyway (and Xcode forgets to update their last know type). */
+					/* We only log for the wrapper type; it is normal for folders not to be SPM projects, but some are anyway (and Xcode forgets to update their last known type). */
 					Conf.logger?.info("Found invalid SPM project at path \(url.path) in project at path \(xcodeprojURL.path)")
 				}
 				return
