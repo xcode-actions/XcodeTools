@@ -116,7 +116,7 @@ public struct PBXProj {
 				objects = {
 			"""
 		
-		try context.performAndWait{
+		ret += try context.performAndWait{
 			let request: NSFetchRequest<PBXObject> = PBXObject.fetchRequest()
 			request.sortDescriptors = [
 				NSSortDescriptor(keyPath: \PBXObject.rawISA, ascending: true),
@@ -124,7 +124,7 @@ public struct PBXProj {
 			]
 			
 			var previousISA: String?
-			func printEndSection() {
+			func printEndSection(to ret: inout String) {
 				if let previousISA = previousISA {
 					ret += """
 							
@@ -133,20 +133,22 @@ public struct PBXProj {
 				}
 			}
 			
+			var subRet = ""
 			for object in try context.fetch(request) {
 				let isa = try object.getISA()
 				if isa != previousISA {
-					printEndSection()
-					ret += """
+					printEndSection(to: &subRet)
+					subRet += """
 						
 						
 						/* Begin \(isa) section */
 						"""
 				}
 				previousISA = isa
-				ret += try object.stringSerialization(projectName: projectName, indentCount: 2)
+				subRet += try object.stringSerialization(projectName: projectName, indentCount: 2)
 			}
-			printEndSection()
+			printEndSection(to: &subRet)
+			return subRet
 		}
 		
 		let idAndComment = try rootObject.getIDAndCommentForSerialization("xcID", rootObject.xcID, projectName: projectName).asString()

@@ -23,8 +23,8 @@ public enum Project {
 	public func getTargets() throws -> [Target] {
 		switch self {
 			case .xcodeproj(let proj):
-				var res = [Target]()
-				try proj.managedObjectContext.performAndWait{
+				let res = try proj.managedObjectContext.performAndWait{
+					var res = [Target]()
 					res.append(contentsOf: try proj.pbxproj.rootObject.getTargets().map{ target in
 						.xcodeTarget(targetID: target.objectID, project: proj)
 					})
@@ -34,6 +34,7 @@ public enum Project {
 					if !(proj.pbxproj.rootObject.packageReferences?.isEmpty ?? true) {
 						Conf.logger?.warning("Loading external SPM dependencies is not supported.")
 					}
+					return res
 				}
 #warning("TODO: Embedded xcodeprojs")
 				return res
