@@ -66,7 +66,7 @@ public class PBXObject : NSManagedObject {
 	/**
 	 Instantiate a managed object if needed, or return the already instantiated object from the `decodedObjects` dictionary.
 	 In case of instantiation, will add the instantiated object to the `decodedObjects` dictionary. */
-	static func unsafeInstantiate(id: String, on context: NSManagedObjectContext, rawObjects: [String: [String: Any]], decodedObjects: inout [String: PBXObject]) throws -> Self {
+	static func onContext_instantiate(id: String, on context: NSManagedObjectContext, rawObjects: [String: [String: Any]], decodedObjects: inout [String: PBXObject]) throws -> Self {
 		if let decodedObject = decodedObjects[id] {
 			guard let result = decodedObject as? Self else {
 				throw Err.pbxProjParseError(.invalidObjectTypeInDecodedObjects(expectedType: self), objectID: id)

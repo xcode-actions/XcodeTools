@@ -35,19 +35,19 @@ public class PBXProject : PBXObject {
 		hasScannedForEncodings = try rawObject.getBoolForParse("hasScannedForEncodings", xcID)
 		
 		let targetIDs: [String] = try rawObject.getForParse("targets", xcID)
-		targets = try targetIDs.map{ try PBXTarget.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		targets = try targetIDs.map{ try PBXTarget.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let packageReferenceIDs: [String]? = try rawObject.getIfExistsForParse("packageReferences", xcID)
-		packageReferences = try packageReferenceIDs.flatMap{ try $0.map{ try XCRemoteSwiftPackageReference.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) } }
+		packageReferences = try packageReferenceIDs.flatMap{ try $0.map{ try XCRemoteSwiftPackageReference.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) } }
 		
 		let mainGroupIDs: String = try rawObject.getForParse("mainGroup", xcID)
-		mainGroup = try PBXGroup.unsafeInstantiate(id: mainGroupIDs, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+		mainGroup = try PBXGroup.onContext_instantiate(id: mainGroupIDs, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
 		
 		let productRefGroupID: String? = try rawObject.getIfExistsForParse("productRefGroup", xcID)
-		productRefGroup = try productRefGroupID.flatMap{ try PBXGroup.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		productRefGroup = try productRefGroupID.flatMap{ try PBXGroup.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let buildConfigurationListID: String = try rawObject.getForParse("buildConfigurationList", xcID)
-		buildConfigurationList = try XCConfigurationList.unsafeInstantiate(id: buildConfigurationListID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+		buildConfigurationList = try XCConfigurationList.onContext_instantiate(id: buildConfigurationListID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
 		
 		if let rawProjectReferences: [[String: String]] = try rawObject.getIfExistsForParse("projectReferences", xcID) {
 			projectReferences = try rawProjectReferences.map{ rawProjectReference in
@@ -59,8 +59,8 @@ public class PBXProject : PBXObject {
 					throw Err.pbxProjParseError(.unknownOrInvalidProjectReference(rawProjectReference), objectID: xcID)
 				}
 				let projectReference = ProjectReference(context: context)
-				projectReference.productGroup = try PBXFileElement.unsafeInstantiate(id: productGroupID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
-				projectReference.projectRef = try PBXFileElement.unsafeInstantiate(id: projectRefID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+				projectReference.productGroup = try PBXFileElement.onContext_instantiate(id: productGroupID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+				projectReference.projectRef = try PBXFileElement.onContext_instantiate(id: projectRefID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
 				return projectReference
 			}
 		}

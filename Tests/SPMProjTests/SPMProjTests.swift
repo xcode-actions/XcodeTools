@@ -17,8 +17,8 @@ final class SPMProjTests : XCTestCase {
 	
 	static let package1URL = testsDataURL.appendingPathComponent("package1")
 	
-	func testPackage1() throws {
-		let proj = try SPMProj(url: Self.package1URL)
+	func testPackage1() async throws {
+		let proj = try await SPMProj(url: Self.package1URL)
 		
 		XCTAssertEqual(Set(proj.targets.map(\.name)), Set(arrayLiteral: "package1", "package1Tests"))
 		XCTAssertEqual(Set((proj.targets.first{ $0.name == "package1"      }?.sources) ?? []), Set(arrayLiteral: Self.package1URL.appendingPathComponent("Sources").appendingPathComponent("package1").appendingPathComponent("Package1.swift")))

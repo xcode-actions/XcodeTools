@@ -13,13 +13,13 @@ public class PBXTargetDependency : PBXObject {
 		platformFilter = try rawObject.getIfExistsForParse("platformFilter", xcID)
 		
 		let productRefID: String? = try rawObject.getIfExistsForParse("productRef", xcID)
-		productRef = try productRefID.flatMap{ try XCSwiftPackageProductDependency.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		productRef = try productRefID.flatMap{ try XCSwiftPackageProductDependency.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let targetID: String? = try rawObject.getIfExistsForParse("target", xcID)
-		target = try targetID.flatMap{ try PBXTarget.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		target = try targetID.flatMap{ try PBXTarget.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let targetProxyID: String? = try rawObject.getIfExistsForParse("targetProxy", xcID)
-		targetProxy = try targetProxyID.flatMap{ try PBXContainerItemProxy.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		targetProxy = try targetProxyID.flatMap{ try PBXContainerItemProxy.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	public override func stringSerializationName(projectName: String) -> String? {

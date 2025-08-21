@@ -12,7 +12,7 @@ public class XCSwiftPackageProductDependency : PBXObject {
 		productName = try rawObject.getForParse("productName", xcID)
 		
 		let packageID: String? = try rawObject.getIfExistsForParse("package", xcID)
-		package = try packageID.flatMap{ try XCRemoteSwiftPackageReference.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		package = try packageID.flatMap{ try XCRemoteSwiftPackageReference.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	open override func knownValuesSerialized(projectName: String) throws -> [String: Any] {

@@ -27,11 +27,11 @@ public struct SPMProj : Sendable {
 	public let rootURL: URL
 	public let projectManifestURL: URL
 	
-	public init(path: String? = nil) throws {
-		try self.init(url: path.flatMap{ URL(fileURLWithPath: $0) })
+	public init(path: String? = nil) async throws {
+		try await self.init(url: path.flatMap{ URL(fileURLWithPath: $0) })
 	}
 	
-	public init(url: URL? = nil, workspaceRoot: URL? = nil) throws {
+	public init(url: URL? = nil, workspaceRoot: URL? = nil) async throws {
 		self.rootURL = url ?? URL(fileURLWithPath: ".")
 		self.projectManifestURL = rootURL.appendingPathComponent("Package.swift")
 		
@@ -42,7 +42,7 @@ public struct SPMProj : Sendable {
 			Conf.logger?.debug("Message from SPM: \(diag)")
 		}
 		
-		self.modulesGraph = try workspace.loadPackageGraph(rootPath: AbsolutePath(validating: rootURL.path), observabilityScope: observability.topScope)
+		self.modulesGraph = try await workspace.loadPackageGraph(rootPath: AbsolutePath(validating: rootURL.path), observabilityScope: observability.topScope)
 		guard modulesGraph.rootPackages.count == 1 else {
 			throw Err.cannotLoadPackage(rootURL)
 		}

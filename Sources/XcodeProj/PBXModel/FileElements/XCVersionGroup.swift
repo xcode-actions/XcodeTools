@@ -18,10 +18,10 @@ public class XCVersionGroup : PBXFileElement {
 		versionGroupType = try rawObject.getForParse("versionGroupType", xcID)
 		
 		let currentVersionID: String = try rawObject.getForParse("currentVersion", xcID)
-		currentVersion = try PBXFileReference.unsafeInstantiate(id: currentVersionID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+		currentVersion = try PBXFileReference.onContext_instantiate(id: currentVersionID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
 		
 		let childrenIDs: [String] = try rawObject.getForParse("children", xcID)
-		children = try childrenIDs.map{ try PBXFileReference.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		children = try childrenIDs.map{ try PBXFileReference.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	public var children: [PBXFileReference]? {

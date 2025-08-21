@@ -18,7 +18,7 @@ public class PBXBuildPhase : PBXObject {
 		name = try rawObject.getIfExistsForParse("name", xcID)
 		
 		let filesIDs: [String] = try rawObject.getForParse("files", xcID)
-		files = try filesIDs.map{ try PBXBuildFile.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		files = try filesIDs.map{ try PBXBuildFile.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		buildActionMask = try rawObject.getInt32AsNumberIfExistsForParse("buildActionMask", xcID)
 		runOnlyForDeploymentPostprocessing = try rawObject.getBoolAsNumberIfExistsForParse("runOnlyForDeploymentPostprocessing", xcID)

@@ -60,10 +60,10 @@ final class TestsProject2 : XCTestCase {
 		XCTAssertEqual(res, ref)
 	}
 	
-	func testIteratePackages() throws {
+	func testIteratePackages() async throws {
 		var res = Set<String>()
 		let xcodeproj = try XcodeProj(xcodeprojURL: Self.xcodeprojURL)
-		try xcodeproj.iterateReferencedSPMProjects{ proj in
+		try await xcodeproj.iterateReferencedSPMProjects{ proj in
 			XCTAssertTrue(res.insert(proj.rootURL.relativePath).inserted)
 		}
 		let ref = Set(

@@ -16,7 +16,7 @@ public class PBXGroup : PBXFileElement {
 		try super.fillValues(rawObject: rawObject, rawObjects: rawObjects, context: context, decodedObjects: &decodedObjects)
 		
 		let childrenIDs: [String] = try rawObject.getForParse("children", xcID)
-		children = try childrenIDs.map{ try PBXFileElement.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		children = try childrenIDs.map{ try PBXFileElement.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	public var children: [PBXFileElement]? {
