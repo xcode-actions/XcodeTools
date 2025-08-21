@@ -20,7 +20,7 @@ public class XCBuildConfiguration : PBXObject {
 		rawBuildSettings = try rawObject.getForParse("buildSettings", xcID)
 		
 		let baseConfigurationReferenceID: String? = try rawObject.getIfExistsForParse("baseConfigurationReference", xcID)
-		baseConfigurationReference = try baseConfigurationReferenceID.flatMap{ try PBXFileReference.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		baseConfigurationReference = try baseConfigurationReferenceID.flatMap{ try PBXFileReference.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	open override func stringSerializationName(projectName: String) -> String? {

@@ -23,7 +23,7 @@ public class XCConfigurationList : PBXObject {
 		defaultConfigurationIsVisible = try rawObject.getBoolForParse("defaultConfigurationIsVisible", xcID)
 		
 		let buildConfigurationIDs: [String] = try rawObject.getForParse("buildConfigurations", xcID)
-		buildConfigurations = try buildConfigurationIDs.map{ try XCBuildConfiguration.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		buildConfigurations = try buildConfigurationIDs.map{ try XCBuildConfiguration.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	public var buildConfigurations: [XCBuildConfiguration]? {

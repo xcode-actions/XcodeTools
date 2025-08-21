@@ -12,7 +12,7 @@ public class PBXReferenceProxy : PBXFileElement {
 		fileType = try rawObject.getForParse("fileType", xcID)
 		
 		let remoteRefID: String = try rawObject.getForParse("remoteRef", xcID)
-		remoteRef = try PBXContainerItemProxy.unsafeInstantiate(id: remoteRefID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+		remoteRef = try PBXContainerItemProxy.onContext_instantiate(id: remoteRefID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
 	}
 	
 	open override func knownValuesSerialized(projectName: String) throws -> [String: Any] {

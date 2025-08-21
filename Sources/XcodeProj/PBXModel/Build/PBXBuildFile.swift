@@ -21,10 +21,10 @@ public class PBXBuildFile : PBXObject {
 		rawSettings = try rawObject.getIfExistsForParse("settings", xcID)
 		
 		let fileRefID: String? = try rawObject.getIfExistsForParse("fileRef", xcID)
-		fileRef = try fileRefID.flatMap{ try PBXFileElement.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		fileRef = try fileRefID.flatMap{ try PBXFileElement.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let productRefID: String? = try rawObject.getIfExistsForParse("productRef", xcID)
-		productRef = try productRefID.flatMap{ try XCSwiftPackageProductDependency.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		productRef = try productRefID.flatMap{ try XCSwiftPackageProductDependency.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	open override var oneLineStringSerialization: Bool {

@@ -17,16 +17,16 @@ public class PBXNativeTarget : PBXTarget {
 		try super.fillValues(rawObject: rawObject, rawObjects: rawObjects, context: context, decodedObjects: &decodedObjects)
 		
 		let productReferenceID: String? = try rawObject.getIfExistsForParse("productReference", xcID)
-		productReference = try productReferenceID.flatMap{ try PBXFileReference.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		productReference = try productReferenceID.flatMap{ try PBXFileReference.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		productType = try rawObject.getForParse("productType", xcID)
 		productInstallPath = try rawObject.getIfExistsForParse("productInstallPath", xcID)
 		
 		let buildRulesIDs: [String]? = try rawObject.getIfExistsForParse("buildRules", xcID)
-		buildRules = try buildRulesIDs?.map{ try PBXBuildRule.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		buildRules = try buildRulesIDs?.map{ try PBXBuildRule.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let packageProductDependenciesIDs: [String]? = try rawObject.getIfExistsForParse("packageProductDependencies", xcID)
-		packageProductDependencies = try packageProductDependenciesIDs?.map{ try XCSwiftPackageProductDependency.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		packageProductDependencies = try packageProductDependenciesIDs?.map{ try XCSwiftPackageProductDependency.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 	}
 	
 	public var buildRules: [PBXBuildRule]? {

@@ -20,13 +20,13 @@ public class PBXTarget : PBXObject {
 		productName = try rawObject.getForParse("productName", xcID)
 		
 		let dependenciesIDs: [String] = try rawObject.getForParse("dependencies", xcID)
-		dependencies = try dependenciesIDs.map{ try PBXTargetDependency.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		dependencies = try dependenciesIDs.map{ try PBXTargetDependency.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let buildPhasesIDs: [String] = try rawObject.getForParse("buildPhases", xcID)
-		buildPhases = try buildPhasesIDs.map{ try PBXBuildPhase.unsafeInstantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
+		buildPhases = try buildPhasesIDs.map{ try PBXBuildPhase.onContext_instantiate(id: $0, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects) }
 		
 		let buildConfigurationListID: String = try rawObject.getForParse("buildConfigurationList", xcID)
-		buildConfigurationList = try XCConfigurationList.unsafeInstantiate(id: buildConfigurationListID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
+		buildConfigurationList = try XCConfigurationList.onContext_instantiate(id: buildConfigurationListID, on: context, rawObjects: rawObjects, decodedObjects: &decodedObjects)
 	}
 	
 	public var buildPhases: [PBXBuildPhase]? {
