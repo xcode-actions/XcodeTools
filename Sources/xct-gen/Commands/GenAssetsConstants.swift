@@ -11,7 +11,7 @@ import CLTLogger
 
 
 
-struct GenAssetsConstants : ParsableCommand {
+struct GenAssetsConstants : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		commandName: "assets-constants",
@@ -31,13 +31,13 @@ struct GenAssetsConstants : ParsableCommand {
 	@Argument
 	var targets = [String]()
 	
-	func run() throws {
+	func run() async throws {
 		LoggingSystem.bootstrap{ _ in var ret = CLTLogger(); ret.logLevel = .info; return ret }
 		
 		let project = try Project(xcodeprojPath: xctGenOptions.pathToXcodeproj)
-		let targetToConstants: [Target: Constants] = try {
+		let targetToConstants: [Target: Constants] = try await {
 			var res = [Target: Constants]()
-			for target in try project.getTargets() {
+			for target in try await project.getTargets() {
 				let targetName = try target.getName()
 				let isSPMTarget = (target.spmTarget != nil)
 				guard targets.isEmpty || targets.contains(targetName) else {
@@ -76,7 +76,7 @@ struct GenAssetsConstants : ParsableCommand {
 			let relativeRootDest = generatedFilePathTemplate.applying(xibLocInfo: resolvingInfo)
 			
 #warning("No filter on Tests…")
-			let parentConstants = try project
+			let parentConstants = try await project
 				.getDependents(of: target)
 				.filter{ try !$0.getName().contains("Tests") }
 				.compactMap{ targetToConstants[$0] }

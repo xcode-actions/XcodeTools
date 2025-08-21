@@ -54,7 +54,9 @@ let package = Package(
 		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",            from: "1.2.3"))
 		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                     "1.0.0"..<"4.0.0"))
 		res.append(.package(url: "https://github.com/apple/swift-log.git",                        from: "1.5.2"))
-		res.append(.package(url: "https://github.com/apple/swift-package-manager.git",            revision: "swift-6.0.1-RELEASE")) /* Apple does not semver SPM for some reason. */
+		res.append(.package(url: "https://github.com/apple/swift-package-manager.git",            revision: "swift-6.1.1-RELEASE")) /* Apple does not semver SPM for some reason. */
+		res.append(.package(url: "https://github.com/apple/swift-system.git",                     from: "1.6.2"))
+		res.append(.package(url: "https://github.com/Frizlab/CollectionConcurrencyKit.git",       from: "0.3.0"))
 		res.append(.package(url: "https://github.com/Frizlab/GlobalConfModule.git",               from: "0.4.0"))
 		res.append(.package(url: "https://github.com/Frizlab/SafeGlobal.git",                     from: "0.3.0"))
 		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",                  from: "1.0.1"))
@@ -145,10 +147,11 @@ let package = Package(
 		/* ****************** */
 		res.append(.target(name: "XcodeTools", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "Logging",        package: "swift-log"))
-			res.append(.product(name: "SignalHandling", package: "swift-signal-handling"))
-			res.append(.product(name: "StreamReader",   package: "stream-reader"))
-			res.append(.product(name: "SystemPackage",  package: "swift-system"))
+			res.append(.product(name: "CollectionConcurrencyKit", package: "CollectionConcurrencyKit"))
+			res.append(.product(name: "Logging",                  package: "swift-log"))
+			res.append(.product(name: "SignalHandling",           package: "swift-signal-handling"))
+			res.append(.product(name: "StreamReader",             package: "stream-reader"))
+			res.append(.product(name: "SystemPackage",            package: "swift-system"))
 			res.append(.target(name: "SPMProj"))
 			res.append(.target(name: "Utils"))
 			res.append(.target(name: "XcodeProj"))

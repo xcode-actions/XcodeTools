@@ -25,7 +25,7 @@ public enum Target : Hashable {
 		switch self {
 			case let .xcodeTarget(targetID, project):
 				return try project.managedObjectContext.performAndWait{
-					return try unsafeXcodeTargetFromID(targetID, context: project.managedObjectContext).getName()
+					return try onContext_xcodeTargetFromID(targetID, context: project.managedObjectContext).getName()
 				}
 				
 			case let .spmTarget(spmTarget, _):
@@ -44,7 +44,7 @@ public enum Target : Hashable {
 		switch self {
 			case let .xcodeTarget(targetID, project):
 				return try project.managedObjectContext.performAndWait{
-					return try unsafeXcodeTargetFromID(targetID, context: project.managedObjectContext)
+					return try onContext_xcodeTargetFromID(targetID, context: project.managedObjectContext)
 						.getBuildPhases()
 						.lazy
 						.compactMap{ $0 as? PBXSourcesBuildPhase }
@@ -68,7 +68,7 @@ public enum Target : Hashable {
 		switch self {
 			case let .xcodeTarget(targetID, project):
 				return try project.managedObjectContext.performAndWait{
-					return try unsafeXcodeTargetFromID(targetID, context: project.managedObjectContext)
+					return try onContext_xcodeTargetFromID(targetID, context: project.managedObjectContext)
 						.getBuildPhases()
 						.lazy
 						.compactMap{ $0 as? PBXResourcesBuildPhase }
@@ -93,16 +93,18 @@ public enum Target : Hashable {
 		}
 	}
 	
-	public func getDirectDependencies() throws -> Set<Target> {
-		return try Set(getExplicitDirectDependencies() + getImplicitDirectDependencies())
+	public func getDirectDependencies() async throws -> Set<Target> {
+		return try await Set(getExplicitDirectDependencies() + getImplicitDirectDependencies())
 	}
 	
-	public func getExplicitDirectDependencies() throws -> [Target] {
+	public func getExplicitDirectDependencies() async throws -> [Target] {
 		switch self {
 			case let .xcodeTarget(targetID, project):
-				return try project.managedObjectContext.performAndWait{
-					let xcodeTarget = try unsafeXcodeTargetFromID(targetID, context: project.managedObjectContext)
+				let resultClosures: [() async throws -> Target] = try await project.managedObjectContext.perform{
+					let xcodeTarget = try onContext_xcodeTargetFromID(targetID, context: project.managedObjectContext)
 					let pbxProject = try xcodeTarget.getProject()
+					assert(pbxProject === project.pbxproj.rootObject)
+					
 					return try xcodeTarget
 						.getDependencies()
 						.compactMap{ dependency in
@@ -113,55 +115,75 @@ public enum Target : Hashable {
 								guard dependency.productRef == nil else {
 									throw Err.internalError("productRef is non-nil with a non-nil target: AFAIK this is an invalid pbxproj.")
 								}
-								return .xcodeTarget(targetID: target.objectID, project: project)
+								return { .xcodeTarget(targetID: target.objectID, project: project) }
+								
 							} else if let productRef = dependency.productRef {
 								if let package = productRef.package {
 									Conf.logger?.warning("Skipped unsupported external SPM dependency.", metadata: ["dependency-url": (try? package.getRepositoryURL()).flatMap{ "\($0)" } ?? "<unknown>"])
 									return nil
 								} else {
 									let productName = try productRef.getProductName()
-									guard let (spmProj, spmTarget) = try pbxProject.getReferencedSPMTarget(named: productName, xcodeprojURL: project.xcodeprojURL, spmCache: project.spmCache) else {
-										throw Err.internalError("SPM target \(productName) not found in referenced files.")
+									return {
+										guard let (spmProj, spmTarget) = try await project.getReferencedSPMTarget(named: productName) else {
+											throw Err.internalError("SPM target \(productName) not found in referenced files.")
+										}
+										return .spmTarget(spmTarget, project: spmProj)
 									}
-									return .spmTarget(spmTarget, project: spmProj)
 								}
+								
 							} else {
 								throw Err.internalError("target and productRef are nil: AFAIK this is an invalid pbxproj.")
 							}
 						}
 				}
+				var res = [Target]()
+				for closure in resultClosures {
+					res.append(try await closure())
+				}
+				return res
 				
 			case let .spmTarget(target, _):
 				return target.dependencies.map{ .spmTarget($0, project: nil) }
 		}
 	}
 	
-	public func getImplicitDirectDependencies() throws -> [Target] {
+	public func getImplicitDirectDependencies() async throws -> [Target] {
 		switch self {
 			case let .xcodeTarget(targetID, project):
-				return try project.managedObjectContext.performAndWait{
-					let xcodeTarget = try unsafeXcodeTargetFromID(targetID, context: project.managedObjectContext)
+				let resultClosures: [() async throws -> Target] = try await project.managedObjectContext.perform{
+					let xcodeTarget = try onContext_xcodeTargetFromID(targetID, context: project.managedObjectContext)
 					let pbxProject = try xcodeTarget.getProject()
+					assert(pbxProject === project.pbxproj.rootObject)
+					
 					/* Implicit dependencies discovery algo: <https://stackoverflow.com/a/45179347> or <https://stackoverflow.com/a/59218952>. */
 					Conf.logger?.warning("Only package product implicit dependencies retrieval is implemented. Discovery of implicit Xcode target dependencies has not been implemented.")
+					
 					/* We consider the packageProductDependencies to be implicit.
 					 * They are indeed not defined in the “dependencies” of a target (but they are defined directly in packageProductDependencies by Xcode). */
-					let packageProductDeps = try (xcodeTarget as? PBXNativeTarget)?
+					let packageProductDepClosures = try (xcodeTarget as? PBXNativeTarget)?
 						.packageProductDependencies?
-						.compactMap{ packageProductDep -> Target? in
+						.compactMap{ packageProductDep -> (() async throws -> Target)? in
 							if let package = packageProductDep.package {
 								Conf.logger?.warning("Skipped unsupported external SPM dependency.", metadata: ["dependency-url": (try? package.getRepositoryURL()).flatMap{ "\($0)" } ?? "<unknown>"])
 								return nil
 							} else {
 								let productName = try packageProductDep.getProductName()
-								guard let (spmProj, spmTarget) = try pbxProject.getReferencedSPMTarget(named: productName, xcodeprojURL: project.xcodeprojURL, spmCache: project.spmCache) else {
-									throw Err.internalError("SPM target \(productName) not found in referenced files.")
+								return {
+									guard let (spmProj, spmTarget) = try await project.getReferencedSPMTarget(named: productName) else {
+										throw Err.internalError("SPM target \(productName) not found in referenced files.")
+									}
+									return .spmTarget(spmTarget, project: spmProj)
 								}
-								return .spmTarget(spmTarget, project: spmProj)
 							}
 						}
-					return packageProductDeps ?? []
+					
+					return packageProductDepClosures ?? []
 				}
+				var res = [Target]()
+				for closure in resultClosures {
+					res.append(try await closure())
+				}
+				return res
 				
 			case .spmTarget:
 				/* SPM target dependencies are all explicit (AFAIK). */
@@ -169,18 +191,25 @@ public enum Target : Hashable {
 		}
 	}
 	
-	public func getRecursiveDependencies() throws -> Set<Target> {
-		return try getRecursiveDependencies([])
+	public func getRecursiveDependencies() async throws -> Set<Target> {
+		var treated = Set<Target>()
+		return try await getRecursiveDependencies(&treated)
 	}
 	
-	private func getRecursiveDependencies(_ treated: Set<Target>) throws -> Set<Target> {
+	private func getRecursiveDependencies(_ treated: inout Set<Target>) async throws -> Set<Target> {
 		guard !treated.contains(self) else {return []}
+		treated.insert(self)
 		
-		let deps = try getDirectDependencies()
-		return try deps.union(deps.flatMap{ try $0.getRecursiveDependencies(treated.union([self])) })
+		let deps = try await getDirectDependencies()
+		
+		var subDeps = Set<Target>()
+		for dep in deps {
+			subDeps.formUnion(try await dep.getRecursiveDependencies(&treated))
+		}
+		return deps.union(subDeps)
 	}
 	
-	private func unsafeXcodeTargetFromID(_ targetID: NSManagedObjectID, context: NSManagedObjectContext) throws -> PBXTarget {
+	private func onContext_xcodeTargetFromID(_ targetID: NSManagedObjectID, context: NSManagedObjectContext) throws -> PBXTarget {
 		guard let target = try context.existingObject(with: targetID) as? PBXTarget else {
 			throw Err.internalError("Invalid target ID whose linked object is not kind of PBXTarget.")
 		}
