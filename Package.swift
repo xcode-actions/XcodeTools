@@ -63,9 +63,6 @@ let package = Package(
 		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",            from: "3.5.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.2.0"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git",    from: "1.1.0"))
-#if !canImport(System)
-		res.append(.package(url: "https://github.com/apple/swift-system.git",                     from: "1.0.0"))
-#endif
 		return res
 	}(),
 	targets: {
@@ -80,9 +77,7 @@ let package = Package(
 			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
 			res.append(.product(name: "CLTLogger",      package: "clt-logger"))
 			res.append(.product(name: "Logging",        package: "swift-log"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
-#endif
 			
 			/* Not _actual_ dependencies, but it is easier to have these recompiled when modified and current scheme is xct.
 			 * This is the theory, but it does not work (Xcode 12.5).
@@ -101,9 +96,7 @@ let package = Package(
 			res.append(.product(name: "ProcessInvocation", package: "swift-process-invocation"))
 			res.append(.product(name: "SafeGlobal",        package: "SafeGlobal"))
 			res.append(.product(name: "StreamReader",      package: "stream-reader"))
-#if !canImport(System)
-			res.append(.product(name: "SystemPackage",     xpackage: "swift-system"))
-#endif
+			res.append(.product(name: "SystemPackage",     package: "swift-system"))
 			res.append(.target(name: "XcodeJsonOutput"))
 			res.append(.target(name: "XcodeTools"))
 			return res
@@ -140,9 +133,7 @@ let package = Package(
 			res.append(.product(name: "ArgumentParser", package: "swift-argument-parser"))
 			res.append(.product(name: "CLTLogger",      package: "clt-logger"))
 			res.append(.product(name: "Logging",        package: "swift-log"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
-#endif
 			res.append(.target(name: "XcodeTools"))
 			return res
 		}(), swiftSettings: swiftSettings))
@@ -157,9 +148,7 @@ let package = Package(
 			res.append(.product(name: "Logging",        package: "swift-log"))
 			res.append(.product(name: "SignalHandling", package: "swift-signal-handling"))
 			res.append(.product(name: "StreamReader",   package: "stream-reader"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
-#endif
 			res.append(.target(name: "SPMProj"))
 			res.append(.target(name: "Utils"))
 			res.append(.target(name: "XcodeProj"))
@@ -172,9 +161,7 @@ let package = Package(
 			res.append(.product(name: "GlobalConfModule", package: "GlobalConfModule"))
 			res.append(.product(name: "Logging",          package: "swift-log"))
 			res.append(.product(name: "StreamReader",     package: "stream-reader"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",    package: "swift-system"))
-#endif
 			res.append(.target(name: "CommonForTests"))
 			res.append(.target(name: "Utils"))
 //			res.append(.target(name: "xct")) /* Because we use the xct binary in some tests. */
@@ -197,9 +184,7 @@ let package = Package(
 			res.append(.product(name: "XibLoc",            package: "XibLoc"))
 			res.append(.target(name: "Utils"))
 			res.append(.target(name: "XcodeTools"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",     package: "swift-system"))
-#endif
 			return res
 		}(), swiftSettings: swiftSettings))
 		/* *** */
@@ -208,9 +193,7 @@ let package = Package(
 			res.append(.target(name: "SourceBuilder")) /* <- Tested package */
 			res.append(.product(name: "CLTLogger",     package: "clt-logger"))
 			res.append(.product(name: "Logging",       package: "swift-log"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage", package: "swift-system"))
-#endif
 			res.append(.target(name: "CommonForTests"))
 			res.append(.target(name: "Utils"))
 			return res
@@ -268,9 +251,7 @@ let package = Package(
 		/* ********************* */
 		res.append(.target(name: "Utils", dependencies: {
 			var res = [Target.Dependency]()
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
-#endif
 			return res
 		}(), swiftSettings: swiftSettings))
 		/* A common init system for all tests. */
@@ -278,9 +259,7 @@ let package = Package(
 			var res = [Target.Dependency]()
 			res.append(.product(name: "Logging",   package: "swift-log"))
 			res.append(.product(name: "CLTLogger", package: "clt-logger"))
-#if !canImport(System)
 			res.append(.product(name: "SystemPackage",  package: "swift-system"))
-#endif
 			res.append(.target(name: "Utils"))
 			return res
 		}(), path: "Tests/ Common", swiftSettings: swiftSettings))

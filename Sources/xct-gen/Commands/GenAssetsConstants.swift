@@ -1,9 +1,5 @@
 import Foundation
-#if canImport(System)
-import System
-#else
 import SystemPackage
-#endif
 
 /* I cannot update ArgumentParser because of swift-driver… */
 @preconcurrency import ArgumentParser
