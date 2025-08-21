@@ -13,10 +13,15 @@ import Utils
 
 public struct TestGlobals {
 	
-	public static nonisolated(unsafe) var hasBootstrapped = false
+	private static let lock = NSLock()
+	private static nonisolated(unsafe) var _hasBootstrapped = false
 	public static func bootstrapIfNeeded() {
+		let hasBootstrapped = lock.withLock{
+			guard !_hasBootstrapped else {return true}
+			_hasBootstrapped = true
+			return false
+		}
 		guard !hasBootstrapped else {return}
-		defer {hasBootstrapped = true}
 		
 		LoggingSystem.bootstrap({ id, metadataProvider in
 			/* Note: CLTLoggers do not have IDs, so we do not use the id parameter of the handler. */
@@ -54,10 +59,6 @@ public struct TestGlobals {
 
 public extension XCTestCase {
 	
-	static nonisolated(unsafe) var hasBootstrapped: Bool {
-		get {TestGlobals.hasBootstrapped}
-		set {TestGlobals.hasBootstrapped = newValue}
-	}
 	static func bootstrapIfNeeded() {
 		TestGlobals.bootstrapIfNeeded()
 	}
