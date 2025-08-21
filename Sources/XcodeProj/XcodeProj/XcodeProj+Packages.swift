@@ -64,14 +64,14 @@ extension XcodeProj {
 	 The first argument must be retrieved on context using ``onContext_getReferencedFiles()`` or can be retrieved outside of the context using ``getReferencedFiles()``. */
 	public func iterateReferencedSPMProjects(from referencedFiles: [(URL, String?)], _ handler: (_ proj: SPMProj) async throws -> Void) async throws {
 		for (url, type) in referencedFiles {
-			guard type == "wrapper" || type == "folder" else {return}
+			guard type == "wrapper" || type == "folder" else {continue}
 			let workspaceRoot = FileManager.default.temporaryDirectory.appendingPathComponent(xcodeprojURL.deletingPathExtension().lastPathComponent).appendingPathComponent(url.lastPathComponent)
 			guard let spmProj = try? await spmCache.getProj(for: url, workspaceRoot: workspaceRoot) else {
 				if type == "wrapper" {
 					/* We only log for the wrapper type; it is normal for folders not to be SPM projects, but some are anyway (and Xcode forgets to update their last known type). */
 					Conf.logger?.info("Found invalid SPM project at path \(url.path) in project at path \(xcodeprojURL.path)")
 				}
-				return
+				continue
 			}
 			try await handler(spmProj)
 		}
