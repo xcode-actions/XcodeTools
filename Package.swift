@@ -260,9 +260,9 @@ let package = Package(
 		/* A common init system for all tests. */
 		res.append(.target(name: "CommonForTests", dependencies: {
 			var res = [Target.Dependency]()
-			res.append(.product(name: "Logging",   package: "swift-log"))
-			res.append(.product(name: "CLTLogger", package: "clt-logger"))
-			res.append(.product(name: "SystemPackage",  package: "swift-system"))
+			res.append(.product(name: "Logging",       package: "swift-log"))
+			res.append(.product(name: "CLTLogger",     package: "clt-logger"))
+			res.append(.product(name: "SystemPackage", package: "swift-system"))
 			res.append(.target(name: "Utils"))
 			return res
 		}(), path: "Tests/ Common", swiftSettings: swiftSettings))
