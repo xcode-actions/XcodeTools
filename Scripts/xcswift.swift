@@ -140,7 +140,7 @@ func processModel(xcdatamodeldURL: URL, moduleName: String, tokenInPackageFile: 
 		try fm.copyItem(at: packageURL, to: dest)
 		hasBackedUpPackageFile = true
 	}
-	let modifiedPackage = try String(contentsOf: packageURL).split(separator: "\n", omittingEmptySubsequences: false).map{ line in
+	let modifiedPackage = try String(contentsOf: packageURL, encoding: .utf8).split(separator: "\n", omittingEmptySubsequences: false).map{ line in
 		if !line.contains(tokenInPackageFile) {return String(line)}
 		else                                  {return #"\#t\#t.copy("\#(generatedArtifactsFolder.lastPathComponent)/\#(compiledModelDestination.lastPathComponent)")"#}
 	}.joined(separator: "\n")
