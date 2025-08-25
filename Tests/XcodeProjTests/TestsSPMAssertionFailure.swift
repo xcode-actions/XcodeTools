@@ -30,7 +30,7 @@ final class TestsSPMAssertionFailure : XCTestCase {
 		defer {try? fm.removeItem(at: workdir)}
 		
 		/* XCTAssertNoThrow, but it does not support async. */
-		try await SPMProj(url: workdir.appending(path: "root"), workspaceRoot: nil)
+		_ = try await SPMProj(url: workdir.appending(path: "root"), workspaceRoot: nil)
 	}
 	
 }
