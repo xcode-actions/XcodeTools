@@ -61,9 +61,9 @@ let package = Package(
 		res.append(.package(url: "https://github.com/Frizlab/SafeGlobal.git",                     from: "0.3.0"))
 		res.append(.package(url: "https://github.com/Frizlab/UnwrapOrThrow.git",                  from: "1.0.1"))
 		res.append(.package(url: "https://github.com/Frizlab/XibLoc.git",                         from: "1.5.1-beta.2"))
-		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",               from: "0.5.1"))
+		res.append(.package(url: "https://github.com/xcode-actions/clt-logger.git",               from: "1.0.0-beta"))
 		res.append(.package(url: "https://github.com/xcode-actions/stream-reader.git",            from: "3.5.0"))
-		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.2.0"))
+		res.append(.package(url: "https://github.com/xcode-actions/swift-process-invocation.git", from: "1.3.0-beta.4"))
 		res.append(.package(url: "https://github.com/xcode-actions/swift-signal-handling.git",    from: "1.1.0"))
 		return res
 	}(),
