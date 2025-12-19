@@ -33,8 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Frizlab/GlobalConfModule.git",
       "state" : {
-        "revision" : "72729262a37078faa9978c2c5accd5adbaedb4ee",
-        "version" : "0.4.3"
+        "revision" : "1ae8f4510c375217a8423864366b68f18b986d20",
+        "version" : "0.4.4"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Frizlab/SafeGlobal.git",
       "state" : {
-        "revision" : "2af79f396b4097ead6209a0fb4eefcdbcea25b63",
-        "version" : "0.3.3"
+        "revision" : "c958715c2353444f8b156bcbd5fab6268876571a",
+        "version" : "0.3.4"
       }
     },
     {
