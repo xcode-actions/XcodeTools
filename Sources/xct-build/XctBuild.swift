@@ -1,8 +1,7 @@
 import Foundation
 import SystemPackage
 
-/* I cannot update ArgumentParser because of swift-driver… */
-@preconcurrency import ArgumentParser
+import ArgumentParser
 import CLTLogger
 import Logging
 import SafeGlobal
