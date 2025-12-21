@@ -1,5 +1,5 @@
 {
-  "originHash" : "ab083ecc239f6bb91b72242dabc469de2433941ba99769594e7828a33bf38651",
+  "originHash" : "29dbcc84c29fb689fb934071b10df95a5310727bf0183d5ccd08109e81c5c364",
   "pins" : [
     {
       "identity" : "clt-logger",
@@ -103,19 +103,19 @@
     {
       "identity" : "swift-driver",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-driver.git",
+      "location" : "https://github.com/swiftlang/swift-driver.git",
       "state" : {
-        "branch" : "release/6.1",
-        "revision" : "20cd624311cb835f7a61c0103404fc191d392a38"
+        "branch" : "release/6.2",
+        "revision" : "aedacc6c1583db4f2989a367e3c41968558a5b8e"
       }
     },
     {
       "identity" : "swift-llbuild",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-llbuild.git",
+      "location" : "https://github.com/swiftlang/swift-llbuild.git",
       "state" : {
-        "branch" : "release/6.1",
-        "revision" : "4fc005bfb0849f17e6a79ad02ba27f4f539ca6b9"
+        "branch" : "release/6.2",
+        "revision" : "073dff55529d7c4ecbd615ab5f5ac52ae5b380da"
       }
     },
     {
@@ -132,8 +132,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-package-manager.git",
       "state" : {
-        "branch" : "swift-6.1.1-RELEASE",
-        "revision" : "a892ce79ec50e964a62926f0616d528b648b892f"
+        "branch" : "swift-6.2.3-RELEASE",
+        "revision" : "9e5bde0a18e8be5b978cdcd4e4a3ac4565237191"
       }
     },
     {
@@ -168,8 +168,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-syntax.git",
       "state" : {
-        "branch" : "release/6.1",
-        "revision" : "cbd0366a54a9f8fdaa33834652fb2e80f2948573"
+        "branch" : "release/6.2",
+        "revision" : "5a87516fc3dddbd23cb76358eb489915ee86b444"
       }
     },
     {
@@ -193,10 +193,10 @@
     {
       "identity" : "swift-tools-support-core",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/apple/swift-tools-support-core.git",
+      "location" : "https://github.com/swiftlang/swift-tools-support-core.git",
       "state" : {
-        "branch" : "release/6.1",
-        "revision" : "5cd61a77866b110bb222c38073627d2703c750e6"
+        "branch" : "release/6.2",
+        "revision" : "5a993c8848487c934d53ffceef8e1cad0a241dc1"
       }
     },
     {
@@ -215,15 +215,6 @@
       "state" : {
         "revision" : "e85a5179bdd93e017473182d76b33af1f176e6bd",
         "version" : "1.5.1"
-      }
-    },
-    {
-      "identity" : "yams",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jpsim/Yams.git",
-      "state" : {
-        "revision" : "0d9ee7ea8c4ebd4a489ad7a73d5c6cad55d6fed3",
-        "version" : "5.0.6"
       }
     }
   ],
