@@ -8,7 +8,7 @@ import Logging
 
 
 @main
-struct Hagvtool : ParsableCommand {
+struct Hagvtool : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		abstract: "Deprecated. This tool is now a part of xct. You can use it by running \"xct versions\"."

@@ -7,7 +7,7 @@ import Logging
 
 
 @main
-struct XctPbxproj : ParsableCommand {
+struct XctPbxproj : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		abstract: "Interact with pbxproj files",

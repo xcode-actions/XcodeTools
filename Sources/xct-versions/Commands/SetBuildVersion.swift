@@ -5,7 +5,7 @@ import XcodeProj
 
 
 
-struct SetBuildVersion : ParsableCommand {
+struct SetBuildVersion : AsyncParsableCommand {
 	
 	@OptionGroup
 	var xctVersionsOptions: XctVersions.Options

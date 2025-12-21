@@ -6,7 +6,7 @@ import XcodeProj
 
 
 
-struct Sanitize : ParsableCommand {
+struct Sanitize : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		abstract: "Sanitize a pbxproj.",

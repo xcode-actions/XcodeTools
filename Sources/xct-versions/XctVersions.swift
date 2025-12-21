@@ -5,7 +5,7 @@ import ArgumentParser
 
 
 @main
-struct XctVersions : ParsableCommand {
+struct XctVersions : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		abstract: "Manage versions of Xcode projects",

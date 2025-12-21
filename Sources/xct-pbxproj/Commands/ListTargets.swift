@@ -5,7 +5,7 @@ import XcodeProj
 
 
 
-struct ListTargets : ParsableCommand {
+struct ListTargets : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		abstract: "List the targets of a pbxproj file."
