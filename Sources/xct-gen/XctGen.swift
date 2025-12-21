@@ -5,7 +5,7 @@ import ArgumentParser
 
 
 @main
-struct XctGen : ParsableCommand {
+struct XctGen : AsyncParsableCommand {
 	
 	static let configuration = CommandConfiguration(
 		abstract: "Generate files for Xcode projects",
