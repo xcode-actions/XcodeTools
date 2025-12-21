@@ -1,13 +1,13 @@
 {
-  "originHash" : "523a6408a07b619f8d0fc6a6206339b36c3377d573004f49b469a1d06de0ce76",
+  "originHash" : "ab083ecc239f6bb91b72242dabc469de2433941ba99769594e7828a33bf38651",
   "pins" : [
     {
       "identity" : "clt-logger",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/xcode-actions/clt-logger.git",
       "state" : {
-        "revision" : "43d4e20e764468bc8dbc1d503f0eb38d08ee971f",
-        "version" : "1.0.0-rc.1"
+        "revision" : "db7f3f71ace4e3bd316f98a52b9ee488bb2e66da",
+        "version" : "1.0.0"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-asn1.git",
       "state" : {
-        "revision" : "f70225981241859eb4aa1a18a75531d26637c8cc",
-        "version" : "1.4.0"
+        "revision" : "810496cf121e525d660cd0ea89a758740476b85f",
+        "version" : "1.5.1"
       }
     },
     {
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-log.git",
       "state" : {
-        "revision" : "ce592ae52f982c847a4efc0dd881cc9eb32d29f2",
-        "version" : "1.6.4"
+        "revision" : "bc386b95f2a16ccd0150a8235e7c69eab2b866ca",
+        "version" : "1.8.0"
       }
     },
     {
@@ -141,8 +141,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/xcode-actions/swift-process-invocation.git",
       "state" : {
-        "revision" : "632f858f1d6403dad35507bfa5f5591a7d6e06ef",
-        "version" : "1.3.0-beta.4"
+        "revision" : "3f048354c87fb7dcde624559b04c59392e0d6364",
+        "version" : "1.3.0-beta.5"
       }
     },
     {
@@ -159,8 +159,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/xcode-actions/swift-signal-handling.git",
       "state" : {
-        "revision" : "c65f0660ddedfdb8bb2cedae763d23e9ba97b381",
-        "version" : "1.1.3"
+        "revision" : "c50ae0975bcbae92cbaa972f99649314a0e77bca",
+        "version" : "1.1.4"
       }
     },
     {
@@ -177,8 +177,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-system.git",
       "state" : {
-        "revision" : "890830fff1a577dc83134890c7984020c5f6b43b",
-        "version" : "1.6.2"
+        "revision" : "395a77f0aa927f0ff73941d7ac35f2b46d47c9db",
+        "version" : "1.6.3"
       }
     },
     {
@@ -186,8 +186,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/swiftlang/swift-toolchain-sqlite",
       "state" : {
-        "revision" : "7c9bb9d012930a935d1ba6327459291d0b76414c",
-        "version" : "1.0.6"
+        "revision" : "b45b80b943e88db3cb8ddea798fa3fa9912375ff",
+        "version" : "1.0.7"
       }
     },
     {
@@ -204,8 +204,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Frizlab/UnwrapOrThrow.git",
       "state" : {
-        "revision" : "085ea7b599b0db956541b7189a57b0c98f15337f",
-        "version" : "1.0.1"
+        "revision" : "246986d89765fd9df1e920cf4b6b4845ebf053d7",
+        "version" : "1.1.0"
       }
     },
     {
@@ -214,7 +214,7 @@
       "location" : "https://github.com/Frizlab/XibLoc.git",
       "state" : {
         "revision" : "e85a5179bdd93e017473182d76b33af1f176e6bd",
-        "version" : "1.5.1-beta.2"
+        "version" : "1.5.1"
       }
     },
     {
