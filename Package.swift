@@ -10,7 +10,7 @@ let swiftSettings: [SwiftSetting] = []
 
 let package = Package(
 	name: "XcodeTools",
-	platforms: [.macOS(.v13)],
+	platforms: [.macOS(.v14)],
 	products: {
 		var res = [Product]()
 		
@@ -52,9 +52,9 @@ let package = Package(
 	dependencies: {
 		var res = [Package.Dependency]()
 		res.append(.package(url: "https://github.com/apple/swift-argument-parser.git",            from: "1.2.3"))
-		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                     "1.0.0"..<"4.0.0"))
+		res.append(.package(url: "https://github.com/apple/swift-crypto.git",                     "1.0.0"..<"6.0.0"))
 		res.append(.package(url: "https://github.com/apple/swift-log.git",                        from: "1.5.2"))
-		res.append(.package(url: "https://github.com/apple/swift-package-manager.git",            revision: "swift-6.2.3-RELEASE")) /* Apple does not semver SPM for some reason. */
+		res.append(.package(url: "https://github.com/apple/swift-package-manager.git",            revision: "swift-6.4.0-RELEASE")) /* Apple does not semver SPM for some reason. */
 		res.append(.package(url: "https://github.com/apple/swift-system.git",                     from: "1.6.2"))
 		res.append(.package(url: "https://github.com/Frizlab/CollectionConcurrencyKit.git",       from: "0.3.0"))
 		res.append(.package(url: "https://github.com/Frizlab/GlobalConfModule.git",               from: "0.4.0"))
