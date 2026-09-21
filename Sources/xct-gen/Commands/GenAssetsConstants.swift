@@ -27,6 +27,9 @@ struct GenAssetsConstants : AsyncParsableCommand {
 	@Argument
 	var generatedParentFilePathTemplate: String
 	
+	@Option(parsing: .unconditionalSingleValue)
+	var ignoredTargets = [Regex<Substring>]()
+	
 	@Argument
 	var targets = [String]()
 	
@@ -40,6 +43,9 @@ struct GenAssetsConstants : AsyncParsableCommand {
 				let targetName = try target.getName()
 				let isSPMTarget = (target.spmTarget != nil)
 				guard targets.isEmpty || targets.contains(targetName) else {
+					continue
+				}
+				guard (try ignoredTargets.allSatisfy{ try $0.wholeMatch(in: targetName) == nil }) else {
 					continue
 				}
 				guard !(target.spmTarget?.sourcesContainsObjCFiles ?? false) else {
@@ -74,10 +80,12 @@ struct GenAssetsConstants : AsyncParsableCommand {
 			let relativeParentDest = generatedParentFilePathTemplate.applying(xibLocInfo: resolvingInfo)
 			let relativeRootDest = generatedFilePathTemplate.applying(xibLocInfo: resolvingInfo)
 			
-#warning("No filter on Tests…")
 			let parentConstants = try await project
 				.getDependents(of: target)
-				.filter{ try !$0.getName().contains("Tests") }
+				.filter{
+					let name = try $0.getName()
+					return try ignoredTargets.allSatisfy{ try $0.wholeMatch(in: name) == nil }
+				}
 				.compactMap{ targetToConstants[$0] }
 				.reduce(into: (first: true, constants: Constants(isSPMTarget: constants.isSPMTarget)), { current, new in
 					if current.first {
