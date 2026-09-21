@@ -15,7 +15,7 @@ public extension ConfKeys {
 extension ConfKeys.XcodeProj {
 	
 	#declareConfKey("logger",                   Logging.Logger?.self, defaultValue: .init(label: "com.xcode-actions.XcodeProj"))
-	#declareConfKey("allowPBXObjectAllocation", Bool          .self, defaultValue: false)
+	#declareConfKey("allowPBXObjectAllocation", Bool           .self, defaultValue: false)
 	
 }
 
